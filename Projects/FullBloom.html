@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>FullBloom · Studio | Creative Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/companion.css?v=5" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: 'Lato', system-ui, sans-serif; color: var(--text-body); background: var(--bg-soft); margin: 0; line-height: 1.55; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3, h4 { color: var(--ink); font-weight: 900; line-height: 1.2; margin: 0; }
+  p { margin: 0 0 0.85em; }
+  :root {
+    --navy: #002E40;
+    --ink: #E9F3F7;
+    --sub: #B3D9E7;
+    --blue: #33C9FF;
+    --cyan: #5CD4FF;
+    --lime: #33C9FF;
+    --slate: #5C7E90;
+    --field: #00293A;
+    --bg-card: #002E40;
+    --bg-soft: #00202D;
+    --bg-soft-2: #123E4E;
+    --border: #20505F;
+    --text-body: #E9F3F7;
+    --text-muted: #8FA8B4;
+    --shadow-sm: 0 1px 3px rgba(0,10,18,0.30);
+    --shadow-md: 0 2px 14px rgba(0,10,18,0.40);
+    --shadow-lg: 0 4px 24px rgba(0,10,18,0.50);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  /* Top nav */
+  .topnav { background: var(--navy); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,46,64,0.20); }
+  .topnav-inner { max-width: 1240px; margin: 0 auto; padding: 12px 28px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand-mark { width: 28px; height: 28px; background: var(--lime); color: var(--ink); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; }
+  .brand-wordmark { color: #fff; font-size: 15px; font-weight: 900; }
+  .brand-wordmark .accent { color: var(--lime); }
+  .back-link { margin-left: 16px; color: #B0CCD7; font-size: 11px; text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; padding-left: 16px; border-left: 1px solid rgba(255,255,255,0.15); }
+  .back-link:hover { color: var(--lime); text-decoration: none; }
+  .save-state { margin-left: auto; font-size: 10.5px; color: #B0CCD7; text-transform: uppercase; letter-spacing: 1px; }
+  .save-state.saved { color: var(--lime); }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 28px 80px; }
+
+  /* Partner header */
+  .partner-header { background: linear-gradient(135deg, #002E40 0%, #0E5E80 100%); color: #fff; padding: 32px 36px; margin: 28px 0 0; border-radius: 12px 12px 0 0; position: relative; overflow: hidden; }
+  .partner-header::after { content: ''; position: absolute; top: -40%; right: -10%; width: 360px; height: 360px; background: radial-gradient(circle, rgba(51,201,255,0.14) 0%, transparent 70%); pointer-events: none; }
+  .ph-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2.2px; color: var(--lime); margin-bottom: 8px; }
+  .ph-name-row { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; flex-wrap: wrap; }
+  .ph-name { font-size: 32px; font-weight: 900; color: #fff; line-height: 1; }
+  .ph-status-pill { background: #FDE8CC; color: #7A4000; padding: 6px 12px; border-radius: 14px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; }
+  .ph-meta { font-size: 13px; color: #CCE5EF; margin-top: 6px; }
+
+  /* Blocker banner. The important addition */
+  .blocker-banner { background: linear-gradient(135deg, #8C2222 0%, #6B1818 100%); color: #fff; padding: 22px 30px; margin-bottom: 22px; border-radius: 0 0 12px 12px; }
+  .blocker-banner-label { font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #FDE8CC; margin-bottom: 6px; }
+  .blocker-banner-title { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 10px; line-height: 1.2; }
+  .blocker-banner-list { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .blocker-banner-item { background: rgba(0,0,0,0.20); padding: 12px 14px; border-radius: 6px; border-left: 3px solid #FDE8CC; }
+  .blocker-banner-item .bb-num { font-size: 10px; color: #FDE8CC; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; margin-bottom: 4px; }
+  .blocker-banner-item .bb-title { font-size: 13px; color: #fff; font-weight: 900; margin-bottom: 4px; line-height: 1.3; }
+  .blocker-banner-item .bb-detail { font-size: 11.5px; color: #FDE8CC; line-height: 1.45; }
+
+  /* North Star */
+  .north-star-card { background: var(--bg-card); border: 1px solid var(--border); border-left: 5px solid var(--lime); border-radius: 8px; padding: 20px 24px; margin-bottom: 22px; }
+  .ns-label-row { display: flex; align-items: center; margin-bottom: 8px; gap: 10px; }
+  .ns-label { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 2px; }
+  .ns-editable-tag { font-size: 9px; font-weight: 700; color: #2A6B40; background: #E0F2E8; text-transform: uppercase; letter-spacing: 1.4px; padding: 2px 8px; border-radius: 10px; }
+  .ns-help { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; font-style: italic; }
+  .ns-input { width: 100%; min-height: 130px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 13.5px; line-height: 1.65; color: var(--text-body); resize: vertical; background: var(--bg-soft); }
+  .ns-input:focus { outline: none; border-color: var(--blue); background: var(--field); box-shadow: 0 0 0 3px rgba(1,127,174,0.10); }
+
+  /* Quick Facts */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .stat-card.highlight { background: var(--lime); border-color: #4DA5C6; }
+  .stat-card.warn { background: var(--warn-bg); border: 1px solid #E8B8B8; }
+  .stat-card.warn .stat-label { color: var(--warn); }
+  .stat-card.warn .stat-value { color: var(--warn); }
+  .stat-card.flag { background: #FDE8CC; border: 1px solid #E8C89A; }
+  .stat-card.flag .stat-label { color: #7A4000; }
+  .stat-card.flag .stat-value { color: #7A4000; }
+  .stat-card.highlight .stat-label, .stat-card.highlight .stat-value { color: var(--ink); }
+  .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 6px; display: block; }
+  .stat-value { font-size: 22px; font-weight: 900; color: var(--ink); line-height: 1; }
+  .stat-value.small { font-size: 15px; line-height: 1.2; }
+  .stat-sub { font-size: 11px; color: var(--text-muted); font-weight: 700; margin-top: 4px; }
+
+  /* Main grid */
+  .main-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; margin-bottom: 22px; }
+  .block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+  .block-header { padding: 11px 18px; color: #fff; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.4px; display: flex; align-items: center; gap: 10px; }
+  .block-header .meta { margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.8px; opacity: 0.85; }
+  .block-body { padding: 16px 18px; }
+  .block-h-navy { background: var(--navy); color: var(--lime); }
+  .block-h-blue { background: var(--blue); color: #00202D; }
+  .block-h-slate { background: #123E4E; color: #E9F3F7; }
+  .block-h-red { background: #7D570A; color: #FFF7E8; }
+
+  /* Form fields */
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .field { display: grid; grid-template-columns: 160px 1fr; gap: 12px; align-items: start; }
+  .field-label { font-size: 12px; color: var(--text-muted); padding-top: 7px; font-weight: 700; }
+  .field-control { display: flex; flex-direction: column; gap: 4px; }
+
+  input[type="text"], input[type="date"], input[type="number"], select, textarea {
+    font-family: inherit; font-size: 13px; color: var(--text-body); background: var(--field);
+    border: 1px solid var(--border); border-radius: 5px; padding: 7px 10px; width: 100%;
+  }
+  input::placeholder, textarea::placeholder { color: #98AAB3; font-style: italic; }
+  input[type="date"] { max-width: 200px; }
+  input[type="number"] { max-width: 140px; }
+
+  .field.locked input[readonly], .field.locked textarea[readonly] {
+    background: var(--bg-locked); color: var(--ink); border-color: var(--border-locked); cursor: default; font-weight: 700;
+  }
+  .field.locked input[readonly]:focus, .field.locked textarea[readonly]:focus { outline: none; box-shadow: none; }
+  .field.locked .select-locked {
+    background: var(--bg-locked); color: var(--ink); border: 1px solid var(--border-locked);
+    border-radius: 5px; padding: 7px 28px 7px 10px; font-size: 13px; font-weight: 700; max-width: 240px; position: relative;
+  }
+  .field.pending input, .field.pending textarea {
+    background: var(--bg-card); border-color: var(--border); border-style: dashed; color: var(--text-muted);
+  }
+  .field.pending input:focus, .field.pending textarea:focus { outline: none; }
+  .field.blocker input[readonly], .field.blocker textarea[readonly] {
+    background: var(--warn-bg); color: var(--warn); border: 1px solid #E8B8B8; cursor: default; font-weight: 700;
+  }
+
+  /* Radio pills */
+  .radio-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .radio-pill { position: relative; display: inline-flex; align-items: center; }
+  .radio-pill input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .radio-pill label { display: inline-block; padding: 5px 12px; border: 1px solid var(--border); border-radius: 18px; background: var(--field); cursor: pointer; font-size: 12px; font-weight: 700; color: var(--text-muted); }
+  .field.locked .radio-pill input[type="radio"]:disabled + label { background: var(--bg-locked); color: var(--text-muted); border-color: var(--border-locked); cursor: default; opacity: 1; }
+  .field.locked .radio-pill input[type="radio"]:disabled:checked + label { background: var(--navy); color: var(--lime); border-color: var(--ink); cursor: default; opacity: 1; }
+
+  /* Source pills */
+  .field-source { display: flex; align-items: center; gap: 6px; margin-top: 2px; flex-wrap: wrap; }
+  .source-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 9.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+  .source-pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .source-pill.locked .dot { background: var(--slate); }
+  .source-pill.pending .dot { background: #BA7517; }
+  .source-pill.blocker .dot { background: var(--warn); }
+  .pending-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: #FDE8CC; color: #7A4000; text-transform: uppercase; letter-spacing: 0.6px; }
+  .blocker-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: var(--warn-bg); color: var(--warn); text-transform: uppercase; letter-spacing: 0.6px; }
+
+  .pill { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 9.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; }
+  .pill-warn { background: var(--warn-bg); color: var(--warn); }
+  .pill-info { background: #DDE7F2; color: #1E3A5C; }
+  .pill-lime { background: var(--lime); color: var(--ink); }
+  .pill-amber { background: #FDE8CC; color: #7A4000; }
+
+  /* Recommendation block */
+  .reco-blocked { padding: 22px; text-align: center; background: var(--warn-bg); border: 1px dashed #E8B8B8; border-radius: 6px; }
+  .reco-blocked h4 { color: var(--warn); font-size: 15px; margin-bottom: 8px; }
+  .reco-blocked p { color: var(--warn); font-size: 12.5px; line-height: 1.55; margin: 0; }
+  .reco-section-title { font-size: 11px; font-weight: 900; color: var(--blue); text-transform: uppercase; letter-spacing: 1.6px; margin: 18px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .reco-section-title:first-child { margin-top: 0; }
+
+  /* Decisions (empty state + entry styling matched to activity items) */
+  .empty-state { padding: 22px 16px; text-align: center; color: var(--text-muted); font-style: italic; font-size: 12.5px; line-height: 1.5; }
+  .decision { display: flex; flex-direction: column; padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .decision:last-of-type { border-bottom: none; }
+  .decision .meta { order: 1; font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 4px; }
+  .decision .title { order: 2; font-size: 13px; font-weight: 900; color: var(--ink); margin-bottom: 4px; line-height: 1.35; }
+  .decision .rationale { order: 3; font-size: 12.5px; color: var(--text-body); line-height: 1.5; }
+
+  /* Cycle tracker */
+  .cycle-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+  .cycle-row:last-child { border-bottom: none; }
+  .cycle-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .cycle-dot.done { background: var(--lime); }
+  .cycle-dot.active { background: var(--blue); box-shadow: 0 0 0 4px rgba(1,127,174,0.2); }
+  .cycle-dot.pending { background: var(--bg-soft-2); border: 1px solid #C5D5DC; }
+  .cycle-dot.next { background: #FDE8CC; border: 1px solid #E8C89A; }
+  .cycle-label { flex: 1; color: var(--text-body); font-weight: 700; }
+  .cycle-status { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+
+  /* Blockers detailed */
+  .blocker-item { padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+  .blocker-item:last-child { border-bottom: none; }
+  .blocker-item .bi-title { color: var(--warn); font-weight: 900; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .blocker-item .bi-body { color: var(--text-body); line-height: 1.5; margin-bottom: 4px; }
+  .blocker-item .bi-owner { font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+
+  /* Activity */
+  .activity-item { padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-date { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 3px; }
+  .activity-text { font-size: 12.5px; color: var(--text-body); line-height: 1.45; }
+  .integration-note { font-size: 10.5px; color: var(--text-muted); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--bg-soft-2); font-style: italic; }
+
+  /* Stakeholder table */
+  .stakeholder-table { width: 100%; font-size: 12.5px; border-collapse: collapse; }
+  .stakeholder-table td { padding: 6px 0; vertical-align: top; }
+  .stakeholder-table td:first-child { color: var(--text-muted); width: 40%; padding-right: 10px; }
+  .stakeholder-table td:last-child { color: var(--text-body); font-weight: 700; }
+  .stakeholder-table tr + tr td { border-top: 1px solid var(--border); }
+
+  /* Links band */
+  .links-band { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px; }
+  .links-label { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 12px; }
+  .links-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .link-card { background: var(--bg-soft); border: 1px solid var(--bg-soft-2); padding: 12px; border-radius: 6px; text-align: center; color: var(--ink); text-decoration: none; }
+  .link-card.pending { opacity: 0.5; cursor: default; }
+  .link-name { font-size: 12px; font-weight: 900; margin-bottom: 3px; }
+  .link-sub { font-size: 10px; color: var(--text-muted); }
+
+  .footer { background: var(--navy); color: #B0CCD7; text-align: center; padding: 18px; font-size: 11px; letter-spacing: 0.5px; }
+  .footer strong { color: var(--lime); }
+
+  @media (max-width: 980px) {
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .main-grid { grid-template-columns: 1fr; }
+    .links-grid { grid-template-columns: repeat(3, 1fr); }
+    .blocker-banner-list { grid-template-columns: 1fr; }
+    .ph-name { font-size: 24px; }
+    .partner-header { padding: 22px; }
+    .field { grid-template-columns: 1fr; gap: 4px; }
+    .field-label { padding-top: 0; }
+  }
+
+  /* ===== Dark Studio restyle ===== */
+  .studio-logo{height:22px;width:auto;display:block}
+  body{background:var(--bg-soft);color:var(--text-body)}
+  h1,h2,h3,h4{color:var(--ink)}
+  a{color:var(--blue)}
+  .topnav,.masthead,header.site{background:linear-gradient(135deg,#00263A,#013A52);border-bottom:1px solid var(--border)}
+  .card,.block,.panel{background:linear-gradient(90deg,rgba(1,80,110,.95) 0%,rgba(0,51,70,.95) 100%);border:1px solid #4DA5C6;border-radius:0 16px 0 16px}
+  input,select,textarea{background:var(--field);color:var(--text-body);border-color:var(--border)}
+  .tag-lime{color:#002E40}
+  /* contrast fix — navy ink on cerulean/lime/cyan fills (Studio rule) */
+  .tag-blue,.tag-cyan,.tag-lime,.pill-lime,.sc-icon-2,.sc-icon-3,.phase-num,.faq-tier-num,.nav-tab.active{color:#00202D !important}
+  /* lime-fill contrast (per-page variants) */
+  .ph-status-pill,.stat-card.highlight,.stat-card.highlight .stat-label,.stat-card.highlight .stat-value,.pill-lime,.brand-mark{color:#00202D !important}
+  .ns-editable-tag{color:#00202D !important;background:#D6F4FF !important}
+  /* family match: soft cerulean-20 fills, no bright lime */
+  .tag-lime,.ph-status-pill,.stat-card.highlight,.pill-lime,.faq-tier-num,.pill-applied{background:#D6F4FF !important;color:#00202D !important;border-color:#8FD8F2 !important}
+  .stat-card.highlight .stat-label,.stat-card.highlight .stat-value{color:#00202D !important}
+</style>
+</head>
+<body data-cc-partner="FullBloom" data-cc-root="../">
+
+<nav class="topnav" aria-label="Top navigation">
+  <div class="topnav-inner">
+    <a href="../index.html" class="brand">
+      <img class="studio-logo" src="../Studio-logo-white.svg" alt="iDesign Studio">
+      <span class="brand-wordmark">Creative Companion</span>
+    </a>
+    <a href="../index.html" class="back-link">&larr; Back to Companion</a>
+    <span class="save-state" id="save-status">North Star autosaves locally</span>
+  </div>
+</nav>
+
+<div class="container">
+
+  <header class="partner-header">
+    <div class="ph-eyebrow">Living Project Page</div>
+    <div class="ph-name-row">
+      <span class="ph-name">FullBloom</span>
+      <span class="ph-status-pill">Phase 1 active · PowerPoints + template by 8/10</span>
+    </div>
+    <div class="ph-meta">Catapult Learning (overarching brand) · Literacy and Leadership Workshop · SOW pending, work starting · Tick pool 178 hrs generic across two buckets</div>
+  </header>
+
+  <div class="blocker-banner" style="background: linear-gradient(135deg, #002E40 0%, #017FAE 100%);">
+    <div class="blocker-banner-label" style="color: #33C9FF;">Active decision + 3 items to unblock</div>
+    <div class="blocker-banner-title">Option 1 vs Option 2 scoping decision needed. Justine contacted for logos + page-10 graphic elements (awaiting response); source PowerPoints pending from Rebecca.</div>
+    <div style="font-size: 12.5px; color: #CCE5EF; line-height: 1.55;">Phase 1 targets 3-5 redesigned workshop PowerPoints and a PowerPoint template by 8/10. Phase 2 (post-8/10) matures the template and adds ~5 document templates. All work applies the Catapult Learning brand. SOW not yet signed but work is starting per direction. Tick pool: 178 hrs available across the HITLit and HITMath buckets (treat as generic Creative use).</div>
+    <div class="blocker-banner-list" style="grid-template-columns: 1fr 1fr;">
+      <div class="blocker-banner-item" style="border-left-color: #33C9FF;">
+        <div class="bb-num" style="color: #33C9FF;">Active item 1 · Scoping decision</div>
+        <div class="bb-title">Option 1 vs Option 2: what shape do Creative deliverables take?</div>
+        <div class="bb-detail">Option 1: AI-driven brand rules that apply Catapult Learning branding to AI-generated documents and slides. Requires finalized content for testing, time and people for testing and collaboration, and an understanding of where and how IDs create these materials. Option 2: physical document and slide templates published in Google Drive. Scoped at 25-28 design hrs + 3 admin hrs (see Recommendation section). Decision drives everything downstream.</div>
+      </div>
+      <div class="blocker-banner-item" style="border-left-color: #33C9FF;">
+        <div class="bb-num" style="color: #33C9FF;">Active item 2</div>
+        <div class="bb-title">Logo files + page-10 graphic elements from Justine</div>
+        <div class="bb-detail">Justine contacted July 22 with requests for Catapult Learning logo files and the graphic elements referenced on page 10 of the Catapult Learning brand guidelines. Awaiting response.</div>
+      </div>
+      <div class="blocker-banner-item" style="border-left-color: #33C9FF;">
+        <div class="bb-num" style="color: #33C9FF;">Active item 3</div>
+        <div class="bb-title">Access to the 3-5 source PowerPoints</div>
+        <div class="bb-detail">Phase 1 depends on Creative receiving the 3-5 PowerPoints that will be redesigned and used to shape the PowerPoint template. Sourcing pending from Rebecca.</div>
+      </div>
+      <div class="blocker-banner-item" style="border-left-color: #33C9FF;">
+        <div class="bb-num" style="color: #33C9FF;">Active item 4 · Awareness</div>
+        <div class="bb-title">SOW status</div>
+        <div class="bb-detail">SOW not signed but iDesign has been instructed to start work anyway. Budget characterized as "healthy" but not quantified. Not blocking day-to-day work, but worth tracking.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="north-star-card">
+    <div class="ns-label-row">
+      <span class="ns-label">North Star</span>
+      <span class="ns-editable-tag">Editable · Draft</span>
+    </div>
+    <div class="ns-help">Drafted from the project brief and GDM's kickoff notes. Edit to refine. Saves automatically as you type.</div>
+    <textarea class="ns-input" id="north-star">FullBloom is delivering a Literacy and Leadership Workshop for adult educators working in the K-12 space, and Creative supports the effort with a set of visual templates and workshop materials that all carry the overarching Catapult Learning brand. Phase 1 redesigns 3-5 facilitator PowerPoints and shapes a PowerPoint template by 8/10, including specific formats like break slides and peer reflection slides. Phase 2 matures the template and adds around five document templates that facilitators reuse across the program. The design language is clean, clear, mature, professional, and generous with white space, respecting the K-12 educator audience without ever sliding into childish visual cues. Success looks like facilitators reaching for these materials confidently in the room and educators feeling that the visuals match the substance of the work.</textarea>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Brand</div>
+      <div class="stat-value small">Catapult Learning</div>
+      <div class="stat-sub">Overarching brand · guidelines in hand</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Tick pool</div>
+      <div class="stat-value">178</div>
+      <div class="stat-sub">Hrs · 108 HITLit + 70 HITMath · generic use</div>
+    </div>
+    <div class="stat-card flag">
+      <div class="stat-label">Phase 1 due</div>
+      <div class="stat-value small">Aug 10, 2026</div>
+      <div class="stat-sub">3-5 PowerPoints + template</div>
+    </div>
+    <div class="stat-card highlight">
+      <div class="stat-label">Current phase</div>
+      <div class="stat-value small">Phase 1 active</div>
+      <div class="stat-sub">Discovery + PowerPoint work</div>
+    </div>
+  </div>
+
+  <div class="block" style="margin-bottom:22px">
+  <div class="block-header block-h-navy">Updates from the Inbox <span class="meta">Applied items appear here</span></div>
+  <div class="block-body" style="padding-top:8px"><div id="cc-partner-feed"></div></div>
+</div>
+<div class="main-grid">
+
+    <div>
+
+      <div class="block">
+        <div class="block-header block-h-navy">Intake</div>
+        <div class="block-body">
+          <div class="form-grid">
+
+            <div class="field pending">
+              <label class="field-label">SOW signed</label>
+              <div class="field-control">
+                <input type="text" value="Not signed · work starting per direction" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Budget characterized as "healthy," not quantified</span> <span class="pending-badge">Not blocking day-to-day</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Tick pool</label>
+              <div class="field-control">
+                <input type="text" value="178 hrs total · 108 HITLit + 70 HITMath · treat as generic Creative use" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Both Tick buckets available · per direction, bucket names ignored for this work</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Partner status</label>
+              <div class="field-control">
+                <div class="radio-group">
+                  <span class="radio-pill"><input type="radio" name="ps" disabled checked /><label>New partner</label></span>
+                  <span class="radio-pill"><input type="radio" name="ps" disabled /><label>Existing partner</label></span>
+                </div>
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>New partner · existing Tick projects under SOW 2026-1 are being reused per direction</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Brand</label>
+              <div class="field-control">
+                <input type="text" value="Catapult Learning (overarching brand)" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Brand guidelines in hand · logos pending from Justine</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Brand contact</label>
+              <div class="field-control">
+                <input type="text" value="Justine" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Provides assets and logos · not the approver</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Approver</label>
+              <div class="field-control">
+                <input type="text" value="Rebecca" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Main contact · reviews PowerPoints and Creative ideas for approval</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Review process</label>
+              <div class="field-control">
+                <input type="text" value="Meetings + PageProof" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From GDM's kickoff notes</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Design vibe</label>
+              <div class="field-control">
+                <input type="text" value="Clean, clear, mature, white space, sleek, professional · not childish" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Adult K-12 audience · from GDM's kickoff notes</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Logo files</label>
+              <div class="field-control">
+                <input type="text" value="Requested from Justine July 22 · awaiting response" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>GDM to follow up</span> <span class="pending-badge">Active item</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Source PowerPoints</label>
+              <div class="field-control">
+                <input type="text" value="3-5 PowerPoints to redesign · pending from Rebecca" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Blocks start of Phase 1 design work</span> <span class="pending-badge">Active item</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Delivery format (Phase 1)</label>
+              <div class="field-control">
+                <input type="text" value="PowerPoint template · used to shape facilitator materials" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Includes break slide, peer reflection slide, and other facilitator-specific formats</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Delivery format (Phase 2)</label>
+              <div class="field-control">
+                <input type="text" value="Option 1 (AI-driven rules) or Option 2 (Google Drive templates) · decision pending" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>See Recommendation section</span> <span class="pending-badge">Top scoping decision</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-slate">Key Partner Stakeholders</div>
+        <div class="block-body">
+          <table class="stakeholder-table">
+            <tr><td>Justine (surname TBC)</td><td>Brand contact. Provides logos and other assets. Not the approver of Creative work.</td></tr>
+            <tr><td>Rebecca (surname TBC)</td><td>Main contact for the project. Provides the 3-5 source PowerPoints for Phase 1. Reviews PowerPoints and Creative ideas for approval. Meetings and PageProof are the review mediums.</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-blue">Recommendation &amp; Package <span class="meta">Option 1 vs Option 2 decision needed</span></div>
+        <div class="block-body">
+
+          <p style="font-size: 12.5px; color: var(--text-body); line-height: 1.55; margin: 0 0 12px;">Phase 1 (by 8/10) is locked: redesign 3-5 PowerPoints and shape a PowerPoint template. Phase 2 (post-8/10) depends on a scoping decision: what shape do the Phase 2 deliverables take?</p>
+
+          <div class="reco-section-title">Option 1 · AI-driven brand rules</div>
+          <p style="font-size: 12.5px; color: var(--text-body); line-height: 1.55; margin: 0 0 10px;">Creative delivers a set of brand rules that AI can apply to AI-generated documents and slides. Not scoped yet. Requires finalized content for testing, dedicated time and people for testing and collaboration, and an understanding of where and how IDs create these materials day to day.</p>
+
+          <div class="reco-section-title">Option 2 · Physical templates in Google Drive</div>
+          <p style="font-size: 12.5px; color: var(--text-body); line-height: 1.55; margin: 0 0 10px;">Creative delivers a set of Word document and PowerPoint templates published in Google Drive. Requires finalized content for each deliverable and its variants to ensure all necessary sections, phases, and use cases are covered. Scoped below.</p>
+
+          <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 14px;">
+            <thead>
+              <tr>
+                <th style="text-align: left; background: var(--bg-soft); color: var(--ink); font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 10px; border-bottom: 2px solid var(--blue);">Deliverable</th>
+                <th style="text-align: left; background: var(--bg-soft); color: var(--ink); font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 10px; border-bottom: 2px solid var(--blue);">Format</th>
+                <th style="text-align: right; background: var(--bg-soft); color: var(--ink); font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 10px; border-bottom: 2px solid var(--blue);">Design hrs</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border);">Literacy Action Plan template</td>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Word</td>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: right; font-family: 'Courier New', monospace;">5</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border);">Teacher Workshop Facilitator Guide template</td>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Word</td>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: right; font-family: 'Courier New', monospace;">5</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border);">Teacher Workshop Slides template</td>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">PowerPoint</td>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: right; font-family: 'Courier New', monospace;">7 to 10</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border);">Collaboration Protocol template</td>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Word</td>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: right; font-family: 'Courier New', monospace;">5</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border);">Coaching Timeline &amp; Checklist template</td>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border); color: var(--text-muted);">Word</td>
+                <td style="padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: right; font-family: 'Courier New', monospace;">3</td>
+              </tr>
+              <tr style="background: var(--bg-soft);">
+                <td style="padding: 10px; font-weight: 900; color: var(--ink);">Design work subtotal</td>
+                <td style="padding: 10px;"></td>
+                <td style="padding: 10px; text-align: right; font-family: 'Courier New', monospace; font-weight: 900; color: var(--ink);">25 to 28</td>
+              </tr>
+              <tr style="background: var(--bg-soft);">
+                <td style="padding: 10px; font-weight: 900; color: var(--ink);">Admin</td>
+                <td style="padding: 10px; color: var(--text-muted); font-style: italic;">Overhead across templates</td>
+                <td style="padding: 10px; text-align: right; font-family: 'Courier New', monospace; font-weight: 900; color: var(--ink);">3</td>
+              </tr>
+              <tr style="background: var(--bg-soft);">
+                <td style="padding: 10px; font-weight: 900; color: var(--ink); border-top: 2px solid var(--blue);">Option 2 total scope</td>
+                <td style="padding: 10px; border-top: 2px solid var(--blue);"></td>
+                <td style="padding: 10px; text-align: right; font-family: 'Courier New', monospace; font-weight: 900; color: var(--ink); border-top: 2px solid var(--blue);">28 to 31</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="background: #E0F2E8; border-left: 4px solid #4A8C4A; padding: 12px 14px; border-radius: 4px; margin-bottom: 14px;">
+            <div style="font-size: 10.5px; font-weight: 900; color: #2A6B40; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px;">Fit against Tick pool</div>
+            <div style="font-size: 13px; color: #2A6B40; line-height: 1.5;">Option 2 total: 28 to 31 hrs. Available Tick pool: 178 hrs. Leaves ~147 hrs of runway for Phase 1 (the 3-5 PowerPoints + template work), iteration on Option 2 templates as feedback comes in, and margin. If Option 1 is chosen instead, its own scoping conversation follows.</div>
+          </div>
+
+          <div class="reco-section-title">Next steps in order</div>
+          <ol style="font-size: 12.5px; color: var(--text-body); padding-left: 22px; line-height: 1.55; margin: 0 0 12px;">
+            <li style="margin-bottom: 8px;"><strong>Get logo files from Justine and the 3-5 source PowerPoints from Rebecca.</strong> Phase 1 design work can't fully start without these.</li>
+            <li style="margin-bottom: 8px;"><strong>Redesign 3-5 PowerPoints and shape a PowerPoint template by 8/10.</strong> Include break slide, peer reflection slide, and other facilitator-specific formats.</li>
+            <li style="margin-bottom: 8px;"><strong>Make the Option 1 vs Option 2 decision.</strong> Requires exploring what content will be finalized when, how IDs currently create materials, and what testing an AI-driven rule set would require.</li>
+            <li style="margin-bottom: 8px;"><strong>Phase 2 execution based on the decision.</strong> Mature the PowerPoint template and produce the additional templates (Word or AI-driven rule set), post-8/10 into GDM's remaining time before maternity leave.</li>
+            <li style="margin-bottom: 0;"><strong>Reviews via meetings + PageProof.</strong> Rebecca approves.</li>
+          </ol>
+
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-navy">Follow-up questions <span class="meta">Outstanding items for the project</span></div>
+        <div class="block-body">
+          <ol style="font-size: 12.5px; color: var(--text-body); padding-left: 22px; line-height: 1.55; margin: 0;">
+            <li style="margin-bottom: 8px;"><strong>What's the decision timeline for Option 1 vs Option 2?</strong> Phase 2 shape depends on this.</li>
+            <li style="margin-bottom: 8px;"><strong>Who defines "finalized content" for each Phase 2 deliverable,</strong> and when is that content expected? Both Option 1 and Option 2 need this input.</li>
+            <li style="margin-bottom: 8px;"><strong>If Option 1: where and how do IDs create these materials today?</strong> This shapes the rule set's usefulness.</li>
+            <li style="margin-bottom: 8px;"><strong>Are there existing Catapult Learning templates already in use</strong> that Creative should reference or align with?</li>
+            <li style="margin-bottom: 0;"><strong>Sequencing for Phase 2 deliverables.</strong> Which template do we start with, and does that pilot inform the others?</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-slate">Design Decisions Log</div>
+        <div class="block-body">
+
+          <div class="decision">
+            <div class="title">Brand: Catapult Learning (overarching)</div>
+            <div class="rationale">Catapult Learning is the overarching brand for this work, not a sub-brand under FullBloom. All Creative deliverables apply the Catapult Learning brand guidelines. GDM has the brand guidelines in hand; logo files pending from Justine.</div>
+            <div class="meta">Locked at project setup</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Design vibe: clean, mature, professional, not childish</div>
+            <div class="rationale">Clean, clear, mature, generous use of white space, sleek, professional. The audience is adult educators working in the K-12 space; even though the ultimate impact reaches children, the materials should never read childish. This is the primary visual filter for every deliverable.</div>
+            <div class="meta">Locked at project setup</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Approver: Rebecca · Justine provides assets, does not approve</div>
+            <div class="rationale">Rebecca is the main contact and approves Creative work. Justine is the brand asset contact and can provide logos and other assets, but does not officially approve deliverables. Reviews happen via meetings and PageProof.</div>
+            <div class="meta">Locked at project setup</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Tick pool: 178 hrs generic across HITLit + HITMath</div>
+            <div class="rationale">Both existing Tick buckets under SOW 2026-1 are available for this work. Per direction, the specific bucket names (HITLit / HITMath) are ignored for scoping purposes; the full 178-hr pool is treated as a generic Creative pool. Option 2 uses ~28-31 hrs; Phase 1 and iteration draw from the remainder.</div>
+            <div class="meta">Locked at project setup</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Facilitated workshop context, not delivered PowerPoints</div>
+            <div class="rationale">The PowerPoint deliverables are used by facilitators leading live workshops, not distributed to learners as standalone content. Design implications: slide density can differ from typical asynchronous learning materials, facilitator-only formats like break slides and peer reflection slides matter, and pacing serves the room.</div>
+            <div class="meta">Locked at project setup</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div>
+
+      <div class="block">
+        <div class="block-header block-h-blue">Phase Status <span class="meta">Phase-based · no formal PP</span></div>
+        <div class="block-body">
+          <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 14px;">No dedicated Program Planning phase. Discovery and Phase 1 setup function as the PP equivalent. Phase 1 targets 8/10; Phase 2 shape depends on the Option 1 vs Option 2 decision.</p>
+
+          <div class="cycle-row">
+            <div class="cycle-dot active"></div>
+            <div class="cycle-label">Discovery + Phase 1 setup</div>
+            <div class="cycle-status" style="color: var(--blue);">Active</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Phase 1: 3-5 PowerPoints + template</div>
+            <div class="cycle-status">By Aug 10, 2026</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Option 1 vs Option 2 decision</div>
+            <div class="cycle-status">Before Phase 2</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Phase 2: mature template + ~5 document templates</div>
+            <div class="cycle-status">Post-8/10 · before mat leave</div>
+          </div>
+
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+            <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 4px;">Currently</div>
+            <div style="font-size: 13px; color: var(--ink); font-weight: 700;">Discovery + Phase 1 setup active. Catapult Learning brand guidelines in hand. Justine contacted July 22 for logo files and page-10 graphic elements. Also awaiting the 3-5 source PowerPoints from Rebecca to unblock design work.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header" style="background: var(--blue); color: #fff;">Active items <span class="meta" style="opacity: 0.85;">4 items · working within Tick pool</span></div>
+        <div class="block-body">
+          <div class="blocker-item">
+            <div class="bi-title" style="color: var(--blue);"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Active</span> Option 1 vs Option 2 scoping decision</div>
+            <div class="bi-body">Top open item. See Recommendation section for both options' descriptions and Option 2's scope. Decision drives Phase 2 shape and effort.</div>
+            <div class="bi-owner">Owner: GDM</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title" style="color: var(--blue);"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Active · awaiting Justine</span> Logo files + page-10 graphic elements from Justine</div>
+            <div class="bi-body">Justine contacted on July 22 with requests for Catapult Learning logo files and the graphic elements referenced on page 10 of the Catapult Learning brand guidelines. Awaiting Justine's response.</div>
+            <div class="bi-owner">Owner: GDM · via Justine</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title" style="color: var(--blue);"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Active</span> Access to 3-5 source PowerPoints</div>
+            <div class="bi-body">Phase 1 design work depends on Creative receiving the PowerPoints that will be redesigned and used to shape the template. Sourcing pending from Rebecca.</div>
+            <div class="bi-owner">Owner: GDM · via Rebecca</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title" style="color: var(--blue);"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Awareness</span> SOW status</div>
+            <div class="bi-body">SOW not signed but iDesign has been instructed to start work anyway. Budget characterized as "healthy," not quantified. Not blocking day-to-day work.</div>
+            <div class="bi-owner">Tracked · not blocking</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-navy">Recent Activity</div>
+        <div class="block-body" style="padding-top: 4px; padding-bottom: 6px;">
+          <div class="activity-item">
+            <div class="activity-date">Currently</div>
+            <div class="activity-text">Discovery + Phase 1 setup active. Catapult Learning brand guidelines obtained by GDM. Justine contacted on July 22 with requests for Catapult Learning logo files and the page-10 graphic elements from the brand guidelines. Awaiting Justine's response and the 3-5 source PowerPoints from Rebecca. Option 1 vs Option 2 decision pending; shape of Phase 2 depends on it.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 22, 2026 · Justine contacted</div>
+            <div class="activity-text">GDM emailed Justine with requests for Catapult Learning logo files and the graphic elements referenced on page 10 of the Catapult Learning brand guidelines. Awaiting response.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">Project setup</div>
+            <div class="activity-text">FullBloom project initiated. Phase 1 target: 3-5 redesigned PowerPoints and a PowerPoint template by 8/10. Phase 2 target: mature template + ~5 document templates before GDM's maternity leave. Tick pool of 178 hrs made available across HITLit (108) and HITMath (70) buckets, treated as generic Creative use per direction. GDM obtained Catapult Learning brand guidelines. Justine identified as brand asset contact; Rebecca identified as approver.</div>
+          </div>
+          <div class="integration-note">Activity log will populate from Asana activity feed and PageProof events once project environment is stood up and integrations are built.</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="links-band">
+    <div class="links-label">Links</div>
+    <div class="links-grid">
+      <div class="link-card pending">
+        <div class="link-name">Asana</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Tick · HITLit</div>
+        <div class="link-sub">108 hrs · generic use</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Tick · HITMath</div>
+        <div class="link-sub">70 hrs · generic use</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">PageProof</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Drive</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Slack</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <strong>The Creative Companion</strong> &nbsp;·&nbsp; FullBloom Project Page &nbsp;·&nbsp; iDesign Creative &nbsp;·&nbsp; Real data only · Blockers surfaced
+</footer>
+
+<script>
+  const STATE_KEY = 'fullbloom-north-star-v1';
+  const textarea = document.getElementById('north-star');
+  const status = document.getElementById('save-status');
+
+  try {
+    const saved = localStorage.getItem(STATE_KEY);
+    if (saved !== null) textarea.value = saved;
+  } catch(e) {}
+
+  textarea.addEventListener('input', () => {
+    try { localStorage.setItem(STATE_KEY, textarea.value); } catch(e) {}
+    status.classList.add('saved');
+    status.textContent = 'North Star saved ✓';
+    clearTimeout(window._saveT);
+    window._saveT = setTimeout(() => {
+      status.classList.remove('saved');
+      status.textContent = 'North Star autosaves locally';
+    }, 1400);
+  });
+</script>
+
+<script src="../assets/companion.js?v=5"></script>
+</body>
+</html>

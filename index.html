@@ -1,0 +1,2969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Workspace : Creative Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="assets/companion.css?v=5" />
+<style>
+  /* ── Reset + base ──────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Lato', system-ui, sans-serif;
+    color: var(--text-body);
+    background: var(--bg-soft);
+    margin: 0;
+    line-height: 1.55;
+    font-weight: 400;
+  }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3, h4 { color: var(--ink); font-weight: 900; line-height: 1.2; margin: 0; }
+  p { margin: 0 0 0.85em; }
+
+  /* ── Brand tokens ──────────────────────────────────────── */
+  :root {
+    --navy: #002E40;
+    --ink: #E9F3F7;
+    --sub: #B3D9E7;
+    --blue: #33C9FF;
+    --cyan: #5CD4FF;
+    --lime: #33C9FF;
+    --slate: #5C7E90;
+    --field: #00293A;
+    --bg-card: #002E40;
+    --bg-soft: #00202D;
+    --bg-soft-2: #123E4E;
+    --border: #20505F;
+    --text-body: #E9F3F7;
+    --text-muted: #8FA8B4;
+    --shadow-sm: 0 1px 3px rgba(0,10,18,0.30);
+    --shadow-md: 0 2px 14px rgba(0,10,18,0.40);
+    --shadow-lg: 0 4px 24px rgba(0,10,18,0.50);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  /* ── Top Navigation ────────────────────────────────────── */
+  .topnav {
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,46,64,0.20);
+  }
+  .topnav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .brand-mark {
+    width: 32px; height: 32px;
+    background: var(--lime);
+    color: var(--ink);
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 16px;
+  }
+  .brand-wordmark {
+    color: #fff;
+    font-size: 17px;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+  }
+  .brand-wordmark .accent { color: var(--lime); }
+  .nav-tabs {
+    display: flex;
+    gap: 4px;
+    margin-left: auto;
+  }
+  .nav-tab {
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: #B0CCD7;
+    padding: 10px 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .nav-tab:hover { color: #fff; background: rgba(255,255,255,0.06); }
+  .nav-tab.active { color: var(--ink); background: var(--lime); }
+  .nav-meta {
+    margin-left: 16px;
+    color: #B0CCD7;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    padding-left: 16px;
+    border-left: 1px solid rgba(255,255,255,0.15);
+  }
+
+  /* ── Sub-tabs (within sections) ────────────────────────── */
+  .subtab-strip {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    border-bottom: 2px solid var(--border);
+    margin: 0 0 28px;
+    padding: 0 0 2px;
+  }
+  .subtab {
+    background: transparent;
+    border: none;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .subtab:hover { color: var(--ink); }
+  .subtab.active { color: var(--ink); border-bottom-color: var(--blue); }
+  .subpanel { display: none; }
+  .subpanel.active { display: block; }
+
+  /* ── Package Explorer ──────────────────────────────────── */
+  .pe-wrap { display: grid; grid-template-columns: 320px 1fr; gap: 18px; margin-top: 18px; }
+  .pe-form { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px; position: sticky; top: 70px; align-self: start; }
+  .pe-form h4 { font-size: 13px; color: var(--ink); margin: 0 0 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .pe-field { margin-bottom: 12px; }
+  .pe-field label { display: block; font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; }
+  .pe-field input, .pe-field select { width: 100%; font-family: inherit; font-size: 13px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 5px; background: var(--bg-soft); color: var(--text-body); }
+  .pe-field input:focus, .pe-field select:focus { outline: none; border-color: var(--blue); background: var(--field); box-shadow: 0 0 0 3px rgba(1,127,174,0.10); }
+  .pe-radio-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pe-radio-row label { display: inline-block; padding: 5px 12px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 16px; font-size: 11.5px; font-weight: 700; color: var(--text-muted); cursor: pointer; text-transform: none; letter-spacing: 0; margin: 0; }
+  .pe-radio-row input[type="radio"] { display: none; }
+  .pe-radio-row input[type="radio"]:checked + label { background: var(--navy); color: var(--lime); border-color: var(--ink); }
+  .pe-results { display: flex; flex-direction: column; gap: 14px; }
+  .pe-summary { background: var(--bg-soft); border: 1px solid var(--bg-soft-2); border-radius: 8px; padding: 14px 16px; font-size: 12.5px; color: var(--text-body); line-height: 1.55; }
+  .pe-summary strong { color: var(--ink); }
+  .pe-option { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .pe-option-header { padding: 12px 18px; display: flex; align-items: center; gap: 10px; color: #fff; }
+  .pe-option-header.opt-1 { background: var(--navy); }
+  .pe-option-header.opt-2 { background: var(--blue); }
+  .pe-option-header.opt-3 { background: var(--slate); }
+  .pe-option-title { font-size: 14px; font-weight: 900; color: #fff; }
+  .pe-option-meta { margin-left: auto; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.85; }
+  .pe-option-body { padding: 14px 18px; }
+  .pe-option-desc { font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; }
+  .pe-components { display: flex; flex-wrap: wrap; gap: 5px; margin: 10px 0 14px; }
+  .pe-comp { display: inline-flex; align-items: center; gap: 6px; padding: 4px 9px; background: var(--bg-soft); border: 1px solid var(--bg-soft-2); border-radius: 14px; font-size: 11px; }
+  .pe-comp.cat-Generic { border-color: #B9DCC9; }
+  .pe-comp.cat-Templated { border-color: #B8CADF; }
+  .pe-comp.cat-Ad-hoc { border-color: #E8C39A; }
+  .pe-comp .cat-dot { width: 6px; height: 6px; border-radius: 50%; }
+  .pe-comp.cat-Generic .cat-dot { background: #0D6640; }
+  .pe-comp.cat-Templated .cat-dot { background: #1E3A5C; }
+  .pe-comp.cat-Ad-hoc .cat-dot { background: #7A4000; }
+  .pe-breakdown { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; font-size: 11.5px; }
+  .pe-breakdown-cell { background: var(--bg-soft); padding: 8px 10px; border-radius: 4px; text-align: center; }
+  .pe-breakdown-cell .num { font-size: 18px; font-weight: 900; color: var(--ink); line-height: 1; }
+  .pe-breakdown-cell .lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.6px; margin-top: 3px; }
+  .pe-flags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .pe-proscons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 11.5px; }
+  .pe-proscons > div { padding: 9px 12px; border-radius: 4px; line-height: 1.5; }
+  .pe-pros { background: #E0F2E8; color: #1F4D34; border-left: 3px solid #0D6640; }
+  .pe-cons { background: #FDE8CC; color: #4A2E0A; border-left: 3px solid #7A4000; }
+  .pe-pros .lbl, .pe-cons .lbl { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; display: block; }
+  .pe-hour-line { background: var(--navy); color: #fff; padding: 8px 12px; border-radius: 4px; font-size: 11px; margin-top: 12px; }
+  .pe-hour-line .lime { color: var(--lime); font-weight: 700; }
+
+  /* ── Component selector ────────────────────────────────── */
+  .pe-comp-selector { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; margin-top: 14px; }
+  .pe-comp-selector h5 { font-size: 11px; color: var(--ink); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; }
+  .pe-comp-help { font-size: 11px; color: var(--text-muted); font-style: italic; margin-bottom: 10px; }
+  .pe-comp-actions { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .pe-comp-actions button { background: transparent; border: 1px solid var(--border); color: var(--blue); font-family: inherit; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; padding: 4px 10px; border-radius: 4px; cursor: pointer; }
+  .pe-comp-actions button:hover { background: var(--bg-soft); border-color: var(--blue); }
+  .pe-comp-group { margin-bottom: 12px; }
+  .pe-comp-group:last-child { margin-bottom: 0; }
+  .pe-comp-group-label { font-size: 9.5px; color: var(--ink); text-transform: uppercase; letter-spacing: 1px; font-weight: 900; margin-bottom: 6px; padding-bottom: 4px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; }
+  .pe-comp-group-label .pill { font-size: 8.5px; padding: 1px 6px; }
+  .pe-toggle { display: flex; align-items: center; gap: 8px; padding: 5px 6px; border-radius: 4px; font-size: 12px; cursor: pointer; transition: background 0.1s; }
+  .pe-toggle:hover { background: var(--bg-soft); }
+  .pe-toggle.disabled { color: var(--text-muted); cursor: not-allowed; opacity: 0.55; }
+  .pe-toggle.disabled:hover { background: transparent; }
+  .pe-toggle input[type="checkbox"] { width: 14px; height: 14px; accent-color: var(--blue); margin: 0; flex-shrink: 0; }
+  .pe-toggle .pe-toggle-name { flex: 1; }
+  .pe-toggle .pe-toggle-hours { font-size: 11px; color: var(--text-muted); font-family: 'Courier New', monospace; }
+  .pe-toggle.disabled .pe-toggle-hours { opacity: 0.7; }
+  .pe-toggle .pe-flag-dot { width: 6px; height: 6px; border-radius: 50%; background: #BA7517; margin-left: 4px; }
+  .pe-toggle .pe-flag-dot.dep { background: #1E3A5C; }
+  .pe-disabled-reason { font-size: 10px; color: var(--text-muted); margin-left: 22px; font-style: italic; }
+
+  /* ── Process overview diagram ──────────────────────────── */
+  .overview-flow { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; gap: 10px; align-items: stretch; margin: 18px 0 24px; }
+  .overview-step { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .overview-step.s1 { border-top: 4px solid var(--slate); }
+  .overview-step.s2 { border-top: 4px solid var(--blue); }
+  .overview-step.s3 { border-top: 4px solid var(--cyan); }
+  .overview-step.s4 { border-top: 4px solid var(--lime); }
+  .overview-step .stage { font-size: 9.5px; color: var(--text-muted); font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .overview-step .name { font-size: 14px; color: var(--ink); font-weight: 900; line-height: 1.2; margin-bottom: 6px; }
+  .overview-step .sub { font-size: 11.5px; color: var(--text-muted); line-height: 1.45; }
+  .overview-arrow { align-self: center; color: var(--blue); font-size: 18px; font-weight: 900; }
+
+  /* ── Three parallel category buckets ───────────────────── */
+  .bucket-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0 18px; }
+  .bucket { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; }
+  .bucket.b-receive { border-top: 4px solid var(--blue); }
+  .bucket.b-decide { border-top: 4px solid var(--cyan); }
+  .bucket.b-fill { border-top: 4px solid var(--lime); }
+  .bucket .b-name { font-size: 16px; color: var(--ink); font-weight: 900; line-height: 1.2; margin-bottom: 4px; }
+  .bucket .b-where { font-size: 11.5px; color: var(--text-muted); font-style: italic; margin-bottom: 12px; line-height: 1.4; }
+  .bucket ul { font-size: 12.5px; padding-left: 18px; margin: 0; line-height: 1.55; color: var(--text-body); }
+  .bucket ul li { margin-bottom: 4px; }
+
+  /* ── Two-up explainer cards (Must / Nice) ──────────────── */
+  .mn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+  .mn-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; }
+  .mn-card.mn-must { border-left: 4px solid #8C2222; }
+  .mn-card.mn-nice { border-left: 4px solid var(--lime); }
+  .mn-card .mn-tag { display: inline-block; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; padding: 2px 8px; border-radius: 10px; margin-bottom: 8px; }
+  .mn-card.mn-must .mn-tag { background: #F8DDDD; color: #8C2222; }
+  .mn-card.mn-nice .mn-tag { background: #EFF1B8; color: #5A6608; }
+  .mn-card h4 { font-size: 14px; margin-bottom: 4px; }
+  .mn-card .mn-when { font-size: 11.5px; color: var(--text-muted); font-style: italic; margin-bottom: 10px; }
+  .mn-card ul { font-size: 13px; padding-left: 18px; margin: 0; }
+  .mn-card ul li { margin-bottom: 4px; }
+
+  /* ── Roles + Phase matrix ──────────────────────────────── */
+  .role-matrix { width: 100%; border-collapse: collapse; font-size: 12px; margin: 12px 0; }
+  .role-matrix th { background: var(--bg-soft); color: var(--ink); font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 10px; text-align: center; border-bottom: 2px solid var(--blue); }
+  .role-matrix th:first-child { text-align: left; }
+  .role-matrix td { padding: 8px 10px; border-bottom: 1px solid var(--border); text-align: center; }
+  .role-matrix td:first-child { text-align: left; font-weight: 700; color: var(--ink); }
+  .role-matrix .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+  .role-matrix .dot.lead { background: var(--navy); }
+  .role-matrix .dot.active { background: var(--blue); }
+  .role-matrix .dot.support { background: var(--cyan); opacity: 0.5; }
+  .role-matrix .meta { font-size: 10.5px; color: var(--text-muted); }
+  .role-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 11px; color: var(--text-muted); margin-top: 6px; }
+  .role-legend .legend-item { display: inline-flex; align-items: center; gap: 6px; }
+  .role-legend .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+  .role-legend .lead { background: var(--navy); }
+  .role-legend .active { background: var(--blue); }
+  .role-legend .support { background: var(--cyan); opacity: 0.5; }
+
+  /* ── Hour breakdown table ──────────────────────────────── */
+  .pe-rates { background: var(--bg-soft); border: 1px solid var(--bg-soft-2); border-radius: 6px; padding: 14px; margin-top: 16px; }
+  .pe-rates h5 { font-size: 11px; color: var(--ink); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; }
+  .pe-rates .rate-help { font-size: 10.5px; color: var(--text-muted); font-style: italic; margin-bottom: 10px; }
+  .pe-rate-field { display: grid; grid-template-columns: 1fr 70px; gap: 8px; align-items: center; margin-bottom: 7px; }
+  .pe-rate-field label { font-size: 11px; color: var(--text-muted); }
+  .pe-rate-field input { font-family: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid var(--border); border-radius: 4px; background: var(--field); text-align: right; }
+  .pe-rate-field input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 2px rgba(1,127,174,0.10); }
+  .pe-breakdown-table { width: 100%; border-collapse: collapse; font-size: 11.5px; margin: 12px 0; }
+  .pe-breakdown-table th { text-align: left; background: var(--bg-soft); color: var(--ink); font-size: 9.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.6px; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  .pe-breakdown-table th:last-child { text-align: right; }
+  .pe-breakdown-table td { padding: 5px 8px; border-bottom: 1px solid var(--bg-soft-2); }
+  .pe-breakdown-table td:last-child { text-align: right; font-family: 'Courier New', monospace; }
+  .pe-breakdown-table tr.subtotal td { font-weight: 700; background: var(--bg-soft); }
+  .pe-breakdown-table tr.macro-label td { background: var(--navy); color: var(--lime); font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; font-size: 10px; padding: 6px 8px; }
+  .pe-breakdown-table tr.macro-label td:last-child { text-align: right; }
+  .scope-bar { background: var(--bg-soft); border: 1px solid var(--bg-soft-2); border-radius: 6px; padding: 10px 14px; margin-top: 8px; display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; }
+  .scope-bar .scope-meter { background: var(--field); border-radius: 10px; overflow: hidden; height: 14px; border: 1px solid var(--border); position: relative; }
+  .scope-bar .scope-fill { height: 100%; transition: width 0.2s; }
+  .scope-bar .scope-fill.ok { background: #0D6640; }
+  .scope-bar .scope-fill.warn { background: #BA7517; }
+  .scope-bar .scope-fill.over { background: #8C2222; }
+  .scope-bar .scope-num { font-weight: 900; font-size: 14px; color: var(--ink); white-space: nowrap; }
+  .scope-bar .scope-num.over { color: #8C2222; }
+  .scope-bar .scope-detail { grid-column: 1 / -1; font-size: 11px; color: var(--text-muted); }
+  @media (max-width: 980px) {
+    .pe-wrap { grid-template-columns: 1fr; }
+    .pe-form { position: static; }
+    .pe-proscons { grid-template-columns: 1fr; }
+  }
+
+  /* ── Main layout ───────────────────────────────────────── */
+  .main {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 36px 28px 80px;
+  }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── Section headers ───────────────────────────────────── */
+  .section-header {
+    margin-bottom: 28px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2.2px;
+    color: var(--blue);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: 32px;
+    margin-bottom: 10px;
+    line-height: 1.1;
+  }
+  .section-lede {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 720px;
+    line-height: 1.6;
+  }
+
+  /* ── Cards ─────────────────────────────────────────────── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow-sm);
+  }
+  .card-soft {
+    background: var(--bg-soft);
+    border: 1px solid var(--bg-soft-2);
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-title {
+    font-size: 17px;
+    font-weight: 900;
+    color: var(--ink);
+  }
+  .card-meta {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* ── Tags ──────────────────────────────────────────────── */
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 3px 8px;
+    border-radius: 10px;
+  }
+  .tag-generic { background: #E0F2E8; color: #0D6640; }
+  .tag-templated { background: #DDE7F2; color: #1E3A5C; }
+  .tag-adhoc { background: #FDE8CC; color: #7A4000; }
+  .tag-lime { background: var(--lime); color: var(--ink); }
+  .tag-navy { background: var(--navy); color: var(--lime); }
+  .tag-blue { background: var(--blue); color: #fff; }
+  .tag-cyan { background: var(--cyan); color: #fff; }
+  .tag-flag { background: #F8DDDD; color: #8C2222; }
+
+  /* ── HOME ──────────────────────────────────────────────── */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #02475F 100%);
+    color: #fff;
+    border-radius: var(--radius-lg);
+    padding: 44px 36px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(221,226,58,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    color: var(--lime);
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2.4px;
+    margin-bottom: 10px;
+  }
+  .hero-title {
+    color: #fff;
+    font-size: 36px;
+    line-height: 1.1;
+    margin-bottom: 14px;
+    max-width: 760px;
+  }
+  .hero-text {
+    color: #CCE5EF;
+    font-size: 15px;
+    max-width: 640px;
+    line-height: 1.6;
+    margin-bottom: 0;
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .stat-num {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--blue);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+  }
+
+  .section-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .section-card-link {
+    text-decoration: none;
+    color: inherit;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    display: block;
+  }
+  .section-card-link:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--blue);
+    text-decoration: none;
+  }
+  .sc-icon {
+    width: 38px; height: 38px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 12px;
+    font-weight: 900;
+  }
+  .sc-icon-1 { background: var(--navy); color: var(--lime); }
+  .sc-icon-2 { background: var(--blue); color: #fff; }
+  .sc-icon-3 { background: var(--cyan); color: #fff; }
+  .sc-icon-4 { background: var(--slate); color: #fff; }
+  .sc-name {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .sc-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  .home-two-col {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 18px;
+  }
+
+  /* ── Lists ─────────────────────────────────────────────── */
+  .list-clean { list-style: none; padding: 0; margin: 0; }
+  .list-clean li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .list-clean li:last-child { border-bottom: none; }
+
+  .changelog-entry {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .changelog-entry:last-child { border-bottom: none; }
+  .changelog-date {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .changelog-text {
+    font-size: 13px;
+    color: var(--text-body);
+    line-height: 1.45;
+  }
+
+  /* ── Tables ────────────────────────────────────────────── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 12px 0 20px;
+  }
+  .data-table th {
+    text-align: left;
+    background: var(--bg-soft);
+    color: var(--ink);
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--blue);
+  }
+  .data-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .data-table tr:hover td { background: var(--bg-soft); }
+  .data-table .absent { color: var(--text-muted); }
+
+  /* ── ABOUT CREATIVE ────────────────────────────────────── */
+  .ac-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin: 18px 0 28px;
+  }
+  .ac-category {
+    padding: 18px;
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--blue);
+  }
+  .ac-category-name {
+    font-size: 15px;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .ac-category-desc {
+    font-size: 13px;
+    color: var(--text-body);
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+  .ac-category-hours {
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--bg-soft);
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* ── Principles ────────────────────────────────────────── */
+  .principles-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    counter-reset: principle;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .principle-item {
+    padding: 14px 14px 14px 50px;
+    background: var(--bg-soft);
+    border-radius: var(--radius);
+    border-left: 3px solid var(--blue);
+    position: relative;
+    counter-increment: principle;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .principle-item::before {
+    content: counter(principle);
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    width: 26px; height: 26px;
+    background: var(--navy);
+    color: var(--lime);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+  }
+  .principle-item strong { color: var(--ink); display: block; margin-bottom: 4px; }
+
+  /* ── FAQ Browser ───────────────────────────────────────── */
+  .faq-tier-header {
+    margin: 24px 0 14px;
+    padding: 12px 16px;
+    background: var(--navy);
+    color: #fff;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .faq-tier-num {
+    background: var(--lime);
+    color: var(--ink);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    font-size: 13px;
+  }
+  .faq-tier-title {
+    font-size: 15px;
+    font-weight: 900;
+    color: #fff;
+  }
+  .faq-tier-sub {
+    margin-left: auto;
+    font-size: 11px;
+    color: #CCE5EF;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  details.faq-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    padding: 0;
+    overflow: hidden;
+  }
+  details.faq-item summary {
+    padding: 14px 18px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 14px;
+  }
+  details.faq-item summary::-webkit-details-marker { display: none; }
+  details.faq-item summary::before {
+    content: '+';
+    color: var(--blue);
+    font-weight: 900;
+    font-size: 18px;
+    width: 20px;
+    text-align: center;
+  }
+  details.faq-item[open] summary::before { content: '−'; }
+  details.faq-item summary:hover { background: var(--bg-soft); }
+  .faq-num {
+    background: var(--bg-soft-2);
+    color: var(--ink);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 900;
+    margin-right: 4px;
+  }
+  .faq-body {
+    padding: 4px 18px 18px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .faq-body p { margin: 12px 0; }
+  .faq-label {
+    font-weight: 900;
+    color: var(--blue);
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .faq-response {
+    background: var(--bg-soft);
+    border-left: 3px solid var(--lime);
+    padding: 12px 14px;
+    border-radius: 4px;
+    margin: 8px 0;
+    font-style: italic;
+    color: var(--text-body);
+  }
+
+  /* ── PROCESS ───────────────────────────────────────────── */
+  .process-macro {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 22px;
+  }
+  .process-macro-title {
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .process-macro-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+  }
+  .phase-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  .phase-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--bg-soft-2);
+    border-radius: var(--radius);
+    padding: 14px;
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .phase-card:hover {
+    border-color: var(--blue);
+    box-shadow: var(--shadow-sm);
+  }
+  .phase-num {
+    background: var(--blue);
+    color: #fff;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 900;
+    margin-right: 8px;
+  }
+  .phase-card-title {
+    font-size: 13px;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+  .phase-card-week {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .phase-card-summary {
+    font-size: 12px;
+    color: var(--text-body);
+    line-height: 1.45;
+  }
+  details.phase-detail {
+    margin-top: 12px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  details.phase-detail summary {
+    padding: 14px 16px;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 700;
+    color: var(--ink);
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  details.phase-detail summary::-webkit-details-marker { display: none; }
+  details.phase-detail summary::before {
+    content: '▸';
+    color: var(--blue);
+    transition: transform 0.15s;
+    display: inline-block;
+  }
+  details.phase-detail[open] summary::before { transform: rotate(90deg); }
+  details.phase-detail summary:hover { background: var(--bg-soft); }
+  .phase-detail-body {
+    padding: 4px 18px 18px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .phase-meta-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 12px 0;
+  }
+  .phase-meta-cell {
+    background: var(--bg-soft);
+    padding: 10px 12px;
+    border-radius: 4px;
+  }
+  .phase-meta-label {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .phase-meta-value {
+    font-size: 12px;
+    color: var(--text-body);
+    line-height: 1.4;
+  }
+
+  /* ── PROJECTS empty state ──────────────────────────────── */
+  .projects-empty {
+    background: var(--bg-card);
+    border: 2px dashed var(--bg-soft-2);
+    border-radius: var(--radius-lg);
+    padding: 36px;
+    text-align: center;
+    margin-bottom: 22px;
+  }
+  .projects-empty-icon {
+    width: 56px; height: 56px;
+    background: var(--bg-soft);
+    border-radius: 14px;
+    margin: 0 auto 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    color: var(--blue);
+  }
+  .projects-empty h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
+  }
+  .projects-empty p {
+    max-width: 540px;
+    margin: 0 auto;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .template-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .template-block {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px;
+  }
+  .template-block .tag {
+    margin-bottom: 10px;
+  }
+  .template-block h4 {
+    font-size: 15px;
+    margin-bottom: 8px;
+  }
+  .template-block p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+  .template-block ul {
+    font-size: 12px;
+    color: var(--text-body);
+    padding-left: 18px;
+    margin: 4px 0 0;
+  }
+  .template-block ul li { margin-bottom: 4px; }
+
+  /* ── RESOURCES ─────────────────────────────────────────── */
+  .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  .resource-link {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .resource-link:hover {
+    border-color: var(--blue);
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+  }
+  .resource-name {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .resource-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* ── Misc ──────────────────────────────────────────────── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .mb-2 { margin-bottom: 14px; }
+  .mb-3 { margin-bottom: 22px; }
+  .small { font-size: 12px; color: var(--text-muted); }
+  .callout {
+    background: var(--bg-soft);
+    border-left: 4px solid var(--lime);
+    padding: 14px 18px;
+    border-radius: 4px;
+    margin: 12px 0;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .footer {
+    background: var(--navy);
+    color: #B0CCD7;
+    text-align: center;
+    padding: 22px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  .footer strong { color: var(--lime); }
+
+  /* ── Responsive ────────────────────────────────────────── */
+  @media (max-width: 980px) {
+    .topnav-inner { flex-wrap: wrap; padding: 12px 18px; }
+    .nav-tabs { width: 100%; overflow-x: auto; margin-left: 0; }
+    .nav-meta { display: none; }
+    .main { padding: 24px 18px 60px; }
+    .stats-row, .section-cards, .ac-grid, .phase-row, .resource-grid, .principles-list { grid-template-columns: 1fr 1fr; }
+    .home-two-col, .grid-2, .template-grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 26px; }
+    .hero { padding: 28px 22px; }
+  }
+  @media (max-width: 600px) {
+    .stats-row, .section-cards, .ac-grid, .resource-grid, .principles-list, .phase-row { grid-template-columns: 1fr; }
+  }
+
+  /* ===== Dark Studio restyle — Creative Companion joins the Studio family ===== */
+  .studio-logo{height:22px;width:auto;display:block}
+  .topnav{background:linear-gradient(135deg,#00263A,#013A52);border-bottom:1px solid var(--border);box-shadow:none}
+  /* two-row header (row 1: logo + controls · row 2: underlined nav) — matches the Studio family */
+  .topnav-inner{display:flex;align-items:center;flex-wrap:nowrap;gap:0;padding:15px 18px 13px;max-width:1280px;margin:0 auto}
+  .topnav-spacer{flex:1 1 auto;min-width:20px}
+  .cc-navctrls{flex:none}
+  .studio-logo{height:24px}
+  .brand-wordmark{color:var(--sub);font-size:15px;font-weight:400;border-left:1px solid var(--border);padding-left:14px;margin-left:2px;white-space:nowrap}
+  .brand-wordmark b{color:#fff;font-weight:900}
+  .brand-wordmark .wm-sep{color:var(--muted);margin:0 6px;font-weight:400}
+  .topnav-tabs{padding:2px 18px 0;max-width:1280px;margin:0 auto}
+  .nav-tabs{display:flex;gap:26px;margin:0}
+  .nav-tab{background:none;border:none;border-radius:0;padding:0 0 11px;font-size:13.5px;font-weight:700;text-transform:none;letter-spacing:0;color:var(--text-muted);border-bottom:2px solid transparent}
+  .nav-tab:hover{color:#fff;background:none}
+  .nav-tab.active{color:#fff;background:none;border-bottom:2px solid var(--blue)}
+  .nav-meta{display:none}
+  .subtab.active{color:#fff;border-bottom-color:var(--blue)}
+  /* asymmetric gradient cards + pill buttons (Studio signatures) */
+  .card{background:linear-gradient(90deg,rgba(1,80,110,.95) 0%,rgba(0,51,70,.95) 100%);border:1px solid #4DA5C6;border-radius:0 16px 0 16px;box-shadow:var(--shadow-md)}
+  .btn,button.btn,.pe-btn,.btn-primary,.btn-secondary{border-radius:24px}
+  .stat-card{background:rgba(0,32,45,.55)}
+  /* inputs/tables to dark */
+  input,select,textarea{background:var(--field);color:var(--text-body);border-color:var(--border)}
+  input::placeholder,textarea::placeholder{color:#5C7E90}
+  .role-matrix th,.pe-breakdown-table th{background:var(--field)}
+  .scope-bar .scope-meter{background:var(--field);border-color:var(--border)}
+  /* lime tag keeps dark ink on lime */
+  .tag-lime{color:#002E40}
+  /* contrast fix — navy ink on cerulean/lime/cyan fills (Studio rule) */
+  .tag-blue,.tag-cyan,.tag-lime,.pill-lime,.sc-icon-2,.sc-icon-3,.phase-num,.faq-tier-num{color:#00202D !important}
+.sc-icon-4{background:#123E4E !important;color:#E9F3F7 !important}
+  /* family match: soft cerulean-20 fills, no bright lime */
+  .tag-lime,.ph-status-pill,.stat-card.highlight,.pill-lime,.faq-tier-num,.pill-applied{background:#D6F4FF !important;color:#00202D !important;border-color:#8FD8F2 !important}
+  .stat-card.highlight .stat-label,.stat-card.highlight .stat-value{color:#00202D !important}
+</style>
+</head>
+<body data-cc-root="">
+
+<!-- ═══════════════════════════════════════════════════════════
+     TOP NAVIGATION
+     ═══════════════════════════════════════════════════════════ -->
+<nav class="topnav" aria-label="Main navigation">
+  <div class="topnav-inner">
+    <a href="https://idesign-creative.github.io/studio-hub/" class="brand" title="Back to iDesign Studio">
+      <img class="studio-logo" src="Studio-logo-white.svg" alt="iDesign Studio">
+      <span class="brand-wordmark"><b>Workspace</b><span class="wm-sep">:</span>Creative Companion</span>
+    </a>
+    <span class="topnav-spacer"></span>
+    <!-- role controls (Admin/Member · Edit · Sign out) injected here by companion.js -->
+  </div>
+  <div class="topnav-tabs">
+    <div class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-section="home" onclick="showSection('home')" role="tab">Home</button>
+      <button class="nav-tab" data-section="projects" onclick="showSection('projects')" role="tab">Projects</button>
+      <button class="nav-tab" data-section="inbox" onclick="showSection('inbox')" role="tab">Update Inbox</button>
+      <button class="nav-tab" data-section="about" onclick="showSection('about')" role="tab">About Creative</button>
+      <button class="nav-tab" data-section="resources" onclick="showSection('resources')" role="tab">Resources</button>
+    </div>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- ═══════════════════════════════════════════════════════════
+     HOME
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section active" id="section-home">
+
+  <div class="hero">
+    <div class="hero-eyebrow">iDesign Creative</div>
+    <h1 class="hero-title">The Creative team's source of truth.</h1>
+    <p class="hero-text">Everything Creative produces: what it is, how it gets made, who's working on what, and the resources to keep work moving. Use the tabs above to navigate, or jump in below.</p>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num">15</div>
+      <div class="stat-label">Components in the canon</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">8</div>
+      <div class="stat-label">Phases in the process</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">30</div>
+      <div class="stat-label">FAQ scenarios prepared</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num">13</div>
+      <div class="stat-label">Working principles</div>
+    </div>
+  </div>
+
+
+  <div class="home-two-col">
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Active Projects</div>
+        <span class="card-meta">3 in flight</span>
+      </div>
+      <a href="Projects/UCF.html" style="display: block; padding: 12px 14px; background: var(--bg-soft); border-radius: 6px; text-decoration: none; color: inherit; border-left: 3px solid var(--blue); margin-bottom: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <strong style="color: var(--ink); font-size: 14px;">UCF</strong>
+          <span class="tag tag-lime" style="font-size: 10px;">D&amp;D Phase 1 · Cycle 3 of 4</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted);">Canvas · 17 courses · 80 Tick hours · New partner</div>
+      </a>
+      <a href="Projects/EMU.html" style="display: block; padding: 12px 14px; background: var(--bg-soft); border-radius: 6px; text-decoration: none; color: inherit; border-left: 3px solid #017FAE; margin-bottom: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <strong style="color: var(--ink); font-size: 14px;">EMU</strong>
+          <span class="tag" style="font-size: 10px; background: #DDE7F2; color: #1E3A5C;">PP Phase 1 · Week 1 of 4</span>
+          <span class="tag tag-lime" style="font-size: 10px; margin-left: 4px;">EMU branding decided</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted);">Moodle · 4 courses · 49 dedicated Tick hrs + ~10 shared · EMU branding resolved 7/22 (Sarah as authority) · Aric B. as brand contact (connection pending)</div>
+      </a>
+      <a href="Projects/Alvernia.html" style="display: block; padding: 12px 14px; background: var(--bg-soft); border-radius: 6px; text-decoration: none; color: inherit; border-left: 3px solid #017FAE; margin-bottom: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <strong style="color: var(--ink); font-size: 14px;">Alvernia</strong>
+          <span class="tag" style="font-size: 10px; background: #DDE7F2; color: #1E3A5C;">PP Phase 1 · Week 1 of 4</span>
+          <span class="tag tag-lime" style="font-size: 10px; margin-left: 4px;">Budget confirmed</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted);">Canvas · 10 MBA courses · 50 Tick hrs (19 PP + 31 D&amp;D) · Matt B. as brand contact · 5 summer + 5 after</div>
+      </a>
+      <a href="Projects/UT_Austin.html" style="display: block; padding: 12px 14px; background: var(--bg-soft); border-radius: 6px; text-decoration: none; color: inherit; border-left: 3px solid #017FAE; margin-bottom: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <strong style="color: var(--ink); font-size: 14px;">UT Austin</strong>
+          <span class="tag" style="font-size: 10px; background: #DDE7F2; color: #1E3A5C;">Post-kickoff · Tick resolved</span>
+          <span class="tag" style="font-size: 10px; background: #FDE8CC; color: #7A4000; margin-left: 4px;">YELLOW FLAG · 5.75 hrs</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted);">Canvas · CPE · Two workstreams ($109K) · Video support assets by 8/20 (Video Services bucket TBD) · Canvas template + one-course graphics in 5.75 hrs WS1 Course Dev · brand-authority response pending Julie</div>
+      </a>
+      <a href="Projects/FullBloom.html" style="display: block; padding: 12px 14px; background: var(--bg-soft); border-radius: 6px; text-decoration: none; color: inherit; border-left: 3px solid #017FAE;">
+        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <strong style="color: var(--ink); font-size: 14px;">FullBloom</strong>
+          <span class="tag" style="font-size: 10px; background: #DDE7F2; color: #1E3A5C;">Phase 1 active</span>
+          <span class="tag tag-lime" style="font-size: 10px; margin-left: 4px;">178 hr Tick pool</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted);">Catapult Learning brand · Literacy and Leadership Workshop · Phase 1: 3-5 PowerPoints + template by 8/10 · Phase 2: mature template + ~5 doc templates before mat leave · Option 1 vs Option 2 decision open</div>
+      </a>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">What's New</div>
+      </div>
+      <div class="changelog-entry">
+        <div class="changelog-date">Jun 12, 2026</div>
+        <div class="changelog-text">Video Services Support Assets added to the canon. Tier 1 / Tier 2 / Tier 3 asset lists, hour math, and PBD intake check now documented.</div>
+      </div>
+      <div class="changelog-entry">
+        <div class="changelog-date">Jun 12, 2026</div>
+        <div class="changelog-text">Categorization hours-control logic made explicit. The canon now leads with why Generic / Templated / Ad-hoc exists as an economic decision.</div>
+      </div>
+      <div class="changelog-entry">
+        <div class="changelog-date">Jun 11, 2026</div>
+        <div class="changelog-text">Escalations and FAQ added with 30 prepared scenarios across three priority tiers.</div>
+      </div>
+      <div class="changelog-entry">
+        <div class="changelog-date">Jun 9, 2026</div>
+        <div class="changelog-text">Module Banners confirmed as Generic. Hour math updated across the canon.</div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     WORKLOAD  (read-only Asana snapshot)
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section" id="section-workload">
+  <div class="subtab-strip"><button class="subtab" onclick="showSection('projects')">Living Pages</button><button class="subtab active" onclick="showSection('workload')">Workload</button></div>
+  <div class="section-header">
+    <div class="eyebrow">All-partners workload</div>
+    <h2 class="section-title">Every open Creative request, by partner.</h2>
+    <p class="section-lede">A read-only snapshot of the <strong>Creative Requests · Design + Dev</strong> board in Asana: open counts, status split, next deadline, and overdue flags — including the grandfathered partners that don't have a full Living Project Page yet.</p>
+  </div>
+  <div id="cc-workload"></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     UPDATE INBOX  (paste-to-update)
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section" id="section-inbox">
+  <div class="section-header">
+    <div class="eyebrow">Update inbox</div>
+    <h2 class="section-title">Paste an update. Apply it to a partner page.</h2>
+    <p class="section-lede">The temporary space that replaces going back to Claude. Paste a Fathom transcript, a Slack thread, a Project Brief excerpt, or a quick note; tag the partner; an admin reviews and applies it to that partner's Living Project Page. Nothing is auto-published.</p>
+  </div>
+  <div class="cc-inbox-grid">
+    <div id="cc-inbox-form" class="cc-inbox-form"></div>
+    <div id="cc-inbox-list" class="cc-inbox-list"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ABOUT CREATIVE
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section" id="section-about">
+  <div class="subtab-strip"><button class="subtab active" onclick="showSection('about')">About Creative</button><button class="subtab" onclick="showSection('process')">Process</button></div>
+
+  <div class="section-header">
+    <div class="eyebrow">About Creative</div>
+    <h2 class="section-title">What a Creative Package is, and how it gets made.</h2>
+    <p class="section-lede">The canon. The principles. The asset categories and the math behind them. The prepared responses for situations that come up. This is the foundation everything else stands on.</p>
+  </div>
+
+  <div class="subtab-strip" role="tablist">
+    <button class="subtab active" data-subtab="foundations" onclick="showSubtab('foundations')">Foundations</button>
+    <button class="subtab" data-subtab="components" onclick="showSubtab('components')">Components</button>
+    <button class="subtab" data-subtab="engine" onclick="showSubtab('engine')">Engine</button>
+    <button class="subtab" data-subtab="northstars" onclick="showSubtab('northstars')">North Stars</button>
+    <button class="subtab" data-subtab="principles" onclick="showSubtab('principles')">Principles</button>
+    <button class="subtab" data-subtab="faq" onclick="showSubtab('faq')">FAQ</button>
+    <button class="subtab" data-subtab="glossary" onclick="showSubtab('glossary')">Glossary</button>
+  </div>
+
+  <div class="subpanel active" id="subpanel-foundations" data-subtab="foundations">
+
+  <h3 style="margin-top: 0; margin-bottom: 8px;">How a project moves through Creative</h3>
+  <p class="small">High-level view of where Creative's work fits across a partner project. For the full eight-phase detail, see the Process tab.</p>
+
+  <div class="overview-flow">
+    <div class="overview-step s1">
+      <div class="stage">Stage 1</div>
+      <div class="name">Project starts</div>
+      <div class="sub">SOW is signed. Sales hands the project to the project team via the Project Briefing Document (PBD), which also names the partner's Video Services scope.</div>
+    </div>
+    <div class="overview-arrow">→</div>
+    <div class="overview-step s2">
+      <div class="stage">Stage 2 · 4 weeks per SOW</div>
+      <div class="name">Program Planning</div>
+      <div class="sub">Creative establishes the partner's Brand Foundations, runs the recommendation engine to shape the package, and builds the templates. Brand authority approves the package.</div>
+    </div>
+    <div class="overview-arrow">→</div>
+    <div class="overview-step s3">
+      <div class="stage">Stage 3 · per course</div>
+      <div class="name">Design &amp; Delivery</div>
+      <div class="sub">For every course in the SOW, Creative applies templates and per-course graphics, the LID approves, and assets ship to Google Drive for ELT to integrate.</div>
+    </div>
+    <div class="overview-arrow">→</div>
+    <div class="overview-step s4">
+      <div class="stage">Stage 4</div>
+      <div class="name">Course launches</div>
+      <div class="sub">ELT integrates Creative's graphics into the partner's LMS template. Learners experience the branded course environment.</div>
+    </div>
+  </div>
+
+  <p class="small" style="margin-top: 4px; margin-bottom: 22px; font-style: italic;">This Foundations tab covers the concepts that anchor every project (the universal baseline, the brand layer, the assets Creative produces, and the categories that govern hours). The Process tab covers the workflow itself.</p>
+
+  <div class="card mb-3">
+    <div class="card-header">
+      <div class="card-title">Creative Universal Baseline</div>
+    </div>
+    <p><strong>WCAG AAA accessibility.</strong> Every Creative Package meets WCAG AAA compliance. AAA is stricter than the AA standard most institutions commit to, and it reflects iDesign's stand-out commitment to inclusive learning. All color combinations, contrast ratios, alt-text conventions, and design decisions honor this standard.</p>
+  </div>
+
+  <h3 style="margin-top: 24px; margin-bottom: 6px;">Brand Foundations</h3>
+  <p style="font-size: 13px; color: var(--text-body); margin-bottom: 6px;"><strong>iDesign Creative is an extension of our partners' brand teams.</strong> Two Creative teams come together to translate the partner's brand into beautiful course developments inside the LMS. Brand Foundations is the shared brand layer that grounds every graphic the combined team produces: colors, typography, logos, voice, imagery style, and the other elements that make a course look and feel on-brand.</p>
+  <p class="small" style="margin-bottom: 14px;">Brand Foundations are established at project start during Program Planning Phase 1, and referenced by Visual Designers every time they make a banner, an icon, or any other course graphic.</p>
+
+  <h4 style="font-size: 14px; color: var(--ink); margin: 22px 0 4px;">Where each brand element comes from</h4>
+  <p class="small" style="margin-bottom: 10px;">Every brand element falls into one of three buckets based on its source. The buckets are categories, not sequential steps. Many elements get worked simultaneously.</p>
+
+  <div class="bucket-grid">
+    <div class="bucket b-receive">
+      <div class="b-name">Receive</div>
+      <div class="b-where">From the partner's brand team as-is.</div>
+      <ul>
+        <li>Brand guidelines (website, PDF, or document)</li>
+        <li>Color palette</li>
+        <li>Typefaces</li>
+        <li>Logo files (SVG preferred)</li>
+        <li>Voice and tone (when documented)</li>
+        <li>Imagery library (when available)</li>
+      </ul>
+    </div>
+    <div class="bucket b-decide">
+      <div class="b-name">Decide</div>
+      <div class="b-where">Jointly interpreted for the LMS context by the two Creative teams.</div>
+      <ul>
+        <li>Color compliance (WCAG AAA)</li>
+        <li>Font CSS access decisions</li>
+        <li>Logo usage in LMS placements</li>
+        <li>Imagery selection and treatment</li>
+        <li>Pattern and texture application</li>
+        <li>Iconography style direction</li>
+      </ul>
+    </div>
+    <div class="bucket b-fill">
+      <div class="b-name">Fill</div>
+      <div class="b-where">iDesign Creative creates when the partner doesn't have it.</div>
+      <ul>
+        <li>Document templates (Word)</li>
+        <li>Presentation templates (PPT)</li>
+        <li>Illustration style guides</li>
+        <li>Brand patterns and backgrounds</li>
+        <li>Proprietary SVG assets</li>
+        <li>Iconography (when style isn't established)</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4 style="font-size: 14px; color: var(--ink); margin: 22px 0 4px;">What needs to exist before work can begin</h4>
+  <p class="small" style="margin-bottom: 0;">Brand Foundations have two tiers. Whether each item is received, decided on, or filled, the must-haves must exist in some form before Visual Designers can start producing assets.</p>
+
+  <div class="mn-grid mb-3">
+    <div class="mn-card mn-must">
+      <span class="mn-tag">Required</span>
+      <h4>Must-haves</h4>
+      <p class="mn-when">Creative work cannot begin until these exist for the partner.</p>
+      <ul>
+        <li>Brand guidelines (website, PDF, or document)</li>
+        <li>Color palette and usage rules</li>
+        <li>Typefaces and usage rules</li>
+        <li>All logo files and rules (SVG preferred)</li>
+        <li>Iconography style (separate from icon assets themselves)</li>
+      </ul>
+    </div>
+    <div class="mn-card mn-nice">
+      <span class="mn-tag">Optional</span>
+      <h4>Nice-to-haves</h4>
+      <p class="mn-when">Elevate the package when present. Work proceeds without them.</p>
+      <ul>
+        <li>Document and presentation templates</li>
+        <li>Voice and tone</li>
+        <li>Imagery style</li>
+        <li>Illustration style</li>
+        <li>Patterns, backgrounds, icons, or other proprietary SVG assets</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin: 14px 0 24px;">
+    <strong>Who carries the final brand decisions for the LMS context.</strong> The partner's Brand Team holds the brand. iDesign Creative extends that brand into the LMS environment. For decisions specific to how the brand lives inside course graphics (color compliance, type rendering at small sizes, logo placement on banners, accessibility considerations), iDesign Creative carries the call. The two teams stay in sync; iDesign Creative is the closer.
+  </div>
+
+  <h3 style="margin-top: 24px; margin-bottom: 8px;">Creative Assets</h3>
+  <p class="small">The Creative Assets layer is what Creative produces and delivers per project. It carries two artifact types.</p>
+  <div class="grid-2 mb-3" style="margin-top: 14px;">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Graphics</div></div>
+      <p style="margin: 0; font-size: 13px;">Designed visual assets: banners, avatars, icons, and the rest of the components in the inventory below. These are what learners see in the LMS.</p>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">ELT Specifications</div></div>
+      <p style="margin: 0; font-size: 13px;">Written specifications for the E-Learning Technology team to build CSS/HTML templates when custom CSS access is part of the contract. One set per project: the LMS UX Resource.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 24px; margin-bottom: 8px;">The three asset categories</h3>
+  <p class="small">Every Creative Asset falls into one of three categories that determine how it's produced and billed.</p>
+  <div class="ac-grid">
+    <div class="ac-category">
+      <div class="ac-category-name"><span class="tag tag-generic">Generic</span> &nbsp; Generic</div>
+      <p class="ac-category-desc">One design created and delivered, used across all courses as-is. Not a starting point for more.</p>
+      <div class="ac-category-hours">Hours: one-time creation only</div>
+    </div>
+    <div class="ac-category">
+      <div class="ac-category-name"><span class="tag tag-templated">Templated</span> &nbsp; Templated</div>
+      <p class="ac-category-desc">Master template created once + course-specific application built from it for each course.</p>
+      <div class="ac-category-hours">Hours: template + (per-course × N courses)</div>
+    </div>
+    <div class="ac-category">
+      <div class="ac-category-name"><span class="tag tag-adhoc">Ad-hoc</span> &nbsp; Ad-hoc</div>
+      <p class="ac-category-desc">Standalone work, often unique per course. Separate scope discussion required.</p>
+      <div class="ac-category-hours">Hours: case-by-case</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin: 20px 0 24px;">
+    <strong>Why categorization works this way.</strong> Categorization is a hours-control mechanism first. It exists to keep Creative Packages affordable and deliverable inside a Tick budget. Components are categorized as Generic when per-course customization would multiply hours unsustainably. Worked example: if a Module Banner were customized per course, a 25-course SOW with 8 modules each becomes 200 banners. Hundreds of hours consumed for an asset whose function ("a module is starting") never changes. The economics drive the categorization. The cognitive consistency benefits (Mayer, Cognitive Load Theory) follow from it.
+  </div>
+
+  </div>
+
+  <div class="subpanel" id="subpanel-components" data-subtab="components">
+
+  <div class="card mb-3">
+    <div class="card-header"><div class="card-title">Component Inventory</div></div>
+    <table class="data-table">
+      <thead>
+        <tr><th>Component</th><th>Category</th><th>Canvas</th><th>Blackboard Ultra</th><th>Brightspace</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Icon Set</td><td><span class="tag tag-generic">Generic</span></td><td>✓</td><td>✓</td><td class="absent">—</td></tr>
+        <tr><td>Line Break</td><td><span class="tag tag-generic">Generic</span></td><td>✓</td><td class="absent">—</td><td>✓</td></tr>
+        <tr><td>Footer</td><td><span class="tag tag-generic">Generic</span></td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Module Banner</td><td><span class="tag tag-generic">Generic</span></td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Section Banner</td><td><span class="tag tag-generic">Generic</span></td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Generic Page Banner</td><td><span class="tag tag-generic">Generic</span></td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>LMS UX Resource (spec)</td><td><span class="tag tag-generic">Generic</span></td><td>✓*</td><td>✓*</td><td>✓*</td></tr>
+        <tr><td>Homepage</td><td><span class="tag tag-templated">Templated</span></td><td>✓</td><td class="absent">—</td><td class="absent">—</td></tr>
+        <tr><td>Course Banner</td><td><span class="tag tag-templated">Templated</span></td><td>✓</td><td>✓**</td><td>✓**</td></tr>
+        <tr><td>Course Card</td><td><span class="tag tag-templated">Templated</span></td><td>✓ (separate)</td><td>(auto-cropped)</td><td>(dual-use)</td></tr>
+        <tr><td>Avatar</td><td><span class="tag tag-templated">Templated</span></td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Badge</td><td><span class="tag tag-adhoc">Ad-hoc</span></td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Custom Illustrations (S/M/L) <span class="tag tag-flag">scope risk</span></td><td><span class="tag tag-adhoc">Ad-hoc</span></td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Infographics (S/M/L) <span class="tag tag-flag">high scope risk</span></td><td><span class="tag tag-adhoc">Ad-hoc</span></td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Ad Hoc Additional Graphics</td><td><span class="tag tag-adhoc">Ad-hoc</span></td><td>✓</td><td>✓</td><td>✓</td></tr>
+      </tbody>
+    </table>
+    <p class="small" style="margin: 0;">* Only when custom CSS access is part of the contract. ** On Blackboard Ultra and Brightspace, the Course Banner doubles as the Course Card via center-crop; designs must work in both contexts.</p>
+  </div>
+
+  <h3 style="margin-top: 24px; margin-bottom: 12px;">LMS-specific specs</h3>
+  <div class="ac-grid mb-3">
+    <div class="ac-category" style="border-top-color: var(--blue);">
+      <div class="ac-category-name" style="color: var(--ink);">Canvas</div>
+      <p class="ac-category-desc">Full possibility space. Supports all 14 components from the inventory (15 with the conditional LMS UX Resource).</p>
+    </div>
+    <div class="ac-category" style="border-top-color: var(--cyan);">
+      <div class="ac-category-name" style="color: var(--ink);">Blackboard Ultra</div>
+      <p class="ac-category-desc">Course Banner is dual-use (banner + center-crop dashboard card). Designs must carry meaning in the center. No Line Break. 12 components total.</p>
+    </div>
+    <div class="ac-category" style="border-top-color: var(--slate);">
+      <div class="ac-category-name" style="color: var(--ink);">Brightspace</div>
+      <p class="ac-category-desc">Course Image is dual-use (in-course banner + dashboard card), but the UI partially covers the banner. No important text or logos in covered areas. Design for unpredictable cropping. No Icon Set. 11 components total.</p>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header"><div class="card-title">Video Services Support Assets</div><span class="card-meta">Conditional component</span></div>
+    <p class="small">Triggered by the PBD's Video Services line. When in scope, Creative produces support assets aligned to the tier Video Services has sold. Not LMS-dependent. These are video-context, not course-page-context.</p>
+    <table class="data-table">
+      <thead><tr><th>Asset</th><th>Tier 1</th><th>Tier 2</th><th>Tier 3</th></tr></thead>
+      <tbody>
+        <tr><td>Intro</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Outro</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Lower 3rd Frame</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Frame</td><td>✓</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Text Right</td><td class="absent">—</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Text Left</td><td class="absent">—</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Full Screen Text</td><td class="absent">—</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Top Text</td><td class="absent">—</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Bottom Text</td><td class="absent">—</td><td>✓</td><td>✓</td></tr>
+        <tr><td>Custom Illustrations <span class="tag tag-flag">scope risk</span></td><td class="absent">—</td><td class="absent">—</td><td>✓</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Hours.</strong> Flat 5 hours per asset for Tier 1 and Tier 2 (covers admin, testing, creation). Custom Illustrations in Tier 3 follow standard Custom Illustrations sizing and rates (Large 10 hrs, Medium 7.5 hrs, Small 5 hrs, Extra Small 2.5 hrs) and carry the same scope-risk guardrails.</p>
+    <ul style="font-size: 13px; padding-left: 22px;">
+      <li><strong>Tier 1:</strong> 20 hours per project (4 assets × 5 hours)</li>
+      <li><strong>Tier 2:</strong> 45 hours per project (9 assets × 5 hours)</li>
+      <li><strong>Tier 3:</strong> 45 hours + sized Custom Illustrations (Tier 2 base + Custom Illustrations scoped per project)</li>
+    </ul>
+    <div class="callout"><strong>AI video.</strong> If the PBD mentions AI videos (e.g., "plus 20 AI videos per course"), treat as Ad-hoc. There is no defined Creative support structure for AI video. Handled per-project, typically initiated by the Video Director reaching out directly when assets are needed.</div>
+  </div>
+
+  <h3 style="margin-top: 24px; margin-bottom: 8px;">Scope-risk flags</h3>
+  <p class="small">Some components carry scope risk and require explicit handling. The recommendation engine flags these clearly to both partner and Creative when they're in scope.</p>
+  <div class="card mb-3" style="margin-top: 12px;">
+    <div class="decision" style="border-bottom: 1px solid var(--border); padding: 12px 0;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;"><strong style="color: var(--ink);">Custom Illustrations</strong> <span class="tag tag-flag">scope risk</span></div>
+      <div style="color: var(--text-muted); font-size: 13px; line-height: 1.5;">Historically blow scope. Requires explicit guardrails when included: revision cap, complexity tier, subject-matter rules. Sized as Large (10 hrs), Medium (7.5 hrs), Small (5 hrs), Extra Small (2.5 hrs).</div>
+    </div>
+    <div class="decision" style="border-bottom: 1px solid var(--border); padding: 12px 0;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;"><strong style="color: var(--ink);">Infographics</strong> <span class="tag tag-flag">high scope risk</span></div>
+      <div style="color: var(--text-muted); font-size: 13px; line-height: 1.5;">Historically very high scope risk. Tagged in the recommendation engine. Sized as Large (10 hrs), Medium (8 hrs), Small (4 hrs). Storyboards must be approved before design begins.</div>
+    </div>
+    <div class="decision" style="padding: 12px 0;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 4px;"><strong style="color: var(--ink);">Faculty Avatar</strong> <span class="tag" style="background: #DDE7F2; color: #1E3A5C;">partner dependency</span></div>
+      <div style="color: var(--text-muted); font-size: 13px; line-height: 1.5;">Partner-dependency item. Requires a high-quality headshot photo before work can begin. Recommendation engine flags the dependency, not just the hour budget.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-top: 24px; margin-bottom: 8px;">Hour structure</h3>
+  <p class="small">Every package is calculated as:</p>
+  <div class="card mb-3" style="margin-top: 12px;">
+    <pre style="background: var(--bg-soft); padding: 14px 18px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 12.5px; color: var(--ink); line-height: 1.7; overflow-x: auto; margin: 0;">Total hours = Program-level setup/admin (one-time)
+            + Generic asset creation (one-time per SOW)
+            + Templated asset template creation (one-time per SOW)
+            + (Course-specific creation × Number of courses)
+            + Per-course setup/admin × Number of courses
+            + Video Services Support Assets (if in scope: 20 / 45 / (45 + sized Custom Illustrations) hrs by tier)
+            + AI video support (if in scope: Ad-hoc, separate scope conversation)
+            + Ad-hoc work (case-by-case)</pre>
+    <div class="callout" style="margin-top: 14px;"><strong>Existing partner adjustment.</strong> If the partner has had a previous SOW, skip setup/admin AND generic/template creation. Existing partners use previously created templates for new SOWs. Only per-course graphics and per-course setup/admin are calculated.</div>
+    <p class="small" style="margin-top: 14px; margin-bottom: 0;">Hour estimates per component live in the Creative Calculator and reflect Creative's historical experience. These are the working baseline. Confidence ratings and Tick validation are future additions.</p>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header"><div class="card-title">% of scope</div><span class="card-meta">Working metric</span></div>
+    <p style="font-size: 13px; margin-bottom: 12px;">The metric the team uses to assess whether a package fits its Tick allocation.</p>
+    <pre style="background: var(--bg-soft); padding: 12px 18px; border-radius: 6px; font-family: 'Courier New', monospace; font-size: 12.5px; color: var(--ink); line-height: 1.6; margin: 0 0 14px;">% of scope = (Total package hours / Tick hours allotted) × 100</pre>
+    <table class="data-table">
+      <thead><tr><th style="width: 26%;">Range</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td><span class="pill pill-ok">Under 95%</span></td><td>Comfortable fit. Room for the unexpected (revisions, late requests, Ad-hoc additions).</td></tr>
+        <tr><td><span class="pill" style="background: #FDE8CC; color: #7A4000;">95% to 100%</span></td><td>At budget. No slack. Track Tick burn closely.</td></tr>
+        <tr><td><span class="pill pill-warn">Over 100%</span></td><td>Over budget. Either scope needs to come down or hours need to be negotiated.</td></tr>
+      </tbody>
+    </table>
+    <p class="small" style="margin-top: 14px; margin-bottom: 0;">% of scope surfaces in the Package Explorer below and on every Living Project Page, so the team sees fit immediately, not after the work is done.</p>
+  </div>
+
+  </div>
+
+  <div class="subpanel" id="subpanel-engine" data-subtab="engine">
+
+  <h3 style="margin-top: 0; margin-bottom: 8px;">Dimensions of Variation</h3>
+  <p class="small">The named forces that shape every Creative Package. They serve two purposes: calculator inputs (what determines the recommendation) and stakeholder anchors (the data that appears in deliverables to ground "why this scope").</p>
+  <div class="card mb-3" style="margin-top: 12px;">
+    <table class="data-table">
+      <thead><tr><th style="width: 26%;">Dimension</th><th style="width: 32%;">What it captures</th><th>How it shapes the package</th></tr></thead>
+      <tbody>
+        <tr><td><strong>LMS</strong></td><td>Canvas / Blackboard Ultra / Brightspace</td><td>Bounds what components are possible.</td></tr>
+        <tr><td><strong>Number of courses in SOW</strong></td><td>Integer</td><td>Multiplies per-course (Templated) hours.</td></tr>
+        <tr><td><strong>Hours budget</strong></td><td>Tick hours allocated</td><td>The constraint the recommendation engine optimizes against.</td></tr>
+        <tr><td><strong>Existing vs. new partner</strong></td><td>Binary</td><td>New: full setup + generic + template + per-course. Existing: per-course only.</td></tr>
+        <tr><td><strong>LMS template constraints</strong></td><td>What partner's template allows (Homepage, custom CSS, etc.)</td><td>Disables certain components.</td></tr>
+        <tr><td><strong>Custom CSS access</strong></td><td>Yes / No</td><td>Determines if LMS UX Resource is a deliverable.</td></tr>
+        <tr><td><strong>Third-party tool access</strong></td><td>Per-tool (certificate platform, etc.)</td><td>Determines if Creative builds vs. specs for ELT.</td></tr>
+        <tr><td><strong>Brand complexity</strong></td><td>Received brand guidelines depth</td><td>Affects Setup/Admin time and how much filling Creative needs to do.</td></tr>
+        <tr><td><strong>Faculty headshot availability</strong></td><td>Yes / No per course</td><td>Required before Avatar work can begin (process bottleneck).</td></tr>
+        <tr><td><strong>Existing partner templates</strong></td><td>Doc / Presentation templates: receive / revise / fill / N/A</td><td>Determines whether Creative needs to create these.</td></tr>
+        <tr><td><strong>Video Services scope</strong></td><td>Tier from PBD: None / Tier 1 / Tier 2 / Tier 3 (+ AI video flag)</td><td>Adds 0 / 20 / 45 / (45 + sized Custom Illustrations) hours per project. AI videos trigger a separate Ad-hoc scope conversation.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin-top: 24px; margin-bottom: 8px;">Recommendation Engine (The Calculator)</h3>
+  <p class="small">The recommendation engine is the tool that turns dimensions of variation into a Creative Package proposal.</p>
+
+  <div class="grid-2 mb-3" style="margin-top: 14px;">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Inputs</div></div>
+      <ul style="font-size: 13px; padding-left: 20px; margin: 0;">
+        <li>LMS</li>
+        <li>Hours budget</li>
+        <li>Number of courses in SOW</li>
+        <li>Partner constraints (existing vs. new, template limits, CSS access, etc.)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Outputs</div></div>
+      <p style="font-size: 13px; margin-bottom: 8px;">For each partner SOW, the engine produces multiple package options. Each option includes:</p>
+      <ul style="font-size: 13px; padding-left: 20px; margin: 0;">
+        <li>Components included (LMS-filtered, hours-bounded)</li>
+        <li>Hour breakdown by component</li>
+        <li>Pros and cons for that configuration</li>
+        <li>Learner experience benefits, grounded in research</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header"><div class="card-title">Behavior</div></div>
+    <p style="font-size: 13px; margin-bottom: 8px;">The engine respects:</p>
+    <ul style="font-size: 13px; padding-left: 22px; margin: 0;">
+      <li>Component support per LMS (Brightspace doesn't have Icons; Homepage is Canvas-only).</li>
+      <li>The Generic / Templated / Ad-hoc cost structure.</li>
+      <li>Existing vs. new partner adjustments (existing partners skip setup/template work).</li>
+      <li>Scope-risk flags (Custom Illustrations require guardrails; Infographics get a high-risk flag).</li>
+      <li>Partner-dependency flags (Faculty Avatar requires headshot pipeline).</li>
+    </ul>
+  </div>
+
+  <div class="callout mb-3"><strong>Substitution.</strong> The engine produces component pairings dynamically as package options based on inputs. There is no fixed canonical set the engine starts from. It assembles options per-project from the inventory available to that LMS, within the hour budget, respecting partner constraints, scope-risk flags, and partner-dependency flags. When a configuration doesn't fit the budget, the engine substitutes components with similar hour costs. UCF's Custom Canvas configuration is the working example: the engine produced a configuration that used 3 Ad-hoc navigation buttons in place of the standard Canvas Homepage to fit 80 hours.</div>
+
+  <div class="callout mb-3"><strong>Research grounding.</strong> The engine's pairing logic is informed by Mayer's Cognitive Theory of Multimedia Learning (signaling, spatial contiguity, coherence), Cognitive Load Theory (consistency reduces extraneous load), and visual hierarchy principles. iDesign-specific pairing wisdom from past projects layers on top as the engine learns from outcomes.</div>
+
+  <h3 style="margin-top: 24px; margin-bottom: 8px;">Package Explorer</h3>
+  <p class="small">The engine in action. Enter project constraints on the left. Three viable package configurations appear on the right with components, category breakdown, scope-risk flags, and pros and cons. Defaults match a typical Canvas SOW; change any input to see how the engine adjusts.</p>
+
+  <div class="pe-wrap">
+    <div class="pe-form">
+      <h4>Engine inputs</h4>
+
+      <div class="pe-field">
+        <label for="pe-lms">LMS</label>
+        <select id="pe-lms">
+          <option value="Canvas" selected>Canvas</option>
+          <option value="BlackboardUltra">Blackboard Ultra</option>
+          <option value="Brightspace">Brightspace</option>
+        </select>
+      </div>
+
+      <div class="pe-field">
+        <label for="pe-courses">Courses in SOW</label>
+        <input type="number" id="pe-courses" value="17" min="1" max="200" />
+      </div>
+
+      <div class="pe-field">
+        <label for="pe-hours">Tick hours allocated</label>
+        <input type="number" id="pe-hours" value="100" min="10" max="2000" />
+      </div>
+
+      <div class="pe-field">
+        <label>Partner status</label>
+        <div class="pe-radio-row">
+          <input type="radio" name="pe-status" id="pe-status-new" value="new" checked /><label for="pe-status-new">New</label>
+          <input type="radio" name="pe-status" id="pe-status-existing" value="existing" /><label for="pe-status-existing">Existing</label>
+        </div>
+      </div>
+
+      <div class="pe-field">
+        <label>Custom CSS access</label>
+        <div class="pe-radio-row">
+          <input type="radio" name="pe-css" id="pe-css-yes" value="yes" /><label for="pe-css-yes">Yes</label>
+          <input type="radio" name="pe-css" id="pe-css-no" value="no" checked /><label for="pe-css-no">No</label>
+        </div>
+      </div>
+
+      <div class="pe-field">
+        <label for="pe-video">Video Services tier</label>
+        <select id="pe-video">
+          <option value="None" selected>None</option>
+          <option value="Tier1">Tier 1 (4 assets, 20 hrs)</option>
+          <option value="Tier2">Tier 2 (9 assets, 45 hrs)</option>
+          <option value="Tier3">Tier 3 (9 + Custom Illustrations, 45+ hrs)</option>
+        </select>
+      </div>
+
+      <div class="pe-field">
+        <label>AI videos (PBD flag)</label>
+        <div class="pe-radio-row">
+          <input type="radio" name="pe-aivideo" id="pe-aivideo-yes" value="yes" /><label for="pe-aivideo-yes">In scope</label>
+          <input type="radio" name="pe-aivideo" id="pe-aivideo-no" value="no" checked /><label for="pe-aivideo-no">Not in scope</label>
+        </div>
+      </div>
+
+      <div class="pe-comp-selector">
+        <h5>Components in scope</h5>
+        <div class="pe-comp-help">Pick components to include. Hours and % of scope update live. LMS filtering disables components the selected LMS does not support.</div>
+        <div class="pe-comp-actions">
+          <button type="button" id="pe-clear">Clear all</button>
+          <button type="button" id="pe-preset-canvas-full">Canvas full</button>
+          <button type="button" id="pe-preset-essentials">Essentials only</button>
+        </div>
+        <div id="pe-comp-list"></div>
+      </div>
+
+    </div>
+
+    <div class="pe-results" id="pe-results"></div>
+  </div>
+
+  </div>
+
+  <div class="subpanel" id="subpanel-northstars" data-subtab="northstars">
+
+  <h3 style="margin-top: 0; margin-bottom: 8px;">North Stars</h3>
+  <p class="small">A North Star is the one-paragraph articulation of what a specific partner's Creative Package is. It's the compass referenced throughout the project. Used in deliverables, shared with partners, kept on hand to keep everyone on the right path.</p>
+
+  <div class="card mb-3" style="margin-top: 14px;">
+    <div class="card-header"><div class="card-title">Audience</div></div>
+    <p style="margin: 0; font-size: 13px;">North Stars are written to be partner-facing, cross-functional iDesign team-facing, AND Creative-facing. One paragraph that works for all three audiences.</p>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header"><div class="card-title">The 5-element pattern</div></div>
+    <table class="data-table">
+      <thead><tr><th style="width: 38%;">Element</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Partner vibe + brand importance</strong></td><td>Who they are, how their brand carries itself.</td></tr>
+        <tr><td><strong>Student demographic</strong></td><td>Who they serve. Gives the work a face.</td></tr>
+        <tr><td><strong>Creative direction (adjective-based)</strong></td><td>The complexity envelope. Sourced from Partner Success intel. Encodes complexity, maintenance burden, brand stakes, creativity license, pace, partner team capacity. Adjectives like <em>lean, robust, light, heavy, refined, restrained, extensive</em> compress all of that into something quick to remember.</td></tr>
+        <tr><td><strong>Scale</strong></td><td>Course count and program count. Concrete grounding.</td></tr>
+        <tr><td><strong>Value proposition</strong></td><td>The win. What the partner and their students actually get. The most important part.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card mb-3">
+    <div class="card-header"><div class="card-title">Illustrative samples</div><span class="card-meta">Show the pattern, not real partners</span></div>
+    <p class="small" style="margin-bottom: 14px;">These three illustrations come from the canon to show what a North Star reads like across different partner profiles. They use placeholder partner names per the visual-example convention. Real North Stars on real partner project pages use only real partner data.</p>
+    <div class="decision" style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+      <div class="title">Riverbend State (illustration)</div>
+      <div class="rationale" style="font-style: italic;">"Riverbend State is bold, blue-collar proud, and unapologetically student-first. Serving working adults returning to higher ed, their brand reflects grit and accessibility. They have a steady brand team and a reasonable timeline, so we can deliver robust, maintainable design across 40 courses spanning 3 programs. Cohesive, lasting, but never fussy. Giving them the recognizable presence their working students deserve."</div>
+    </div>
+    <div class="decision" style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+      <div class="title">Atherton University (illustration)</div>
+      <div class="rationale" style="font-style: italic;">"Atherton University is research-forward, deliberate, and rooted in academic rigor. Their brand whispers, never shouts. Serving graduate students and faculty researchers, the brand carries the weight of decades and the precision of peer review. Their brand team is small but exacting, so we'll lean refined and restrained. Every detail intentional, nothing flashy. Across 25 courses in 2 programs. Giving them the quiet authority their students expect."</div>
+    </div>
+    <div class="decision" style="padding: 12px 0;">
+      <div class="title">Sage Health Sciences (illustration)</div>
+      <div class="rationale" style="font-style: italic;">"Sage Health Sciences is sharp, focused, and entirely allergic to extras. They want what works and nothing else. Their students are working healthcare professionals, time-poor and outcome-driven. Their brand team is one part-time admin and the timeline is tight, so we'll deliver lean, low-maintenance design. Sleek, fast, no overhead. For 8 courses in a single certificate program. Giving them the credibility their students need to advance their careers without slowing anyone down."</div>
+    </div>
+  </div>
+
+  <div class="callout mb-3"><strong>The structured data behind a North Star.</strong> Each North Star paragraph is the public face. The structured data lives behind it in the recommendation engine: LMS, course count, hours, package shape, partner constraints. The paragraph captures the direction; the data drives the implementation.</div>
+
+  </div>
+
+  <div class="subpanel" id="subpanel-principles" data-subtab="principles">
+
+  <h3 style="margin-top: 0; margin-bottom: 12px;">Working Principles</h3>
+  <p class="small">The principles that govern every output, every conversation, and every design decision.</p>
+  <ol class="principles-list">
+    <li class="principle-item"><strong>Comparison principle.</strong> At every fork between industry-standard practice and current iDesign practice, surface both with pros and cons. GDM decides.</li>
+    <li class="principle-item"><strong>Scaffold-first, anchored to reality.</strong> Industry-standard research is grounded in GDM's existing process flowchart and LMS realities.</li>
+    <li class="principle-item"><strong>Voice and culture filter.</strong> Every output feels designed for GDM and her team: her voice, suggestions that feel natural, thoughtful about Creative team culture.</li>
+    <li class="principle-item"><strong>Description interview before execution.</strong> A Product / Process / Performance Description interview sets the working contract before Task 1.</li>
+    <li class="principle-item"><strong>Lightweight by design.</strong> The Companion produces the minimum that delivers value. No bureaucratic overhead.</li>
+    <li class="principle-item"><strong>Integration over replacement.</strong> Tick, Asana, Figma, PageProof, and existing project documentation keep their authority.</li>
+    <li class="principle-item"><strong>Asana-first for tracking.</strong> All tracking-related work lives in Asana. Never parallel tracking artifacts.</li>
+    <li class="principle-item"><strong>Single primary partner-facing artifact per workflow.</strong> One polished output that serves all audiences, not duplicate views.</li>
+    <li class="principle-item"><strong>Leadership-layer surfacing.</strong> Team management decisions become visible alongside operational outputs, especially during maternity leave coverage.</li>
+    <li class="principle-item"><strong>Load-lightening test.</strong> Every output must lessen GDM's work. If it adds work, it doesn't get built.</li>
+    <li class="principle-item"><strong>Maintain-without-Claude test.</strong> Every output works even if the Companion disappears.</li>
+    <li class="principle-item"><strong>Authority.</strong> Declaring the canon, the requirements, and the scope is a leadership move and remains GDM's call.</li>
+    <li class="principle-item"><strong>Authority of real-only data.</strong> Mockups and visual examples can use placeholder names. Anything operational uses only real partners and real data.</li>
+  </ol>
+
+  </div>
+
+  <div class="subpanel" id="subpanel-faq" data-subtab="faq">
+
+  <h3 style="margin-top: 0; margin-bottom: 8px;">Escalations and FAQ</h3>
+  <p class="small">Prepared responses for the situations and questions that come up around Creative's work. Each entry has a Response, Key facts, Tone, and When this comes up section. Click any entry to expand.</p>
+
+  <div class="faq-tier-header">
+    <span class="faq-tier-num">1</span>
+    <span class="faq-tier-title">Tier 1. Highest priority</span>
+    <span class="faq-tier-sub">10 scenarios</span>
+  </div>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">01</span> Post-approval change request to a previously approved design</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"This was approved during Program Planning. Any changes at this stage would require reopening that work: a redesign of the affected asset(s), additional PageProof review rounds, documentation updates, and potential schedule impact on courses already in development. We don't have hours left in the current budget to accommodate this. If the change is essential, we'd need an additional bucket of hours in Tick before we can proceed."</div>
+      <span class="faq-label">Tone</span>
+      <p>Firm but never defensive. Articulate impact clearly. Don't apologize for the process.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>After Program Planning closes. Often weeks into Design and Delivery when SMEs or partner admins surface preferences they didn't raise during the official review process.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">02</span> Scope creep request mid-project</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Happy to take a closer look at this. Before we move forward, a few things to know: this is outside the currently approved scope. An hour estimate for the addition would be [X hours] based on our standard hour estimates. Adding it would require additional hours in Tick before work can begin."</div>
+      <span class="faq-label">Tone</span>
+      <p>Collaborative tone, firm position. Open the door to conversation without committing the team to absorbing the work.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">03</span> "How much will it cost to add or change [X]?"</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Let me put a number to it. Based on what's involved: [list affected work, template redesign, additional review rounds, per-course application × N courses, documentation updates]. The estimate is [X hours]. That would need to be negotiated as additional hours in Tick."</div>
+      <span class="faq-label">Tone</span>
+      <p>Matter-of-fact. The team is providing data so others can make budget decisions.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">04</span> Authority confusion. Who from the partner is actually approving Creative work?</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Before we move forward with any redesign or change request, I need to confirm who from [partner] has authority over Creative work. There's overlap between [X internal team] and [Y approver] that we should clarify. Otherwise we risk doing work that gets overturned later by another stakeholder."</div>
+      <span class="faq-label">Tone</span>
+      <p>Curious and clarifying, not adversarial. Frame as protecting the partner's investment.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">05</span> Partner asks to add Custom Illustrations mid-project</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Custom Illustrations are something we offer as add-ons. They need a separate scope conversation. Before we can take this on, we'd need explicit guardrails (revision cap, complexity tier, subject-matter rules), additional hours in Tick, and confirmation that timeline allows for it. Custom Illustrations historically blow scope without these guardrails in place."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Sizes: Large (10 hrs), Medium (7.5 hrs), Small (5 hrs), Extra Small (2.5 hrs). Each instance is a separate creation, not templated.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">06</span> Partner asks to add Infographics</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Infographics are one of the higher scope-risk components we offer. They consistently exceed estimated hours and often require many revision rounds. Before adding any, we'd need a clear content brief upfront (we don't design without approved storyboards), additional hours in Tick, and a realistic timeline."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Sizes: Large (10 hrs), Medium (8 hrs), Small (4 hrs). Tagged "high scope risk."</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">07</span> Partner asks to add Video Services mid-project</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Video Services is sold separately, and the scope was set at the start of the project. If the partner now wants Video Services added, that goes through Video Services to sell the tier, and we'd need additional hours in Tick to create the supporting graphics that match the tier they choose. Quick math: Tier 1 adds 20 hours, Tier 2 adds 45 hours, Tier 3 adds 45 hours plus the Custom Illustrations work."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Video Services is sold by tier. The PBD drives Creative's scope. AI videos have no defined Creative support structure; handled per-project.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">08</span> Rush timeline pressure ("we need to move really fast on this")</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"I hear you on the urgency. Creative timelines are built around our standard 13-business-day per-course cycle for the Design and Delivery work. Pushing faster means either reducing scope (fewer components per course), or adding hours to compress the workflow."</div>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">09</span> "When can we show the partner what the LMS will look like?"</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"The partner sees the Creative work in PageProof rounds during Program Planning Weeks 2 and 3. The LMS-built version comes later, once ELT has built the template. Showing too early creates expectations we can't fulfill yet."</div>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">10</span> PM doesn't provide block plan or due dates on time</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"We need the block plan to set CSG due dates correctly. Without it, the 13-business-day Design and Delivery cycle for each course gets compressed or misaligned. Let's get the block plan in place this week so Visual Designers can plan their work."</div>
+    </div>
+  </details>
+
+  <div class="faq-tier-header">
+    <span class="faq-tier-num">2</span>
+    <span class="faq-tier-title">Tier 2. Common, important</span>
+    <span class="faq-tier-sub">10 scenarios</span>
+  </div>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">11</span> "Can we change [previously approved design]?"</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Possibly. But it depends. Anything approved during Program Planning would require reopening that work, which means additional hours in Tick and a budget conversation. The brand authority's approval at Program Planning is meant to lock the visual direction so we can produce at scale during Design and Delivery. If the change is essential, I'll put together an hour estimate to support the budget conversation. If it's a preference rather than a need, we may want to defer until the next SOW."</div>
+      <span class="faq-label">Tone</span>
+      <p>Open, not gatekeeping. Frame as protecting the existing work and the partner's budget.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>Common during Design and Delivery as new partner-side voices see assets in context and have preferences. Often arrives as casual questions that need careful handling.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">12</span> Another lead on the project pushes for "something to show" too early</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"I get the desire. Partners want to see something fast. We don't have anything credible to show until Week 2 because the first week is information gathering and brand asset receipt. Showing rough work too early creates the wrong impression of where we are and risks the partner anchoring on something that's not the final direction. What we CAN share in Week 1: the package options we've identified for them, the project's guiding direction, and our overall approach to their LMS. That gives the partner a sense of the shape of things without misrepresenting where we are."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Program Planning Phase 1 is intentionally setup; no designs exist. The recommendation engine outputs concrete package options early. The north star paragraph is partner-shareable from Week 1 onward (draft form).</p>
+      <span class="faq-label">Tone</span>
+      <p>Educational. Many leads don't understand Creative's process; this is a teaching moment, not a fight.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>Almost every Week 1. Among the most frequent escalation patterns.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">13</span> Design Lead overrides Creative decision without consulting</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"I want to flag this so we can stay aligned. [decision] was made without bringing Creative in, and it conflicts with what we've established with the partner and brand authority. Before this goes further, I want to make sure we're not creating a downstream issue with brand consistency, approved work, or partner expectations. Can we set up a quick call to talk through the change and its implications?"</div>
+      <span class="faq-label">Key facts</span>
+      <p>Brand decisions involving Creative scope require Creative's input before final. Design Lead owns the Week 4 partner deliverable but not Creative's scope decisions. Misalignment here creates partner-facing inconsistency.</p>
+      <span class="faq-label">Tone</span>
+      <p>Collaborative but assertive. Frame as preventing downstream issues, not as territorial defense.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>When project communication breaks down between leads. Often when Design Leads talk to partners or other leads without Creative present.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">14</span> Cross-team coordination blocks Creative timeline</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Creative is waiting on [specific input: dates, brand assets, contact information, course metadata] from [team or person] before we can proceed. The current block is causing downstream impact: [specific impact, e.g., ELT can't build templates, Visual Designer can't be assigned, course can't kick off]. I need [specific input] by [date] to keep [course or courses] on schedule. Can you help me get this unblocked?"</div>
+      <span class="faq-label">Key facts</span>
+      <p>Creative's work depends on upstream inputs from PM, Design Lead, Lead ID, partner Brand Team. Standard inputs needed at each phase are documented in the requirements model. Delays cascade through the 13-business-day Design and Delivery cycle and into ELT's build window.</p>
+      <span class="faq-label">Tone</span>
+      <p>Direct, action-oriented. Name the block, the impact, the deadline, and the ask. Avoid blaming.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>Throughout projects. Most often when PMs, Design Leads, or Lead IDs are slow to provide critical inputs.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">15</span> Faculty headshot not ready when Avatar work needs to start</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Avatar work depends on receiving a high-quality faculty headshot photo. Without it, Visual Designer can't begin per-course application. Three paths: (1) we hold the work until the headshot arrives and adjust the timeline; (2) we use a placeholder and revise once the headshot lands (this means rework); or (3) we drop the Avatar from this course's package. Let me know which makes the most sense given the constraints."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Faculty Avatar is a Templated component requiring partner-supplied headshot. Headshot quality matters. Low-quality photos can't be salvaged without significant rework. This is a partner-dependency flag in the canon.</p>
+      <span class="faq-label">Tone</span>
+      <p>Practical and option-focused. Give the asker something to decide rather than just a problem.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>Throughout Design and Delivery for any course with Avatar work in scope. Often surfaces in Phase 2.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">16</span> "Why does this take so long?"</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Creative work follows a structured cycle for good reasons: 13 business days per course in Design and Delivery (5 design + 5 review + 3 delivery) gives Visual Designers time to do the work, the LID time to review thoroughly, and time for revisions and approvals. The 4-week Program Planning phase ensures the foundation (brand foundations, project direction, package decisions, accessibility commitments) is solid before any per-course work begins. Cutting any of these phases short results in rework, brand inconsistency, or quality issues. All of which cost more in the end than the original timeline."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Standard Design and Delivery cycle: 13 business days per course. Program Planning: 4 weeks per SOW. Industry-standard discovery and design timelines align with this structure.</p>
+      <span class="faq-label">Tone</span>
+      <p>Educational, calm. This is one to answer once and reference repeatedly.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>From partners, project leads, and sometimes internal leadership. Often when a course is behind schedule.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">17</span> "What's the value of [X component]?"</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"[Component] serves [specific value] for learners. [1-2 sentence learner-experience rationale grounded in research]. Our documentation includes each component's purpose and the research behind it. Specifically for [component]: [reference details]. Want me to walk through how it shows up in the learner experience?"</div>
+      <span class="faq-label">Key facts</span>
+      <p>The canon documents each component's purpose, LMS support, and learner-experience value. Mayer's Cognitive Theory of Multimedia Learning, Cognitive Load Theory, and visual hierarchy research ground component pairings. Each component connects to a specific learner outcome.</p>
+      <span class="faq-label">Tone</span>
+      <p>Confident, informed. The canon and research are the backup.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>From project leads questioning scope, from partners during reviews, from internal leadership in budget conversations.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">18</span> ELT not initiating collaboration on template constraints</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"I need [ELT contact] to confirm the LMS template constraints for [partner] before we can finalize the package. Specifically: [list specific questions. Can we use Homepage, what's the custom CSS access level, what asset placements are supported]. Can we set up a quick sync this week to align? Without this, we risk designing assets that the LMS template can't accommodate, which means rework later."</div>
+      <span class="faq-label">Key facts</span>
+      <p>ELT collaboration is documented as part of Program Planning Phase 1. LMS template constraints affect which canon components are even possible. Late-stage discovery of template constraints causes substantial rework.</p>
+      <span class="faq-label">Tone</span>
+      <p>Direct, action-oriented. Name what's needed, why it matters, and propose the next step.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>Frequently in Program Planning Phase 1 when ELT is slow to engage or when they're stretched thin across multiple projects.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">19</span> PM assigns incorrect due dates / doesn't honor Creative's 13+ business-day timeline</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"I noticed [course] is scheduled with [shorter] business days before build start. Creative needs 13+ business days for Design and Delivery: 5 for design, 5 for review and revisions, 3 for delivery. Compressing this either reduces quality or requires more hours to parallelize. Can we adjust the schedule, or do we need to talk about scope changes to fit the available time?"</div>
+      <span class="faq-label">Key facts</span>
+      <p>Documented Creative timeline: 13+ business days before build start, per the requirements model. Compression options exist but require trade-offs (scope reduction or additional hours). This is a recurring pattern that's worth flagging early.</p>
+      <span class="faq-label">Tone</span>
+      <p>Direct, factual. Reference the documented standard.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>When PMs build schedules without consulting Creative or when partner-driven schedules force compression.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">20</span> "When will course graphics be ready for [X Course]?"</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Per the Creative timeline, [course] graphics will be ready [date. Typically 3 business days before build start]. The full cycle is: design starts [13 business days before build], review through PageProof [5 business days after that], publish and ready for build [3 business days before build]. You can also check the Asana task for real-time status."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Standard timeline: 13 business days design then 5 days review then 3 days delivery. Status tracked in Asana; the automated `graphics-ready-for-build` Slack message confirms delivery. Block plan from PM dictates the actual dates.</p>
+      <span class="faq-label">Tone</span>
+      <p>Helpful, informative. Point to the canonical source (Asana) for ongoing status.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>From ELT, Design Leads, and PMs throughout Design and Delivery.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">21</span> "Who from the partner side has final say on Creative work?"</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"The brand authority, typically [role at partner, e.g., Marketing Director, Brand Manager], has final approval authority on the visual identity and package decisions during Program Planning. After Program Planning closes, the Lead Instructional Designer reviews per-course Creative work in PageProof. Brand authority is not involved past Program Planning unless we reopen that work. If you're unsure who the brand authority is for this partner, I can help identify them."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Brand authority owns Program Planning approval; LID owns per-course approval during Design and Delivery. Brand authority's involvement ends with Phase 4 of Program Planning. Partner Success or Design Lead typically provides brand authority contact.</p>
+      <span class="faq-label">Tone</span>
+      <p>Clarifying, educational. Help the asker understand the structure.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>From new project leads, Partner Success, or when authority confusion arises (see Tier 1, Entry 4).</p>
+    </div>
+  </details>
+
+  <div class="faq-tier-header">
+    <span class="faq-tier-num">3</span>
+    <span class="faq-tier-title">Tier 3. Less common but useful</span>
+    <span class="faq-tier-sub">10 scenarios</span>
+  </div>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">22</span> Partner admin impedes brand authority contact</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"I need to reach the brand authority for [partner] but [admin] hasn't connected us. Brand authority's involvement is essential during Program Planning. Without their approval on the visual direction, we can't proceed to per-course design work. Can [Partner Success or Design Lead] help facilitate the introduction? If not, this is going to slow the whole project."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Brand contact information is normally provided by Partner Success or Design Lead. Without brand authority engagement, the canon can't be completed for this partner. Workflow blocks at Program Planning Phase 1.</p>
+      <span class="faq-label">Tone</span>
+      <p>Direct. Frame as project-protective, not territorial.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>Occasionally when partners have layered admin structures or when admin doesn't understand why brand authority engagement is critical.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">23</span> Partner has internal graphics or marketing team that overlaps with Creative scope</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"I want to flag that [partner] has an internal [graphics or marketing] team that may overlap with what we're producing. Before we go further, let's clarify who owns what. If their team is producing certain assets, we should coordinate so we're not duplicating effort or creating conflicting design directions. If we're producing assets, we want to be sure their team is aware so they don't override our work later."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Authority and scope clarity protect everyone. Some partners have established internal design pipelines (UCF was the canonical example). Coordination upfront prevents post-approval change requests.</p>
+      <span class="faq-label">Tone</span>
+      <p>Curious, collaborative. Frame as protecting both teams' work.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>Usually discovered mid-project when an internal team surfaces with feedback or work (UCF pattern).</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">24</span> Partner decides to do the work themselves</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Understood. If [partner internal team] would like to produce [specific assets], we'll continue with our planned scope and treat what we deliver as a baseline they can adapt. We can also serve as a placeholder while their team finalizes. Happy to swap our version in or out as needed. We won't reduce hours from the current SOW since the planned deliverables don't change on our side."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Per SOW, Creative delivers the planned scope unless renegotiated. Placeholder approach respects the partner's choice while preserving Creative's value. This was the UCF outcome. Partner did their own banners; Creative continued with planned work.</p>
+      <span class="faq-label">Tone</span>
+      <p>Gracious, professional. Don't withdraw work; offer to coexist.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>After a scope conversation where the partner decides to handle some assets internally.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">25</span> Mid-project new asset request that's actually in scope</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Yes, we can take this on. To make sure we deliver exactly what you need, a few questions: [list specific clarifying questions. What's the intended use, what brand elements should apply, is there a reference style]. Once those are answered, I'll confirm timing and we'll get started."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Some requests look like scope creep but are actually within current SOW. Clarifying parameters upfront prevents revision spiraling. (The Ascend "clean" footer was an example: simple request, just needed parameters confirmed.)</p>
+      <span class="faq-label">Tone</span>
+      <p>Open and practical. Yes-and rather than push-back.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>Smaller asset requests that fit within existing brand foundations and don't require new hours.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">26</span> Admin requests access to original graphic files for manipulation</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Original files (Figma source, editable Adobe files, etc.) stay with iDesign. They're part of how we maintain quality and brand consistency across courses. What we can provide is the final deliverable in the formats needed for the LMS (PNG, SVG, etc.). If there's a specific edit or variation needed, we can produce that as part of the scope or as additional hours. What's driving the request?"</div>
+      <span class="faq-label">Key facts</span>
+      <p>Source files are Creative's IP and work product. Final deliverables in standard formats are what the partner receives. Edits and variations are Creative's work to do.</p>
+      <span class="faq-label">Tone</span>
+      <p>Firm but explanatory. Not punitive. Frame as quality protection.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>Occasionally when admins want to make tweaks themselves to save scope hours.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">27</span> Admin requests to edit a template</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Templates are designed to be applied per course by Creative, not edited by partner admins. Editing risks brand inconsistency, accessibility regressions, and breaking the LMS template that ELT built. What's the change you're trying to make? Either we can produce it as part of the current scope, or it becomes a scope conversation. Either way, the template stays under Creative's control."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Templates are part of Creative's quality system. Editing externally creates risk. ELT's LMS templates depend on Creative's templates staying consistent. Brand foundations require Creative's eye on every change.</p>
+      <span class="faq-label">Tone</span>
+      <p>Firm and protective. The "no" is in service of quality, not gatekeeping.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>Occasionally from partner admins who want to make small tweaks themselves.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">28</span> "What's the difference between Generic, Templated, and Ad-hoc assets?"</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Generic assets are designs created once and used across all courses. Like the Icon Set, Footer, or Module Banners. Templated assets are master templates we create once, then apply per course. Course Banner, Course Card, Homepage, Avatar. Ad-hoc assets are case-by-case work, usually unique per course or per request. Custom Illustrations, Infographics, Badges. The categories determine how each gets produced and how hours are calculated."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Category definitions are in the canon. Hours pattern differs by category: Generic = one-time, Templated = template + per-course, Ad-hoc = case-by-case. This shapes the recommendation engine's package options.</p>
+      <span class="faq-label">Tone</span>
+      <p>Educational, plain. Avoid jargon when explaining.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>From new project leads, internal team members, or anyone trying to understand Creative's structure.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">29</span> "Why aren't you using AI for this?"</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Where we ARE using AI: planning, research, drafting content, briefing Visual Designers, generating workspace structures, capturing feedback. Where Visual Designers stay essential: the actual visual craft. Color choices, typography, illustrations, perceptual accessibility checks. iDesign Creative's brand IS the visual craft. AI generates; it doesn't design. Replacing the design step with generative AI would compromise our quality differentiator and our WCAG AAA accessibility commitment, which requires human perceptual review."</div>
+      <span class="faq-label">Key facts</span>
+      <p>AI capabilities: text, code, planning, generative SVG. Visual Designer expertise: taste, brand intuition, accessibility judgment, polished output. WCAG AAA requires human perceptual checks that AI can't perform.</p>
+      <span class="faq-label">Tone</span>
+      <p>Confident, informed. This is a real question that deserves a real answer.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>From leadership (especially Creative Director) and from project leads exploring efficiency.</p>
+    </div>
+  </details>
+
+  <details class="faq-item">
+    <summary><span class="faq-num">30</span> "Why do we need to do all the brand work in Program Planning?"</summary>
+    <div class="faq-body">
+      <span class="faq-label">Response (GDM's voice)</span>
+      <div class="faq-response">"Program Planning is when we establish the foundation that everything else builds on. Brand foundations, package decisions, project direction, accessibility commitments. Doing this work upfront means each course in Design and Delivery moves fast and consistently because the decisions are already made. Without Program Planning, we'd be making brand decisions per-course, which creates inconsistency and costs more in the long run. The 4-week investment up front saves much more time across the SOW."</div>
+      <span class="faq-label">Key facts</span>
+      <p>Program Planning is per-SOW (one-time); Design and Delivery is per-course (repeatable). Brand foundations and package decisions cascade into every course. Skipping or compressing Program Planning creates cascading rework.</p>
+      <span class="faq-label">Tone</span>
+      <p>Educational, calm. Reference the structure documented in the requirements model.</p>
+      <span class="faq-label">When this comes up</span>
+      <p>From new partners or project leads who don't yet understand the per-SOW versus per-course structure.</p>
+    </div>
+  </details>
+
+  </div>
+
+  <div class="subpanel" id="subpanel-glossary" data-subtab="glossary">
+
+  <h3 style="margin-top: 0; margin-bottom: 8px;">Glossary</h3>
+  <p class="small">Key terms used across the Companion. Quick reference for new team members and cross-functional partners.</p>
+  <div class="card" style="margin-top: 12px;">
+    <table class="data-table">
+      <thead><tr><th style="width: 28%;">Term</th><th>Definition</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Creative Package</strong></td><td>The bundle of graphics, templates, and visual specifications that ships with each iDesign-produced LMS course.</td></tr>
+        <tr><td><strong>Brand Foundations</strong></td><td>The brand layer Creative works from: received from partner, decided by Creative, or filled by Creative when missing.</td></tr>
+        <tr><td><strong>Creative Assets</strong></td><td>What Creative produces and delivers per project: graphics + ELT specifications.</td></tr>
+        <tr><td><strong>Generic / Templated / Ad-hoc</strong></td><td>The three categories of Creative Asset, determining how each gets produced and billed.</td></tr>
+        <tr><td><strong>North Star</strong></td><td>A one-paragraph articulation of what a specific partner's Creative Package is. Used as a compass throughout the project.</td></tr>
+        <tr><td><strong>Dimensions of Variation</strong></td><td>The named forces that shape every Creative Package (LMS, hours, course count, partner status, Video Services scope, and more).</td></tr>
+        <tr><td><strong>Recommendation Engine</strong></td><td>The Calculator. Turns dimensions of variation into package options. Outputs feed the Week 4 deliverable.</td></tr>
+        <tr><td><strong>Pairing</strong></td><td>An observed pattern of component combinations (Full, Extended Full, Full without Homepage, Minimal). Starting points for recommendations, not rigid bundles.</td></tr>
+        <tr><td><strong>Substitution rule</strong></td><td>Swap assets with similar hour costs to preserve budget while flexing the mix. How custom configurations get produced.</td></tr>
+        <tr><td><strong>CSG</strong></td><td>Course Specific Graphics. The per-course application of Templated assets, plus any per-course Ad-hoc work.</td></tr>
+        <tr><td><strong>PBD</strong></td><td>Project Briefing Document. The upstream document that opens a new SOW. Contains the Video Services line.</td></tr>
+        <tr><td><strong>SOW</strong></td><td>Statement of Work. The contract that defines a partnership's scope.</td></tr>
+        <tr><td><strong>ELT</strong></td><td>E-Learning Technology team. Owns CSS/HTML implementation. Receives specs from Creative.</td></tr>
+        <tr><td><strong>Tick</strong></td><td>Third-party tool where project hours and contractor hours are tracked. Source of partner-allotted hours.</td></tr>
+        <tr><td><strong>Asana-first</strong></td><td>The principle that all tracking-related work lives in Asana. The Companion supports working in Asana, never duplicates it.</td></tr>
+        <tr><td><strong>WCAG AAA</strong></td><td>The strict accessibility standard iDesign Creative commits to (above industry-standard AA).</td></tr>
+        <tr><td><strong>Brand authority</strong></td><td>The partner's brand decision-maker. Approves the package during Program Planning. Not involved past Program Planning.</td></tr>
+        <tr><td><strong>Week 4 deliverable</strong></td><td>The cross-team partner-facing deliverable produced at the end of the 4-week Program Planning phase. Contains the Creative section.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PROCESS
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section" id="section-process">
+  <div class="subtab-strip"><button class="subtab" onclick="showSection('about')">About Creative</button><button class="subtab active" onclick="showSection('process')">Process</button></div>
+
+  <div class="section-header">
+    <div class="eyebrow">Process</div>
+    <h2 class="section-title">From intake to delivery, eight phases.</h2>
+    <p class="section-lede">Creative work runs in two macro-phases. Program Planning happens once per SOW and establishes the package shape and templates. Design and Delivery happens per course, repeating for each course in the SOW. Click any phase to see what happens, what's needed, and what gets produced.</p>
+  </div>
+
+  <h3 style="margin-top: 24px; margin-bottom: 6px;">Who's involved and when</h3>
+  <p class="small" style="margin-bottom: 12px;">A project touches many roles. This matrix shows which roles are active in which phase, and at what intensity. Roles outside Creative are the dependencies and collaborators Creative coordinates with throughout.</p>
+  <div class="card mb-3">
+    <table class="role-matrix">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>PP 1<br><span class="meta">Info &amp; Setup</span></th>
+          <th>PP 2<br><span class="meta">Iteration</span></th>
+          <th>PP 3<br><span class="meta">Decisions</span></th>
+          <th>PP 4<br><span class="meta">Publish</span></th>
+          <th>D&amp;D<br><span class="meta">Per course</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>GDM</td>
+          <td><span class="dot lead" title="Lead"></span></td>
+          <td><span class="dot lead"></span></td>
+          <td><span class="dot lead"></span></td>
+          <td><span class="dot lead"></span></td>
+          <td><span class="dot active" title="Active"></span></td>
+        </tr>
+        <tr>
+          <td>Visual Designer</td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot lead"></span></td>
+          <td><span class="dot lead"></span></td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot lead"></span></td>
+        </tr>
+        <tr>
+          <td>LID (Lead Instructional Designer)</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><span class="dot lead"></span></td>
+        </tr>
+        <tr>
+          <td>PM</td>
+          <td><span class="dot support" title="Support"></span></td>
+          <td><span class="dot support"></span></td>
+          <td><span class="dot support"></span></td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot active"></span></td>
+        </tr>
+        <tr>
+          <td>Design Lead</td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot support"></span></td>
+          <td><span class="dot support"></span></td>
+          <td><span class="dot lead"></span></td>
+          <td><span class="dot support"></span></td>
+        </tr>
+        <tr>
+          <td>ELT (E-Learning Technology)</td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot support"></span></td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot lead"></span></td>
+          <td><span class="dot active"></span></td>
+        </tr>
+        <tr>
+          <td>Brand Authority (partner)</td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot lead"></span></td>
+          <td><span class="dot lead"></span></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Partner Admin Team</td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot support"></span></td>
+        </tr>
+        <tr>
+          <td>Partner SME</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><span class="dot support"></span></td>
+        </tr>
+        <tr>
+          <td>Partner Success</td>
+          <td><span class="dot active"></span></td>
+          <td><span class="dot support"></span></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Video Services</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td><span class="dot active"></span></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="role-legend">
+      <span class="legend-item"><span class="dot lead"></span> Lead (drives the phase)</span>
+      <span class="legend-item"><span class="dot active"></span> Active (regularly involved)</span>
+      <span class="legend-item"><span class="dot support"></span> Support (touch-points as needed)</span>
+    </div>
+    <p class="small" style="margin-top: 14px; margin-bottom: 0; font-style: italic;">Brand Authority engagement ends with Program Planning. The LID takes the partner-approval role per course in Design &amp; Delivery. GDM carries continuity across both macro-phases.</p>
+  </div>
+
+  <div class="process-macro">
+    <h3 class="process-macro-title">Program Planning</h3>
+    <p class="process-macro-sub">Per SOW. Four weeks. Establishes the partnership, the package shape, and the templates that drive every course.</p>
+
+    <div class="phase-row">
+      <div class="phase-card">
+        <div><span class="phase-num">1</span><span class="phase-card-title" style="display:inline;">Info Gathering and Setup</span></div>
+        <div class="phase-card-week">Week 1</div>
+        <div class="phase-card-summary">Project environment stood up. PBD reviewed (including Video Services line). Asana and Figma projects built. Brand contact secured. Tick hours received and package options identified.</div>
+      </div>
+      <div class="phase-card">
+        <div><span class="phase-num">2</span><span class="phase-card-title" style="display:inline;">Iteration and Feedback</span></div>
+        <div class="phase-card-week">Week 2</div>
+        <div class="phase-card-summary">Visual Designers create initial mockups in Figma. 2 to 3 PageProof rounds go to the partner's brand authority across the week. North star iterates based on what emerges.</div>
+      </div>
+      <div class="phase-card">
+        <div><span class="phase-num">3</span><span class="phase-card-title" style="display:inline;">Decision Making and Testing</span></div>
+        <div class="phase-card-week">Week 3</div>
+        <div class="phase-card-summary">Final PageProof rounds wrap up. Brand authority sign-off lands. Mockups tested for WCAG AAA, LMS-specific behavior, edge cases. North star locked.</div>
+      </div>
+      <div class="phase-card">
+        <div><span class="phase-num">4</span><span class="phase-card-title" style="display:inline;">Documentation and Publishing</span></div>
+        <div class="phase-card-week">Week 4</div>
+        <div class="phase-card-summary">LMS template graphics published to Drive for ELT. CSG templates published to D&D Figma file. Video Services Support Assets created and handed off (if in scope). Creative section delivered into the Week 4 deliverable.</div>
+      </div>
+    </div>
+
+    <details class="phase-detail">
+      <summary>Expand all four Program Planning phases for full detail</summary>
+      <div class="phase-detail-body">
+        <h4 style="margin-top: 14px;">Phase 1. Info Gathering and Setup (Week 1)</h4>
+        <div class="phase-meta-row">
+          <div class="phase-meta-cell"><div class="phase-meta-label">Inputs</div><div class="phase-meta-value">PBD (including Video Services line), brand contact info, brand assets (palette/fonts), partner branding URL.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Outputs</div><div class="phase-meta-value">Folder structure, Asana project built and dated, Figma project built, Video Services scope captured, package options identified, north star draft started, brand assets in Figma with accessible color combinations.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Duration</div><div class="phase-meta-value">~1 week</div></div>
+        </div>
+
+        <h4>Phase 2. Iteration and Feedback (Week 2)</h4>
+        <div class="phase-meta-row">
+          <div class="phase-meta-cell"><div class="phase-meta-label">Inputs</div><div class="phase-meta-value">Brand assets received (if not yet in Phase 1). Visual Designer availability. Brand authority review responsiveness. Partner admin team participation.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Outputs</div><div class="phase-meta-value">Initial mockups iterated 2 to 3 times in Figma. 2 to 3 PageProof review rounds sent and processed. Feedback synthesized. Iterated north star.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Duration</div><div class="phase-meta-value">~1 week</div></div>
+        </div>
+
+        <h4>Phase 3. Decision Making and Testing (Week 3)</h4>
+        <div class="phase-meta-row">
+          <div class="phase-meta-cell"><div class="phase-meta-label">Inputs</div><div class="phase-meta-value">Brand authority's final approvals. ELT coordination on LMS template testing. Partner admin team participation.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Outputs</div><div class="phase-meta-value">Approved final mockups with brand authority sign-off. Documented design decisions. Creative Package tested with ELT. Creative section running draft finalized. North star locked.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Duration</div><div class="phase-meta-value">~1 week</div></div>
+        </div>
+
+        <h4>Phase 4. Documentation and Publishing (Week 4)</h4>
+        <div class="phase-meta-row">
+          <div class="phase-meta-cell"><div class="phase-meta-label">Inputs</div><div class="phase-meta-value">Design Lead's Week 4 deliverable readiness. ELT's intake process. Finalized assets. Course-level metadata from PM, Design Lead, or LID.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Outputs</div><div class="phase-meta-value">Documented decisions. LMS template graphics on Drive. CSG templates in D&D Figma. Video Services Support Assets created, tested, and handed off (if in scope). Creative section in Week 4 deliverable. Course metadata captured and pushed to Asana. North star stored.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Duration</div><div class="phase-meta-value">~1 week</div></div>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div class="process-macro">
+    <h3 class="process-macro-title">Design and Delivery</h3>
+    <p class="process-macro-sub">Per course. Repeats for each course in the SOW. Timed to the course's build start date.</p>
+
+    <div class="phase-row">
+      <div class="phase-card">
+        <div><span class="phase-num">1</span><span class="phase-card-title" style="display:inline;">Info Gathering and Setup</span></div>
+        <div class="phase-card-week">Course kickoff</div>
+        <div class="phase-card-summary">CSG task activated and connected to the partner's Asana project. Visual Designer assigned (13+ business days before build). LID assigned to approval. GDM assigned to publish.</div>
+      </div>
+      <div class="phase-card">
+        <div><span class="phase-num">2</span><span class="phase-card-title" style="display:inline;">Design</span></div>
+        <div class="phase-card-week">5 business days</div>
+        <div class="phase-card-summary">Visual Designer creates the course-specific graphics from Program Planning templates. Per-course application of Templated assets (Course Banner, Course Card, Homepage if Canvas, Avatar).</div>
+      </div>
+      <div class="phase-card">
+        <div><span class="phase-num">3</span><span class="phase-card-title" style="display:inline;">Review Cycle</span></div>
+        <div class="phase-card-week">5 business days</div>
+        <div class="phase-card-summary">GDM gatekeeps via PageProof. LID approves. Revisions iterate as needed. The cycle is built for one round, two if necessary.</div>
+      </div>
+      <div class="phase-card">
+        <div><span class="phase-num">4</span><span class="phase-card-title" style="display:inline;">Delivery</span></div>
+        <div class="phase-card-week">3 business days before build</div>
+        <div class="phase-card-summary">GDM publishes finalized graphics to Drive. Slack `graphics-ready-for-build` channel auto-notified. ELT integrates the assets into the course's Module 1 build.</div>
+      </div>
+    </div>
+
+    <details class="phase-detail">
+      <summary>Expand all four Design and Delivery phases for full detail</summary>
+      <div class="phase-detail-body">
+        <h4 style="margin-top: 14px;">Phase 1. Info Gathering and Setup (Course kickoff)</h4>
+        <div class="phase-meta-row">
+          <div class="phase-meta-cell"><div class="phase-meta-label">Inputs</div><div class="phase-meta-value">Block plan from PM (course schedule, often late). Course-level metadata from PM, Design Lead, or LID (captured in PP Phase 4). Course kickoff signal. Visual Designer availability. LID assignment.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Outputs</div><div class="phase-meta-value">CSG task activated and connected to partner's Asana project. Visual Designer assigned (13+ business days lead time). LID assigned to approval subtask. GDM assigned to publish subtask. Due dates set.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Duration</div><div class="phase-meta-value">Brief admin work. Bulk pre-setup may happen earlier in the SOW lifecycle.</div></div>
+        </div>
+
+        <h4>Phase 2. Design (5 business days, starting 13 business days before course build)</h4>
+        <div class="phase-meta-row">
+          <div class="phase-meta-cell"><div class="phase-meta-label">Inputs</div><div class="phase-meta-value">Templates from the D&D Figma file. Course-level metadata (code, name, description). Faculty headshot (if Avatar required). Visual Designer time. Brand foundations from Program Planning.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Outputs</div><div class="phase-meta-value">Per-course Templated assets drafted. Any per-course Ad-hoc assets drafted. CSG draft ready for Review Cycle.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Duration</div><div class="phase-meta-value">5 business days</div></div>
+        </div>
+
+        <h4>Phase 3. Review Cycle (5 business days, starting 8 business days before course build)</h4>
+        <div class="phase-meta-row">
+          <div class="phase-meta-cell"><div class="phase-meta-label">Inputs</div><div class="phase-meta-value">CSG draft from Phase 2. PageProof gatekeeper workflow. LID review time and responsiveness. Visual Designer availability for iteration. SME availability (when LID involves them).</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Outputs</div><div class="phase-meta-value">GDM-gatekept and LID-approved course-specific graphics. Approval logged in Asana. PageProof review history captured.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Duration</div><div class="phase-meta-value">5 business days. One round, two if necessary. Brand authority not involved (they approved the package back in Program Planning).</div></div>
+        </div>
+
+        <h4>Phase 4. Delivery (3 business days, ending at course build start)</h4>
+        <div class="phase-meta-row">
+          <div class="phase-meta-cell"><div class="phase-meta-label">Inputs</div><div class="phase-meta-value">LID-approved CSGs from Phase 3. Visual Designer availability for publishing. Google Drive structure ready for ELT pickup. GDM time for verification before publication.</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Outputs</div><div class="phase-meta-value">CSGs published to Google Drive (verified by GDM). Visual Designer's main task auto-completed. Slack notification to `graphics-ready-for-build` channel auto-sent. Asana course development schedule updated. Course's Creative work closed (pending any revisions).</div></div>
+          <div class="phase-meta-cell"><div class="phase-meta-label">Duration</div><div class="phase-meta-value">3 business days</div></div>
+        </div>
+
+        <div class="callout" style="margin-top: 16px;"><strong>Revision Workflow.</strong> If a course requires revisions after Delivery, someone (typically the LID, PM, or ELT) requests it. A new revision task is opened and follows the same Design then Review then Delivery process. Revisions inherit the same timeline conventions and the same gatekeeper-then-approver review pattern.</div>
+      </div>
+    </details>
+  </div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-header"><div class="card-title">Roles</div></div>
+      <table class="data-table">
+        <thead><tr><th>Role</th><th>What they do</th></tr></thead>
+        <tbody>
+          <tr><td><strong>GDM</strong></td><td>Owns the Creative process per SOW. Sets up project environments. PageProof gatekeeper. Verifies published CSGs.</td></tr>
+          <tr><td><strong>Visual Designer</strong></td><td>Produces graphics. Templates in Program Planning, per-course CSGs in Design and Delivery.</td></tr>
+          <tr><td><strong>LID</strong></td><td>Final approver of course-specific graphics. Sometimes loops in SME.</td></tr>
+          <tr><td><strong>PM</strong></td><td>Owns the block plan (course schedule). Coordinates the cross-team project.</td></tr>
+          <tr><td><strong>Design Lead</strong></td><td>Owns the Week 4 partner deliverable. Creative provides its section as a running draft.</td></tr>
+          <tr><td><strong>ELT</strong></td><td>Builds the partner's LMS template from published assets. Integrates per-course CSGs.</td></tr>
+          <tr><td><strong>Brand Authority</strong></td><td>Partner's brand decision-maker. Approves the package during Program Planning. Not involved past Program Planning.</td></tr>
+          <tr><td><strong>Video Services</strong></td><td>Receives Video Services Support Assets in Phase 4 of Program Planning. Video Director coordinates AI video work directly when needed.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Tools</div></div>
+      <table class="data-table">
+        <thead><tr><th>Tool</th><th>Used for</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Asana</strong></td><td>Project setup, task tracking, approval and publish workflows, course schedule.</td></tr>
+          <tr><td><strong>Figma</strong></td><td>Design work. Templates in Program Planning, per-course applications in Design and Delivery.</td></tr>
+          <tr><td><strong>PageProof</strong></td><td>Proof reviews. Brand authority in Program Planning, GDM gatekeeper + LID approver in Design and Delivery.</td></tr>
+          <tr><td><strong>Google Drive</strong></td><td>Publishing LMS template graphics (PP Phase 4) and CSGs (D&D Phase 4).</td></tr>
+          <tr><td><strong>Slack</strong></td><td>Project admin channels. `graphics-ready-for-build` channel auto-notified.</td></tr>
+          <tr><td><strong>Fathom</strong></td><td>Meeting notes across partner admin syncs and internal meetings.</td></tr>
+          <tr><td><strong>Tick</strong></td><td>Hour allocation and tracking. Source of partner-allotted hours.</td></tr>
+          <tr><td><strong>The Creative Companion</strong></td><td>This app. The unified internal source of truth for Creative.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PROJECTS
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section" id="section-projects">
+  <div class="subtab-strip"><button class="subtab active" onclick="showSection('projects')">Living Pages</button><button class="subtab" onclick="showSection('workload')">Workload</button></div>
+
+  <div class="section-header">
+    <div class="eyebrow">Projects</div>
+    <h2 class="section-title">A Living Project Page per partner.</h2>
+    <p class="section-lede">Each active partner project has its own Living Project Page in the Companion. The page captures the north star, the intake data, the recommendation, the relevant links, and the current status. It updates as the project moves through the phases.</p>
+  </div>
+
+  <h3 style="margin-bottom: 12px;">Active project pages</h3>
+  <p class="small">One file per partner. Each page holds that partner's real data. Click to open.</p>
+  <div class="section-cards" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 28px;">
+    <a href="Projects/UCF.html" class="section-card-link" style="border-left: 4px solid #017FAE;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <div class="sc-icon sc-icon-2" style="margin-bottom: 0;">U</div>
+        <div>
+          <div class="sc-name" style="margin-bottom: 0;">UCF</div>
+          <div style="font-size: 11px; color: var(--text-muted);">University of Central Florida</div>
+        </div>
+      </div>
+      <div class="sc-desc">Canvas · 17 courses · 80 Tick hours · D&amp;D Cycle 3 of 4. New partner. No Video Services. Brand team access not granted by partner.</div>
+      <div style="margin-top: 10px;">
+        <span class="tag tag-lime">Active</span>
+        <span class="tag" style="background: #DDE7F2; color: #1E3A5C; margin-left: 4px;">D&amp;D Phase 1</span>
+      </div>
+    </a>
+    <a href="Projects/EMU.html" class="section-card-link" style="border-left: 4px solid #017FAE;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <div class="sc-icon" style="margin-bottom: 0; background: var(--slate); color: #fff;">E</div>
+        <div>
+          <div class="sc-name" style="margin-bottom: 0;">EMU</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Eastern Mennonite University</div>
+        </div>
+      </div>
+      <div class="sc-desc">Moodle (not in canon) · 4 courses · 49 dedicated Tick hrs confirmed (25 PP + 24 D&amp;D) + ~10 hr Creative estimate of a 60-hr shared interactives bucket · Aric B. as brand contact (connection pending). Three active items: Aric B. connection, brand direction decision (EMU vs CJP), Moodle research with Steve G.. Video Services Tier 1 confirmed.</div>
+      <div style="margin-top: 10px;">
+        <span class="tag" style="background: #DDE7F2; color: #1E3A5C;">PP Phase 1 · Week 1 of 4</span>
+        <span class="tag tag-lime" style="margin-left: 4px;">Budget confirmed</span>
+      </div>
+    </a>
+    <a href="Projects/Alvernia.html" class="section-card-link" style="border-left: 4px solid #017FAE;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <div class="sc-icon" style="margin-bottom: 0; background: var(--slate); color: #fff;">A</div>
+        <div>
+          <div class="sc-name" style="margin-bottom: 0;">Alvernia</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Alvernia University · Reading, PA</div>
+        </div>
+      </div>
+      <div class="sc-desc">Canvas · 10 MBA courses · 50 Tick hrs confirmed (19 PP + 31 D&amp;D) · Matt B. as brand contact. Working session meeting request sent to Matt on July 21 with agenda and six follow-up questions embedded (GDM + Gauri attending). Creative Google Drive, Asana project, and Figma workspace all set up.</div>
+      <div style="margin-top: 10px;">
+        <span class="tag" style="background: #DDE7F2; color: #1E3A5C;">PP Phase 1 · Week 1 of 4</span>
+        <span class="tag tag-lime" style="margin-left: 4px;">Budget confirmed</span>
+      </div>
+    </a>
+    <a href="Projects/UT_Austin.html" class="section-card-link" style="border-left: 4px solid #017FAE;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <div class="sc-icon" style="margin-bottom: 0; background: var(--slate); color: #fff;">UT</div>
+        <div>
+          <div class="sc-name" style="margin-bottom: 0;">UT Austin</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Center for Professional Education (CPE)</div>
+        </div>
+      </div>
+      <div class="sc-desc">Canvas · Two workstreams (Nonprofit Cert $59K + Innovation Fund Playbook $50K) · Kickoff complete. Creative Tick resolved via admin channel: video support assets bill to a Video Services bucket Bradley sets up once GDM sends hour estimates for the six assets + admin (Intro, Outro, Lower 3rds, Full Screen Frame, Left/Right Content Frames). Course graphics work bills to 5.75 hrs in UT Austin :: WS1 :: Workstream 1 Course Dev :: SOW 2026-1 :: Studio, a YELLOW FLAG for discussion. Julie sent CPE style guide + UMAC guidelines; response to GDM's July 22 brand-authority follow-up still pending. Mobile-friendly design confirmed as first-class constraint. Courtney is ELT Lead.</div>
+      <div style="margin-top: 10px;">
+        <span class="tag" style="background: #DDE7F2; color: #1E3A5C;">Post-kickoff · Tick resolved</span>
+        <span class="tag" style="background: #FDE8CC; color: #7A4000; margin-left: 4px;">YELLOW FLAG · 5.75 hrs</span>
+      </div>
+    </a>
+    <a href="Projects/FullBloom.html" class="section-card-link" style="border-left: 4px solid #017FAE;">
+      <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+        <div class="sc-icon" style="margin-bottom: 0; background: var(--slate); color: #fff;">FB</div>
+        <div>
+          <div class="sc-name" style="margin-bottom: 0;">FullBloom</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Catapult Learning brand · Literacy and Leadership Workshop</div>
+        </div>
+      </div>
+      <div class="sc-desc">Workshop materials + templates (no LMS, no course build) · New partner · SOW pending, work starting per direction · Tick pool 178 hrs generic across HITLit + HITMath buckets. Phase 1 (by 8/10): 3-5 PowerPoints + template (Rebecca provides source PowerPoints). Phase 2 (before mat leave): mature template + ~5 document templates. Brand contact Justine (logos + assets); approver Rebecca. Option 1 vs Option 2 scoping decision open for Phase 2 shape.</div>
+      <div style="margin-top: 10px;">
+        <span class="tag" style="background: #DDE7F2; color: #1E3A5C;">Phase 1 active</span>
+        <span class="tag tag-lime" style="margin-left: 4px;">178 hr Tick pool</span>
+      </div>
+    </a>
+  </div>
+
+  <h3 style="margin-top: 24px; margin-bottom: 12px;">Living Project Page template</h3>
+  <p class="small">Every project page has four blocks. Together they give the team a single workspace for the partnership.</p>
+
+  <div class="template-grid">
+    <div class="template-block">
+      <span class="tag tag-blue">Header</span>
+      <h4>The identity</h4>
+      <p>The partner-facing identity of the package. North star paragraph, partner name, LMS, course count, Tick hours, current phase.</p>
+      <ul>
+        <li>North star (5-element paragraph: vibe, demographic, direction adjectives, scale, value prop)</li>
+        <li>Quick facts row: LMS, course count, Tick hours, current phase</li>
+        <li>Status indicator: which phase, what's next</li>
+      </ul>
+    </div>
+    <div class="template-block">
+      <span class="tag tag-cyan">Body</span>
+      <h4>The intake and recommendation</h4>
+      <p>The structured data from intake, the canon-based recommendation, and the design decisions made along the way.</p>
+      <ul>
+        <li>Intake: brand contact, partner team, key dates, PBD details (including Video Services tier)</li>
+        <li>Recommendation: package shape, component list, hour math</li>
+        <li>Design decisions log: what was chosen, why, with comparison fork rationale</li>
+      </ul>
+    </div>
+    <div class="template-block">
+      <span class="tag tag-navy">Footer</span>
+      <h4>The operational view</h4>
+      <p>What's happening right now. Active tasks, blockers, recent activity. This is the day-to-day working layer.</p>
+      <ul>
+        <li>Active phase indicator with sub-phase status</li>
+        <li>Open blockers (brand assets pending, partner unresponsive, etc.)</li>
+        <li>Recent activity timeline</li>
+      </ul>
+    </div>
+    <div class="template-block">
+      <span class="tag tag-lime">Links</span>
+      <h4>The outbound jump points</h4>
+      <p>One-click access to everything else the project lives in. The Companion stays focused; the actual work happens in these tools.</p>
+      <ul>
+        <li>Asana project (tracking lives here)</li>
+        <li>Figma file (Program Planning + Design and Delivery)</li>
+        <li>PageProof (review history)</li>
+        <li>Google Drive folder (published assets)</li>
+        <li>Slack channel(s)</li>
+        <li>Tick project</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top: 24px;">
+    <strong>Real-only data principle.</strong> No project page is built until real partner data exists. Mockups and visual examples can use placeholder names. Anything operational (the actual project pages the team uses) uses only real partners and real data. The team needs to trust that what they see here is true.
+  </div>
+
+</section>
+
+<!-- ═══════════════════════════════════════════════════════════
+     RESOURCES
+     ═══════════════════════════════════════════════════════════ -->
+<section class="section" id="section-resources">
+
+  <div class="section-header">
+    <div class="eyebrow">Resources</div>
+    <h2 class="section-title">Quick destinations and reference.</h2>
+    <p class="section-lede">External tools the work happens in, source documents that ground the canon, the changelog of what's been added, and reference cards as they get built.</p>
+  </div>
+
+  <h3 style="margin-bottom: 12px;">External tools</h3>
+  <p class="small">The operational stack. These tools keep their authority. The Companion respects them; it never duplicates them.</p>
+  <div class="resource-grid mb-3">
+    <a class="resource-link" href="#" data-tool="asana">
+      <div class="resource-name">Asana</div>
+      <div class="resource-desc">Project tracking, task management, approval and publish workflows. The source of truth for everything that moves.</div>
+    </a>
+    <a class="resource-link" href="#" data-tool="figma">
+      <div class="resource-name">Figma</div>
+      <div class="resource-desc">Design work. Master templates in Program Planning, per-course applications in Design and Delivery.</div>
+    </a>
+    <a class="resource-link" href="#" data-tool="pageproof">
+      <div class="resource-name">PageProof</div>
+      <div class="resource-desc">Proof reviews. Brand authority in Program Planning, GDM gatekeeper + LID approver in D&D.</div>
+    </a>
+    <a class="resource-link" href="#" data-tool="drive">
+      <div class="resource-name">Google Drive</div>
+      <div class="resource-desc">Published LMS template graphics and per-course CSGs. ELT pulls assets from here.</div>
+    </a>
+    <a class="resource-link" href="#" data-tool="slack">
+      <div class="resource-name">Slack</div>
+      <div class="resource-desc">Project admin channels and the `graphics-ready-for-build` channel for delivery notifications.</div>
+    </a>
+    <a class="resource-link" href="#" data-tool="tick">
+      <div class="resource-name">Tick</div>
+      <div class="resource-desc">Hour allocation and tracking. The source for partner-allotted hours that feed the recommendation engine.</div>
+    </a>
+  </div>
+
+  <h3 style="margin-bottom: 12px;">Source documents</h3>
+  <p class="small">The four authoritative documents that ground everything the Companion knows. These live in the Companion folder.</p>
+  <div class="resource-grid mb-3">
+    <a class="resource-link" href="Creative_Package_Canon_DRAFT.md">
+      <div class="resource-name">Canon</div>
+      <div class="resource-desc">What a Creative Package is at iDesign. Asset categories, components, hour data, dimensions of variation.</div>
+    </a>
+    <a class="resource-link" href="Creative_Package_Requirements_Model_DRAFT.md">
+      <div class="resource-name">Requirements Model</div>
+      <div class="resource-desc">The 8-phase process. Inputs, outputs, durations, handoffs, dependencies.</div>
+    </a>
+    <a class="resource-link" href="Creative_Package_Escalations_and_FAQ_DRAFT.md">
+      <div class="resource-name">Escalations and FAQ</div>
+      <div class="resource-desc">30 prepared responses across three priority tiers. Each entry has a Response, Key facts, Tone, and When this comes up section.</div>
+    </a>
+    <a class="resource-link" href="The_Creative_Companion_System_Prompt.md">
+      <div class="resource-name">System Prompt</div>
+      <div class="resource-desc">The instructions that turn a Cowork Project into The Creative Companion. Voice, hard rules, response patterns.</div>
+    </a>
+    <a class="resource-link" href="docs/DEV-HANDOFF.md">
+      <div class="resource-name">Developer Handoff &amp; Build Plan</div>
+      <div class="resource-desc">Architecture, security model, data model, connector plan, and the path to a hosted app on Google Cloud.</div>
+    </a>
+  </div>
+
+  <h3 style="margin-bottom: 12px;">In-app changelog</h3>
+  <p class="small">What's been added, refined, or changed in the Companion. Pressure-test findings feed into this list.</p>
+  <div class="card mb-3">
+    <div class="changelog-entry">
+      <div class="changelog-date">Jun 12, 2026 · v0.9</div>
+      <div class="changelog-text">The Creative Companion HTML app shipped (v0.9). Home, About Creative, Process, Projects, Resources sections live. Real-only data principle enforced on Projects.</div>
+    </div>
+    <div class="changelog-entry">
+      <div class="changelog-date">Jun 12, 2026</div>
+      <div class="changelog-text">Categorization hours-control logic added to the canon and to the Companion's response patterns. Asked "why isn't X customized per course" now leads with the hours math, not the design rationale.</div>
+    </div>
+    <div class="changelog-entry">
+      <div class="changelog-date">Jun 12, 2026</div>
+      <div class="changelog-text">Video Services Support Assets captured: Tier 1 / 2 / 3 asset lists, hour math (T1 = 20, T2 = 45, T3 = 45 + sized Custom Illustrations), PBD intake check.</div>
+    </div>
+    <div class="changelog-entry">
+      <div class="changelog-date">Jun 11, 2026</div>
+      <div class="changelog-text">Escalations and FAQ shipped with 30 scenarios across three priority tiers.</div>
+    </div>
+    <div class="changelog-entry">
+      <div class="changelog-date">Jun 11, 2026</div>
+      <div class="changelog-text">Principle 13 added: "Authority of real-only data." Mockups and examples can use placeholder names; operational outputs use only real data.</div>
+    </div>
+    <div class="changelog-entry">
+      <div class="changelog-date">Jun 9, 2026</div>
+      <div class="changelog-text">Module Banners confirmed Generic. Hour math updated across the canon. The decision is grounded in the cost explosion that per-course customization would cause.</div>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom: 12px;">Pressure-test methodology</h3>
+  <div class="card mb-3">
+    <p>The Companion gets pressure-tested in three ways before it ships to the team, and on a recurring cadence after.</p>
+    <ol style="padding-left: 22px; font-size: 13px;">
+      <li><strong>Historical replay.</strong> Run UCF and Iona through the canon and recommendation engine as if they were starting today. Compare to what actually happened.</li>
+      <li><strong>Scenario drills.</strong> Five real situations drafted by a team member from the Escalations and FAQ. Timed. Reviewed.</li>
+      <li><strong>Findability test.</strong> Team member finds answers to canon and process questions in the Companion. 90-second threshold flags navigation gaps.</li>
+    </ol>
+    <p><strong>Cadence.</strong> Pre-launch (before maternity leave). Quarterly during leave. Annually after.</p>
+  </div>
+
+</section>
+
+</main>
+
+<footer class="footer">
+  <strong>Workspace : Creative Companion</strong> &nbsp; · &nbsp; iDesign Creative &nbsp; · &nbsp; v1.0 · Phase 1 interim &nbsp; · &nbsp; Real data only, PII reduced &nbsp; · &nbsp; <span id="footer-date"></span>
+</footer>
+
+<script>
+  // ── Section switching ──────────────────────────────────
+  function showSection(name) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    const sec = document.getElementById('section-' + name);
+    if (sec) sec.classList.add('active');
+    const navGroup = { workload: 'projects', process: 'about' }[name] || name;
+    document.querySelectorAll('.nav-tab').forEach(t => {
+      if (t.dataset.section === navGroup) t.classList.add('active');
+    });
+    // Scroll to top of section
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Save state
+    try { localStorage.setItem('cc-section', name); } catch(e) {}
+  }
+
+  // ── Restore last section ───────────────────────────────
+  try {
+    const saved = localStorage.getItem('cc-section');
+    if (saved) showSection(saved);
+  } catch(e) {}
+
+  // ── Date stamps ────────────────────────────────────────
+  const now = new Date();
+  const fmt = now.toLocaleDateString('en-US', { year:'numeric', month:'short', day:'numeric' });
+  const elUpdated = document.getElementById('last-updated');
+  if (elUpdated) elUpdated.textContent = fmt;
+  const elFooter = document.getElementById('footer-date');
+  if (elFooter) elFooter.textContent = 'Last opened ' + fmt;
+
+  // ── Keyboard shortcuts ─────────────────────────────────
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === '1') showSection('home');
+    if (e.key === '2') showSection('about');
+    if (e.key === '3') showSection('process');
+    if (e.key === '4') showSection('projects');
+    if (e.key === '5') showSection('resources');
+  });
+
+  // ── Sub-tab switching (About Creative) ─────────────────
+  function showSubtab(name) {
+    document.querySelectorAll('.subtab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.subpanel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.subtab').forEach(t => { if (t.dataset.subtab === name) t.classList.add('active'); });
+    const panel = document.getElementById('subpanel-' + name);
+    if (panel) panel.classList.add('active');
+    try { localStorage.setItem('cc-subtab', name); } catch(e) {}
+  }
+  try {
+    const savedSub = localStorage.getItem('cc-subtab');
+    if (savedSub) showSubtab(savedSub);
+  } catch(e) {}
+
+  // ── Package Explorer ───────────────────────────────────
+  // Per-component hour data sourced from Creative Calculator (Canvas baseline).
+  // creation = one-time hours during Program Planning. perCourse = hours per course application during D&D.
+  const COMPONENTS = [
+    // Generic components (one-time creation, no per-course application)
+    { id: 'icon-set', name: 'Icon Set (12 designed icons)', category: 'Generic', creation: 10, perCourse: 0, lms: { Canvas: true, BlackboardUltra: true, Brightspace: false } },
+    { id: 'line-break', name: 'Line Break', category: 'Generic', creation: 2, perCourse: 0, lms: { Canvas: true, BlackboardUltra: false, Brightspace: true } },
+    { id: 'footer', name: 'Footer', category: 'Generic', creation: 1.5, perCourse: 0, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true } },
+    { id: 'module-banner', name: 'Module Banner', category: 'Generic', creation: 3, perCourse: 0, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true } },
+    { id: 'section-banner', name: 'Section Banner', category: 'Generic', creation: 3, perCourse: 0, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true } },
+    { id: 'generic-page-banner', name: 'Generic Page Banner', category: 'Generic', creation: 3, perCourse: 0, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true } },
+    { id: 'lms-ux-resource', name: 'LMS UX Resource (spec)', category: 'Generic', creation: 10, perCourse: 0, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true }, cssOnly: true },
+    // Templated components (template once + per-course application)
+    { id: 'homepage', name: 'Homepage', category: 'Templated', creation: 5, perCourse: 2, lms: { Canvas: true, BlackboardUltra: false, Brightspace: false } },
+    { id: 'course-banner', name: 'Course Banner', category: 'Templated', creation: 3, perCourse: 2, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true } },
+    { id: 'course-card', name: 'Course Card', category: 'Templated', creation: 2, perCourse: 2, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true } },
+    { id: 'avatar-image', name: 'Faculty Avatar (image)', category: 'Templated', creation: 0, perCourse: 2, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true }, dependencyFlag: 'Faculty headshot required before work begins' },
+    { id: 'avatar-illustration', name: 'Faculty Avatar (illustration)', category: 'Templated', creation: 0, perCourse: 6, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true }, dependencyFlag: 'Faculty headshot required before work begins' },
+    // Ad-hoc components (per-instance, per course)
+    { id: 'badge', name: 'Badge', category: 'Ad-hoc', creation: 0, perCourse: 5, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true } },
+    { id: 'custom-illustration-xs', name: 'Custom Illustration (Extra Small)', category: 'Ad-hoc', creation: 0, perCourse: 2.5, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true }, scopeRisk: 'Historically blow scope. Guardrails required.' },
+    { id: 'custom-illustration-s', name: 'Custom Illustration (Small)', category: 'Ad-hoc', creation: 0, perCourse: 5, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true }, scopeRisk: 'Historically blow scope. Guardrails required.' },
+    { id: 'custom-illustration-m', name: 'Custom Illustration (Medium)', category: 'Ad-hoc', creation: 0, perCourse: 7.5, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true }, scopeRisk: 'Historically blow scope. Guardrails required.' },
+    { id: 'custom-illustration-l', name: 'Custom Illustration (Large)', category: 'Ad-hoc', creation: 0, perCourse: 10, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true }, scopeRisk: 'Historically blow scope. Guardrails required.' },
+    { id: 'infographic-s', name: 'Infographic (Small)', category: 'Ad-hoc', creation: 0, perCourse: 4, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true }, scopeRisk: 'High scope risk. Approved storyboards required.' },
+    { id: 'infographic-m', name: 'Infographic (Medium)', category: 'Ad-hoc', creation: 0, perCourse: 8, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true }, scopeRisk: 'High scope risk. Approved storyboards required.' },
+    { id: 'infographic-l', name: 'Infographic (Large)', category: 'Ad-hoc', creation: 0, perCourse: 10, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true }, scopeRisk: 'High scope risk. Approved storyboards required.' },
+    { id: 'icons-additional', name: 'Icons (Additional)', category: 'Ad-hoc', creation: 0, perCourse: 2, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true } },
+    { id: 'branded-supporting-images', name: 'Branded Supporting Images', category: 'Ad-hoc', creation: 0, perCourse: 2.5, lms: { Canvas: true, BlackboardUltra: true, Brightspace: true } }
+  ];
+
+  // Program-level overhead (Calculator)
+  const PP_SETUP_ADMIN = 10;       // PP Setup/Admin (one-time, brand kit + meetings + info gathering + design time)
+  const PER_COURSE_ADMIN = 1;       // Per-course Setup/Admin
+
+  // Preset selections (component IDs)
+  const PRESETS = {
+    'canvas-full': ['icon-set', 'line-break', 'footer', 'module-banner', 'section-banner', 'generic-page-banner', 'homepage', 'course-banner', 'course-card'],
+    'essentials': ['icon-set', 'footer', 'course-banner']
+  };
+
+  const VIDEO_TIERS = {
+    None: { hours: 0, label: 'None' },
+    Tier1: { hours: 20, label: 'Tier 1 (4 assets, 20 hrs)' },
+    Tier2: { hours: 45, label: 'Tier 2 (9 assets, 45 hrs)' },
+    Tier3: { hours: 45, label: 'Tier 3 (9 + sized Custom Illustrations, 45+ hrs)' }
+  };
+
+  // Selected components state
+  const SELECTED_KEY = 'cc-pe-selected-v1';
+  let SELECTED = new Set();
+  try {
+    const saved = JSON.parse(localStorage.getItem(SELECTED_KEY) || '[]');
+    if (Array.isArray(saved)) SELECTED = new Set(saved);
+  } catch(e) {}
+
+  function getInputs() {
+    return {
+      lms: document.getElementById('pe-lms').value,
+      courses: parseInt(document.getElementById('pe-courses').value, 10) || 0,
+      hours: parseInt(document.getElementById('pe-hours').value, 10) || 0,
+      status: document.querySelector('input[name="pe-status"]:checked').value,
+      css: document.querySelector('input[name="pe-css"]:checked').value,
+      video: document.getElementById('pe-video').value,
+      aiVideo: document.querySelector('input[name="pe-aivideo"]:checked').value
+    };
+  }
+
+  function isAvailable(c, inputs) {
+    if (!c.lms[inputs.lms]) return false;
+    if (c.cssOnly && inputs.css !== 'yes') return false;
+    return true;
+  }
+
+  function peFmt(n) { return n === 0 ? '0' : (Math.round(n * 10) / 10).toString(); }
+
+  function renderSelector() {
+    const inputs = getInputs();
+    const list = document.getElementById('pe-comp-list');
+    if (!list) return;
+
+    const categories = ['Generic', 'Templated', 'Ad-hoc'];
+    const catPills = { 'Generic': 'pill-generic', 'Templated': 'pill-templated', 'Ad-hoc': 'pill-adhoc' };
+    const catSub = { 'Generic': 'One-time creation', 'Templated': 'Template + per-course', 'Ad-hoc': 'Per-instance (per course)' };
+
+    let html = '';
+    categories.forEach(cat => {
+      const items = COMPONENTS.filter(c => c.category === cat);
+      html += `<div class="pe-comp-group"><div class="pe-comp-group-label"><span class="pill ${catPills[cat]}">${cat}</span> ${catSub[cat]}</div>`;
+      items.forEach(c => {
+        const available = isAvailable(c, inputs);
+        const isChecked = SELECTED.has(c.id) && available;
+        let hoursText = '';
+        if (c.category === 'Generic') hoursText = `${peFmt(c.creation)} hrs`;
+        else if (c.category === 'Templated') hoursText = c.creation > 0 ? `${peFmt(c.creation)} + ${peFmt(c.perCourse)}/course` : `${peFmt(c.perCourse)}/course`;
+        else hoursText = `${peFmt(c.perCourse)}/course`;
+        const flags = [];
+        if (c.scopeRisk) flags.push('<span class="pe-flag-dot" title="Scope risk"></span>');
+        if (c.dependencyFlag) flags.push('<span class="pe-flag-dot dep" title="Dependency"></span>');
+        const disabledReason = !available ? (c.cssOnly && inputs.css !== 'yes' ? 'Requires Custom CSS access' : `Not supported on ${inputs.lms}`) : '';
+
+        html += `<label class="pe-toggle${available ? '' : ' disabled'}">
+          <input type="checkbox" data-comp="${c.id}" ${isChecked ? 'checked' : ''} ${available ? '' : 'disabled'} />
+          <span class="pe-toggle-name">${c.name}${flags.join('')}</span>
+          <span class="pe-toggle-hours">${hoursText}</span>
+        </label>`;
+        if (!available && disabledReason) {
+          html += `<div class="pe-disabled-reason">${disabledReason}</div>`;
+        }
+      });
+      html += `</div>`;
+    });
+    list.innerHTML = html;
+
+    list.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const id = cb.dataset.comp;
+        if (cb.checked) SELECTED.add(id);
+        else SELECTED.delete(id);
+        try { localStorage.setItem(SELECTED_KEY, JSON.stringify([...SELECTED])); } catch(e) {}
+        renderResults();
+      });
+    });
+  }
+
+  function renderResults() {
+    const inputs = getInputs();
+    const results = document.getElementById('pe-results');
+    if (!results) return;
+
+    const isNew = inputs.status === 'new';
+    const selectedComps = COMPONENTS.filter(c => SELECTED.has(c.id) && isAvailable(c, inputs));
+
+    const genericRows = [], templatedRows = [], adhocRows = [];
+    const scopeFlags = [], dependencyFlags = [];
+    selectedComps.forEach(c => {
+      if (c.category === 'Generic') genericRows.push(c);
+      else if (c.category === 'Templated') templatedRows.push(c);
+      else if (c.category === 'Ad-hoc') adhocRows.push(c);
+      if (c.scopeRisk) scopeFlags.push(c.name);
+      if (c.dependencyFlag) dependencyFlags.push(c.name);
+    });
+
+    const counts = { Generic: genericRows.length, Templated: templatedRows.length, 'Ad-hoc': adhocRows.length };
+
+    const ppAdmin = isNew ? PP_SETUP_ADMIN : 0;
+    let genericCreation = 0;
+    genericRows.forEach(c => { genericCreation += c.creation; });
+    let templateCreation = 0;
+    templatedRows.forEach(c => { templateCreation += c.creation; });
+    const ppGeneric = isNew ? genericCreation : 0;
+    const ppTemplate = isNew ? templateCreation : 0;
+    const ppSubtotal = ppAdmin + ppGeneric + ppTemplate;
+
+    const perCourseAdminTotal = PER_COURSE_ADMIN * inputs.courses;
+    let templatedPerCourseRate = 0;
+    templatedRows.forEach(c => { templatedPerCourseRate += c.perCourse; });
+    const templatedPerCourseTotal = templatedPerCourseRate * inputs.courses;
+    let adhocPerCourseRate = 0;
+    adhocRows.forEach(c => { adhocPerCourseRate += c.perCourse; });
+    const adhocPerCourseTotal = adhocPerCourseRate * inputs.courses;
+    const ddSubtotal = perCourseAdminTotal + templatedPerCourseTotal + adhocPerCourseTotal;
+
+    const videoHours = VIDEO_TIERS[inputs.video].hours;
+    const totalHours = ppSubtotal + ddSubtotal + videoHours;
+
+    const pctScope = inputs.hours > 0 ? Math.round((totalHours / inputs.hours) * 1000) / 10 : 0;
+    const remaining = inputs.hours - totalHours;
+    let pctClass = 'ok';
+    if (pctScope >= 95 && pctScope <= 100) pctClass = 'warn';
+    else if (pctScope > 100) pctClass = 'over';
+    const meterWidth = Math.min(100, pctScope);
+
+    const videoLabel = VIDEO_TIERS[inputs.video].label;
+    const aiNote = inputs.aiVideo === 'yes' ? ' AI videos also in scope (handled Ad-hoc by the Video Director).' : '';
+    const existingNote = isNew ? 'New partner. Full Program Planning setup applies.' : 'Existing partner. PP setup, generic creation, and template creation skipped.';
+    const summaryHTML = `<div class="pe-summary"><strong>Inputs:</strong> ${inputs.lms} · ${inputs.courses} courses · ${inputs.hours} Tick hours · ${isNew ? 'New partner' : 'Existing partner'} · ${inputs.css === 'yes' ? 'Custom CSS in scope' : 'No custom CSS'} · Video: ${videoLabel}.${aiNote}<br><strong>Adjustment:</strong> ${existingNote}</div>`;
+
+    const breakdownStrip = `<div class="pe-breakdown">
+      <div class="pe-breakdown-cell"><div class="num">${counts.Generic}</div><div class="lbl">Generic</div></div>
+      <div class="pe-breakdown-cell"><div class="num">${counts.Templated}</div><div class="lbl">Templated</div></div>
+      <div class="pe-breakdown-cell"><div class="num">${counts['Ad-hoc']}</div><div class="lbl">Ad-hoc</div></div>
+    </div>`;
+
+    const flagsParts = [];
+    scopeFlags.forEach(n => flagsParts.push(`<span class="pill pill-warn">Scope risk: ${n}</span>`));
+    dependencyFlags.forEach(n => flagsParts.push(`<span class="pill pill-info">Dependency: ${n}</span>`));
+    const flagsHTML = flagsParts.length ? `<div class="pe-flags">${flagsParts.join('')}</div>` : (selectedComps.length ? '<div class="pe-flags"><span class="pill pill-ok">No scope-risk flags. No dependency flags</span></div>' : '');
+
+    const genericBreakdownRows = isNew && genericRows.length ? genericRows.map(c => `<tr><td>${c.name}</td><td>${peFmt(c.creation)}</td></tr>`).join('') : '';
+    const templatedTemplateRows = isNew && templatedRows.length ? templatedRows.filter(c => c.creation > 0).map(c => `<tr><td>${c.name} (template)</td><td>${peFmt(c.creation)}</td></tr>`).join('') : '';
+    const templatedPerCourseRows = templatedRows.length ? templatedRows.map(c => `<tr><td>${c.name} per-course (${peFmt(c.perCourse)} × ${inputs.courses})</td><td>${peFmt(c.perCourse * inputs.courses)}</td></tr>`).join('') : '';
+    const adhocBreakdownRows = adhocRows.length ? adhocRows.map(c => `<tr><td>${c.name} (${peFmt(c.perCourse)} × ${inputs.courses})</td><td>${peFmt(c.perCourse * inputs.courses)}</td></tr>`).join('') : '';
+
+    const breakdownTable = (selectedComps.length === 0 && inputs.video === 'None') ? `<div style="padding: 22px; text-align: center; color: var(--text-muted); font-style: italic; font-size: 13px;">No components selected. Pick components on the left to see the hour breakdown and % of scope.</div>` : `<table class="pe-breakdown-table">
+      <thead><tr><th>Line item</th><th>Hours</th></tr></thead>
+      <tbody>
+        <tr class="macro-label"><td>Program Planning ${isNew ? '(new partner, full setup)' : '(existing partner, skipped)'}</td><td>${peFmt(ppSubtotal)}</td></tr>
+        ${isNew ? `<tr><td>PP Setup &amp; Admin (one-time)</td><td>${peFmt(ppAdmin)}</td></tr>${genericBreakdownRows}${templatedTemplateRows}` : ''}
+        <tr class="macro-label"><td>Design &amp; Delivery (per course × ${inputs.courses})</td><td>${peFmt(ddSubtotal)}</td></tr>
+        <tr><td>Per-course Setup &amp; Admin (1 × ${inputs.courses})</td><td>${peFmt(perCourseAdminTotal)}</td></tr>
+        ${templatedPerCourseRows}
+        ${adhocPerCourseTotal > 0 ? `<tr class="macro-label"><td>Ad-hoc work (per course × ${inputs.courses})</td><td>${peFmt(adhocPerCourseTotal)}</td></tr>${adhocBreakdownRows}` : ''}
+        ${inputs.video !== 'None' ? `<tr class="macro-label"><td>Video Services Support Assets (${inputs.video})</td><td>${peFmt(videoHours)}</td></tr>` : ''}
+        ${inputs.aiVideo === 'yes' ? `<tr><td>AI video support</td><td>Ad-hoc, separate scope conversation</td></tr>` : ''}
+        <tr class="subtotal"><td>Total package hours</td><td>${peFmt(totalHours)}</td></tr>
+      </tbody>
+    </table>`;
+
+    const scopeBarHTML = `<div class="scope-bar">
+      <div class="scope-meter"><div class="scope-fill ${pctClass}" style="width: ${meterWidth}%;"></div></div>
+      <div class="scope-num ${pctScope > 100 ? 'over' : ''}">${peFmt(pctScope)}% of scope</div>
+      <div class="scope-detail">${peFmt(totalHours)} of ${inputs.hours} Tick hours ${remaining >= 0 ? `(${peFmt(remaining)} remaining)` : `(${peFmt(-remaining)} over budget)`}</div>
+    </div>`;
+
+    results.innerHTML = summaryHTML + `<div class="pe-option"><div class="pe-option-header opt-1"><span class="pe-option-title">Your package</span><span class="pe-option-meta">${selectedComps.length} components selected</span></div><div class="pe-option-body">${breakdownStrip}${flagsHTML}${breakdownTable}${scopeBarHTML}</div></div>`;
+  }
+
+  function renderPackageExplorer() {
+    renderSelector();
+    renderResults();
+  }
+
+  document.getElementById('pe-clear').addEventListener('click', () => {
+    SELECTED = new Set();
+    try { localStorage.setItem(SELECTED_KEY, JSON.stringify([])); } catch(e) {}
+    renderPackageExplorer();
+  });
+  document.getElementById('pe-preset-canvas-full').addEventListener('click', () => {
+    SELECTED = new Set(PRESETS['canvas-full']);
+    try { localStorage.setItem(SELECTED_KEY, JSON.stringify([...SELECTED])); } catch(e) {}
+    renderPackageExplorer();
+  });
+  document.getElementById('pe-preset-essentials').addEventListener('click', () => {
+    SELECTED = new Set(PRESETS['essentials']);
+    try { localStorage.setItem(SELECTED_KEY, JSON.stringify([...SELECTED])); } catch(e) {}
+    renderPackageExplorer();
+  });
+
+  document.querySelectorAll('#pe-lms, #pe-courses, #pe-hours, #pe-video, input[name="pe-status"], input[name="pe-css"], input[name="pe-aivideo"]').forEach(el => {
+    el.addEventListener('change', renderPackageExplorer);
+    el.addEventListener('input', renderPackageExplorer);
+  });
+  renderPackageExplorer();
+</script>
+
+<script src="assets/companion.js?v=5"></script>
+
+</body>
+</html>

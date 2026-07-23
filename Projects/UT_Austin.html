@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UT Austin · Studio | Creative Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/companion.css?v=5" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: 'Lato', system-ui, sans-serif; color: var(--text-body); background: var(--bg-soft); margin: 0; line-height: 1.55; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3, h4 { color: var(--ink); font-weight: 900; line-height: 1.2; margin: 0; }
+  p { margin: 0 0 0.85em; }
+  :root {
+    --navy: #002E40;
+    --ink: #E9F3F7;
+    --sub: #B3D9E7;
+    --blue: #33C9FF;
+    --cyan: #5CD4FF;
+    --lime: #33C9FF;
+    --slate: #5C7E90;
+    --field: #00293A;
+    --bg-card: #002E40;
+    --bg-soft: #00202D;
+    --bg-soft-2: #123E4E;
+    --border: #20505F;
+    --text-body: #E9F3F7;
+    --text-muted: #8FA8B4;
+    --shadow-sm: 0 1px 3px rgba(0,10,18,0.30);
+    --shadow-md: 0 2px 14px rgba(0,10,18,0.40);
+    --shadow-lg: 0 4px 24px rgba(0,10,18,0.50);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  /* Top nav */
+  .topnav { background: var(--navy); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,46,64,0.20); }
+  .topnav-inner { max-width: 1240px; margin: 0 auto; padding: 12px 28px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand-mark { width: 28px; height: 28px; background: var(--lime); color: var(--ink); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; }
+  .brand-wordmark { color: #fff; font-size: 15px; font-weight: 900; }
+  .brand-wordmark .accent { color: var(--lime); }
+  .back-link { margin-left: 16px; color: #B0CCD7; font-size: 11px; text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; padding-left: 16px; border-left: 1px solid rgba(255,255,255,0.15); }
+  .back-link:hover { color: var(--lime); text-decoration: none; }
+  .save-state { margin-left: auto; font-size: 10.5px; color: #B0CCD7; text-transform: uppercase; letter-spacing: 1px; }
+  .save-state.saved { color: var(--lime); }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 28px 80px; }
+
+  /* Partner header */
+  .partner-header { background: linear-gradient(135deg, #002E40 0%, #0E5E80 100%); color: #fff; padding: 32px 36px; margin: 28px 0 0; border-radius: 12px 12px 0 0; position: relative; overflow: hidden; }
+  .partner-header::after { content: ''; position: absolute; top: -40%; right: -10%; width: 360px; height: 360px; background: radial-gradient(circle, rgba(51,201,255,0.14) 0%, transparent 70%); pointer-events: none; }
+  .ph-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2.2px; color: var(--lime); margin-bottom: 8px; }
+  .ph-name-row { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; flex-wrap: wrap; }
+  .ph-name { font-size: 32px; font-weight: 900; color: #fff; line-height: 1; }
+  .ph-status-pill { background: #FDE8CC; color: #7A4000; padding: 6px 12px; border-radius: 14px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; }
+  .ph-meta { font-size: 13px; color: #CCE5EF; margin-top: 6px; }
+
+  /* Blocker banner. The important addition */
+  .blocker-banner { background: linear-gradient(135deg, #8C2222 0%, #6B1818 100%); color: #fff; padding: 22px 30px; margin-bottom: 22px; border-radius: 0 0 12px 12px; }
+  .blocker-banner-label { font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #FDE8CC; margin-bottom: 6px; }
+  .blocker-banner-title { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 10px; line-height: 1.2; }
+  .blocker-banner-list { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .blocker-banner-item { background: rgba(0,0,0,0.20); padding: 12px 14px; border-radius: 6px; border-left: 3px solid #FDE8CC; }
+  .blocker-banner-item .bb-num { font-size: 10px; color: #FDE8CC; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; margin-bottom: 4px; }
+  .blocker-banner-item .bb-title { font-size: 13px; color: #fff; font-weight: 900; margin-bottom: 4px; line-height: 1.3; }
+  .blocker-banner-item .bb-detail { font-size: 11.5px; color: #FDE8CC; line-height: 1.45; }
+
+  /* North Star */
+  .north-star-card { background: var(--bg-card); border: 1px solid var(--border); border-left: 5px solid var(--lime); border-radius: 8px; padding: 20px 24px; margin-bottom: 22px; }
+  .ns-label-row { display: flex; align-items: center; margin-bottom: 8px; gap: 10px; }
+  .ns-label { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 2px; }
+  .ns-editable-tag { font-size: 9px; font-weight: 700; color: #2A6B40; background: #E0F2E8; text-transform: uppercase; letter-spacing: 1.4px; padding: 2px 8px; border-radius: 10px; }
+  .ns-help { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; font-style: italic; }
+  .ns-input { width: 100%; min-height: 130px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 13.5px; line-height: 1.65; color: var(--text-body); resize: vertical; background: var(--bg-soft); }
+  .ns-input:focus { outline: none; border-color: var(--blue); background: var(--field); box-shadow: 0 0 0 3px rgba(1,127,174,0.10); }
+
+  /* Quick Facts */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .stat-card.highlight { background: var(--lime); border-color: #4DA5C6; }
+  .stat-card.warn { background: var(--warn-bg); border: 1px solid #E8B8B8; }
+  .stat-card.warn .stat-label { color: var(--warn); }
+  .stat-card.warn .stat-value { color: var(--warn); }
+  .stat-card.flag { background: #FDE8CC; border: 1px solid #E8C89A; }
+  .stat-card.flag .stat-label { color: #7A4000; }
+  .stat-card.flag .stat-value { color: #7A4000; }
+  .stat-card.highlight .stat-label, .stat-card.highlight .stat-value { color: var(--ink); }
+  .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 6px; display: block; }
+  .stat-value { font-size: 22px; font-weight: 900; color: var(--ink); line-height: 1; }
+  .stat-value.small { font-size: 15px; line-height: 1.2; }
+  .stat-sub { font-size: 11px; color: var(--text-muted); font-weight: 700; margin-top: 4px; }
+
+  /* Main grid */
+  .main-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; margin-bottom: 22px; }
+  .block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+  .block-header { padding: 11px 18px; color: #fff; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.4px; display: flex; align-items: center; gap: 10px; }
+  .block-header .meta { margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.8px; opacity: 0.85; }
+  .block-body { padding: 16px 18px; }
+  .block-h-navy { background: var(--navy); color: var(--lime); }
+  .block-h-blue { background: var(--blue); color: #00202D; }
+  .block-h-slate { background: #123E4E; color: #E9F3F7; }
+  .block-h-red { background: #7D570A; color: #FFF7E8; }
+
+  /* Form fields */
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .field { display: grid; grid-template-columns: 160px 1fr; gap: 12px; align-items: start; }
+  .field-label { font-size: 12px; color: var(--text-muted); padding-top: 7px; font-weight: 700; }
+  .field-control { display: flex; flex-direction: column; gap: 4px; }
+
+  input[type="text"], input[type="date"], input[type="number"], select, textarea {
+    font-family: inherit; font-size: 13px; color: var(--text-body); background: var(--field);
+    border: 1px solid var(--border); border-radius: 5px; padding: 7px 10px; width: 100%;
+  }
+  input::placeholder, textarea::placeholder { color: #98AAB3; font-style: italic; }
+  input[type="date"] { max-width: 200px; }
+  input[type="number"] { max-width: 140px; }
+
+  .field.locked input[readonly], .field.locked textarea[readonly] {
+    background: var(--bg-locked); color: var(--ink); border-color: var(--border-locked); cursor: default; font-weight: 700;
+  }
+  .field.locked input[readonly]:focus, .field.locked textarea[readonly]:focus { outline: none; box-shadow: none; }
+  .field.locked .select-locked {
+    background: var(--bg-locked); color: var(--ink); border: 1px solid var(--border-locked);
+    border-radius: 5px; padding: 7px 28px 7px 10px; font-size: 13px; font-weight: 700; max-width: 240px; position: relative;
+  }
+  .field.pending input, .field.pending textarea {
+    background: var(--bg-card); border-color: var(--border); border-style: dashed; color: var(--text-muted);
+  }
+  .field.pending input:focus, .field.pending textarea:focus { outline: none; }
+  .field.blocker input[readonly], .field.blocker textarea[readonly] {
+    background: var(--warn-bg); color: var(--warn); border: 1px solid #E8B8B8; cursor: default; font-weight: 700;
+  }
+
+  /* Radio pills */
+  .radio-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .radio-pill { position: relative; display: inline-flex; align-items: center; }
+  .radio-pill input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .radio-pill label { display: inline-block; padding: 5px 12px; border: 1px solid var(--border); border-radius: 18px; background: var(--field); cursor: pointer; font-size: 12px; font-weight: 700; color: var(--text-muted); }
+  .field.locked .radio-pill input[type="radio"]:disabled + label { background: var(--bg-locked); color: var(--text-muted); border-color: var(--border-locked); cursor: default; opacity: 1; }
+  .field.locked .radio-pill input[type="radio"]:disabled:checked + label { background: var(--navy); color: var(--lime); border-color: var(--ink); cursor: default; opacity: 1; }
+
+  /* Source pills */
+  .field-source { display: flex; align-items: center; gap: 6px; margin-top: 2px; flex-wrap: wrap; }
+  .source-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 9.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+  .source-pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .source-pill.locked .dot { background: var(--slate); }
+  .source-pill.pending .dot { background: #BA7517; }
+  .source-pill.blocker .dot { background: var(--warn); }
+  .pending-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: #FDE8CC; color: #7A4000; text-transform: uppercase; letter-spacing: 0.6px; }
+  .blocker-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: var(--warn-bg); color: var(--warn); text-transform: uppercase; letter-spacing: 0.6px; }
+
+  .pill { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 9.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; }
+  .pill-warn { background: var(--warn-bg); color: var(--warn); }
+  .pill-info { background: #DDE7F2; color: #1E3A5C; }
+  .pill-lime { background: var(--lime); color: var(--ink); }
+  .pill-amber { background: #FDE8CC; color: #7A4000; }
+
+  /* Recommendation block */
+  .reco-blocked { padding: 22px; text-align: center; background: var(--warn-bg); border: 1px dashed #E8B8B8; border-radius: 6px; }
+  .reco-blocked h4 { color: var(--warn); font-size: 15px; margin-bottom: 8px; }
+  .reco-blocked p { color: var(--warn); font-size: 12.5px; line-height: 1.55; margin: 0; }
+  .reco-section-title { font-size: 11px; font-weight: 900; color: var(--blue); text-transform: uppercase; letter-spacing: 1.6px; margin: 18px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .reco-section-title:first-child { margin-top: 0; }
+
+  /* Decisions (empty state + entry styling matched to activity items) */
+  .empty-state { padding: 22px 16px; text-align: center; color: var(--text-muted); font-style: italic; font-size: 12.5px; line-height: 1.5; }
+  .decision { display: flex; flex-direction: column; padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .decision:last-of-type { border-bottom: none; }
+  .decision .meta { order: 1; font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 4px; }
+  .decision .title { order: 2; font-size: 13px; font-weight: 900; color: var(--ink); margin-bottom: 4px; line-height: 1.35; }
+  .decision .rationale { order: 3; font-size: 12.5px; color: var(--text-body); line-height: 1.5; }
+
+  /* Cycle tracker */
+  .cycle-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+  .cycle-row:last-child { border-bottom: none; }
+  .cycle-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .cycle-dot.done { background: var(--lime); }
+  .cycle-dot.active { background: var(--blue); box-shadow: 0 0 0 4px rgba(1,127,174,0.2); }
+  .cycle-dot.pending { background: var(--bg-soft-2); border: 1px solid #C5D5DC; }
+  .cycle-dot.next { background: #FDE8CC; border: 1px solid #E8C89A; }
+  .cycle-label { flex: 1; color: var(--text-body); font-weight: 700; }
+  .cycle-status { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+
+  /* Blockers detailed */
+  .blocker-item { padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+  .blocker-item:last-child { border-bottom: none; }
+  .blocker-item .bi-title { color: var(--warn); font-weight: 900; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .blocker-item .bi-body { color: var(--text-body); line-height: 1.5; margin-bottom: 4px; }
+  .blocker-item .bi-owner { font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+
+  /* Activity */
+  .activity-item { padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-date { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 3px; }
+  .activity-text { font-size: 12.5px; color: var(--text-body); line-height: 1.45; }
+  .integration-note { font-size: 10.5px; color: var(--text-muted); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--bg-soft-2); font-style: italic; }
+
+  /* Stakeholder table */
+  .stakeholder-table { width: 100%; font-size: 12.5px; border-collapse: collapse; }
+  .stakeholder-table td { padding: 6px 0; vertical-align: top; }
+  .stakeholder-table td:first-child { color: var(--text-muted); width: 40%; padding-right: 10px; }
+  .stakeholder-table td:last-child { color: var(--text-body); font-weight: 700; }
+  .stakeholder-table tr + tr td { border-top: 1px solid var(--border); }
+
+  /* Links band */
+  .links-band { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px; }
+  .links-label { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 12px; }
+  .links-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .link-card { background: var(--bg-soft); border: 1px solid var(--bg-soft-2); padding: 12px; border-radius: 6px; text-align: center; color: var(--ink); text-decoration: none; }
+  .link-card.pending { opacity: 0.5; cursor: default; }
+  .link-name { font-size: 12px; font-weight: 900; margin-bottom: 3px; }
+  .link-sub { font-size: 10px; color: var(--text-muted); }
+
+  .footer { background: var(--navy); color: #B0CCD7; text-align: center; padding: 18px; font-size: 11px; letter-spacing: 0.5px; }
+  .footer strong { color: var(--lime); }
+
+  @media (max-width: 980px) {
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .main-grid { grid-template-columns: 1fr; }
+    .links-grid { grid-template-columns: repeat(3, 1fr); }
+    .blocker-banner-list { grid-template-columns: 1fr; }
+    .ph-name { font-size: 24px; }
+    .partner-header { padding: 22px; }
+    .field { grid-template-columns: 1fr; gap: 4px; }
+    .field-label { padding-top: 0; }
+  }
+
+  /* ===== Dark Studio restyle ===== */
+  .studio-logo{height:22px;width:auto;display:block}
+  body{background:var(--bg-soft);color:var(--text-body)}
+  h1,h2,h3,h4{color:var(--ink)}
+  a{color:var(--blue)}
+  .topnav,.masthead,header.site{background:linear-gradient(135deg,#00263A,#013A52);border-bottom:1px solid var(--border)}
+  .card,.block,.panel{background:linear-gradient(90deg,rgba(1,80,110,.95) 0%,rgba(0,51,70,.95) 100%);border:1px solid #4DA5C6;border-radius:0 16px 0 16px}
+  input,select,textarea{background:var(--field);color:var(--text-body);border-color:var(--border)}
+  .tag-lime{color:#002E40}
+  /* contrast fix — navy ink on cerulean/lime/cyan fills (Studio rule) */
+  .tag-blue,.tag-cyan,.tag-lime,.pill-lime,.sc-icon-2,.sc-icon-3,.phase-num,.faq-tier-num,.nav-tab.active{color:#00202D !important}
+  /* lime-fill contrast (per-page variants) */
+  .ph-status-pill,.stat-card.highlight,.stat-card.highlight .stat-label,.stat-card.highlight .stat-value,.pill-lime,.brand-mark{color:#00202D !important}
+  .ns-editable-tag{color:#00202D !important;background:#D6F4FF !important}
+  /* family match: soft cerulean-20 fills, no bright lime */
+  .tag-lime,.ph-status-pill,.stat-card.highlight,.pill-lime,.faq-tier-num,.pill-applied{background:#D6F4FF !important;color:#00202D !important;border-color:#8FD8F2 !important}
+  .stat-card.highlight .stat-label,.stat-card.highlight .stat-value{color:#00202D !important}
+</style>
+</head>
+<body data-cc-partner="UT_Austin" data-cc-root="../">
+
+<nav class="topnav" aria-label="Top navigation">
+  <div class="topnav-inner">
+    <a href="../index.html" class="brand">
+      <img class="studio-logo" src="../Studio-logo-white.svg" alt="iDesign Studio">
+      <span class="brand-wordmark">Creative Companion</span>
+    </a>
+    <a href="../index.html" class="back-link">&larr; Back to Companion</a>
+    <span class="save-state" id="save-status">North Star autosaves locally</span>
+  </div>
+</nav>
+
+<div class="container">
+
+  <header class="partner-header">
+    <div class="ph-eyebrow">Living Project Page</div>
+    <div class="ph-name-row">
+      <span class="ph-name">UT Austin</span>
+      <span class="ph-status-pill">Kickoff &amp; Discovery · Both workstreams active</span>
+    </div>
+    <div class="ph-meta">Center for Professional Education (CPE) · Canvas · New partner · Two workstreams (Nonprofit Cert + Innovation Fund Playbook) · Creative Tick allocation unresolved</div>
+  </header>
+
+  <div class="blocker-banner" style="background: linear-gradient(135deg, #002E40 0%, #017FAE 100%);">
+    <div class="blocker-banner-label" style="color: #33C9FF;">Tick allocation resolved · 1 YELLOW FLAG + 3 active items</div>
+    <div class="blocker-banner-title">Creative Tick allocation now split across Video Services bucket (pending hour estimates) and WS1 Course Dev Studio bucket (5.75 hrs). 5.75 hrs for course graphics work flagged for discussion.</div>
+    <div style="font-size: 12.5px; color: #CCE5EF; line-height: 1.55;">Tick response came back from the admin channel. Video creative support assets (Intro, Outro, Lower 3rds, Full Screen Frame, Left Content Right Video Frame, Right Content Left Video Frame + admin) will bill to a Video Services Tick bucket that Bradley sets up once GDM provides hour estimates. Remaining course graphics work (Canvas template + course-specific graphics for the Nonprofit Cert) falls under UT Austin :: WS1 :: Workstream 1 Course Dev :: SOW 2026-1 :: Studio, of which Creative is allotted 5.75 hours. That constraint is a YELLOW FLAG for discussion. Julie sent the CPE style guide and UMAC guidelines and confirmed CPE works with the EEV marketing team. GDM's July 22 follow-up email to Julie on brand-authority precedence, direction, assets, and approval is still awaiting a response. Mobile-friendly design reinforced by Dana; Courtney is the ELT Lead. Bradley owns all video scope.</div>
+    <div class="blocker-banner-list" style="grid-template-columns: 1fr 1fr;">
+      <div class="blocker-banner-item" style="border-left-color: #33C9FF;">
+        <div class="bb-num" style="color: #33C9FF;">Active item 1 · GDM to send</div>
+        <div class="bb-title">Hour estimates for video support assets to Bradley</div>
+        <div class="bb-detail">GDM to provide Bradley with hour estimates for the six video support assets plus admin time: Intro, Outro, Lower 3rds, Full Screen Frame, Left Content Right Video Frame, Right Content Left Video Frame + admin. Bradley then sets up the Video Services Tick bucket for that work.</div>
+      </div>
+      <div class="blocker-banner-item" style="border-left-color: #FDE8CC;" >
+        <div class="bb-num" style="color: #FDE8CC;">Active item 2 · YELLOW FLAG</div>
+        <div class="bb-title">5.75 hrs for course graphics (WS1 Course Dev Studio)</div>
+        <div class="bb-detail">Course graphics work (Canvas template + course-specific graphics for the Nonprofit Cert) is allotted 5.75 hours in the UT Austin :: WS1 :: Workstream 1 Course Dev :: SOW 2026-1 :: Studio bucket. GDM to flag for discussion in the admin channel. That's a tight envelope for a course template plus per-course graphics; worth aligning on scope expectations before design work starts.</div>
+      </div>
+      <div class="blocker-banner-item" style="border-left-color: #33C9FF;">
+        <div class="bb-num" style="color: #33C9FF;">Active item 3</div>
+        <div class="bb-title">Awaiting Julie's response on brand authority</div>
+        <div class="bb-detail">GDM's July 22 follow-up email asked Julie about precedence between CPE style guide and UMAC, direction contact, asset source, and approval authority. Still awaiting response. Blocks final visual direction for both the video support assets and the course graphics.</div>
+      </div>
+      <div class="blocker-banner-item" style="border-left-color: #33C9FF;">
+        <div class="bb-num" style="color: #33C9FF;">Active item 4</div>
+        <div class="bb-title">GDM × Gauri split</div>
+        <div class="bb-detail">Two upcoming phases and a maternity leave handoff coming. Good moment to decide who owns what on the Creative side.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="north-star-card">
+    <div class="ns-label-row">
+      <span class="ns-label">North Star</span>
+      <span class="ns-editable-tag">Editable · Draft</span>
+    </div>
+    <div class="ns-help">Drafted from the PBD context and the internal kickoff prep notes. Edit to refine. Saves automatically as you type.</div>
+    <textarea class="ns-input" id="north-star">The University of Texas at Austin's Center for Professional Education (CPE) is standing up two workstreams at once: a self-paced Nonprofit Management Certificate co-designed with faculty and executive practitioner Alex, launching January 2027; and a repeatable Course Production Shop framework that lets CPE's pipeline of non-credit courses move from faculty idea to launch on a known timeline and cost. CPE serves working professionals seeking usable credentials, evaluated by learners against high-production alternatives like Coursera, LinkedIn Learning, MasterClass, and Outlier. Working learners consume this content on the go, so mobile-friendly design is a first-class constraint, not an afterthought, and mobile testing in the Canvas app becomes a real collaboration point with ELT. Design should feel like UT meeting the world, not UT the institution: carrying UT's credibility while distinct from the burnt-orange-forward institutional look. Success is the Nonprofit Cert launching on time as CPE's first showstopper, and a Playbook CPE can use to greenlight and scope the next several courses in the Innovation Fund pipeline.</textarea>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">LMS</div>
+      <div class="stat-value small">Canvas</div>
+      <div class="stat-sub">In canon</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Phase 1 contract</div>
+      <div class="stat-value small">$109K</div>
+      <div class="stat-sub">$59K WS1 + $50K WS2</div>
+    </div>
+    <div class="stat-card flag">
+      <div class="stat-label">Creative Tick hours</div>
+      <div class="stat-value small">Split · 5.75 hrs flagged</div>
+      <div class="stat-sub">Video Services (TBD) + 5.75 WS1 Course Dev</div>
+    </div>
+    <div class="stat-card highlight">
+      <div class="stat-label">Current phase</div>
+      <div class="stat-value small">Kickoff &amp; Discovery</div>
+      <div class="stat-sub">Both workstreams · Week of July 20</div>
+    </div>
+  </div>
+
+  <div class="block" style="margin-bottom:22px">
+  <div class="block-header block-h-navy">Updates from the Inbox <span class="meta">Applied items appear here</span></div>
+  <div class="block-body" style="padding-top:8px"><div id="cc-partner-feed"></div></div>
+</div>
+<div class="main-grid">
+
+    <div>
+
+      <div class="block">
+        <div class="block-header block-h-navy">Intake</div>
+        <div class="block-body">
+          <div class="form-grid">
+
+            <div class="field locked">
+              <label class="field-label">PBD received</label>
+              <div class="field-control">
+                <input type="date" value="2026-07-14" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From Partner Success (Briana Johnson)</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">SOW signed</label>
+              <div class="field-control">
+                <input type="text" value="Contract awarded · SOW date not confirmed to Creative" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Contract allows spend · email approval process</span> <span class="pending-badge">Not a blocker</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Project kickoff</label>
+              <div class="field-control">
+                <input type="date" value="2026-07-20" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Kickoff held July 20, 2026</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Creative Tick hours</label>
+              <div class="field-control">
+                <input type="text" value="Split · Video Services bucket (pending GDM's hour estimates) + 5.75 hrs in UT Austin :: WS1 :: Workstream 1 Course Dev :: SOW 2026-1 :: Studio" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Resolved via admin channel response · 5.75 hr course-graphics allocation flagged for discussion</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Partner status</label>
+              <div class="field-control">
+                <div class="radio-group">
+                  <span class="radio-pill"><input type="radio" name="ps" disabled checked /><label>New partner</label></span>
+                  <span class="radio-pill"><input type="radio" name="ps" disabled /><label>Existing partner</label></span>
+                </div>
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Prior UT work (McCombs) not part of this engagement</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Brand contact</label>
+              <div class="field-control">
+                <input type="text" value="EEV marketing team · contact TBD via Julie" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Julie confirmed CPE works with the EEV marketing team; introduction to a specific contact pending</span> <span class="pending-badge">Awaiting Julie's response to July 22 follow-up</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Video hosting</label>
+              <div class="field-control">
+                <input type="text" value="Vimeo per PBD · confirmation and process pending" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Bradley to confirm with CPE</span> <span class="pending-badge">Video Services scope</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Modality (WS1)</label>
+              <div class="field-control">
+                <input type="text" value="Self-paced online · 48 instructional hours · 8 modules" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Target launch (WS1)</label>
+              <div class="field-control">
+                <input type="date" value="2027-01-18" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD · CPE target date</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Deliverables due (WS2)</label>
+              <div class="field-control">
+                <input type="text" value="Mid-December 2026 · Playbook + video production standard" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD timeline</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Partner Success Lead</label>
+              <div class="field-control">
+                <input type="text" value="Briana Johnson" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Sales Lead</label>
+              <div class="field-control">
+                <input type="text" value="Whitney Kilgore" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD · relationship-driven partner, valued face-to-face</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Project Manager</label>
+              <div class="field-control">
+                <input type="text" value="Chandra (new PM at iDesign)" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Pam bringing her on to this project</span> <span class="pending-badge">Introductions upcoming</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">ID Lead</label>
+              <div class="field-control">
+                <input type="text" value="Erin Dudo · designer TBD" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Erin evaluating designer availability</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Video Services Lead</label>
+              <div class="field-control">
+                <input type="text" value="Bradley Spinsby · Sandy on video testing" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Bradley owns all video scope</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">ELT Lead</label>
+              <div class="field-control">
+                <input type="text" value="Courtney" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Posted by Erin in the admin channel on July 21, 2026</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Coded interactives lead</label>
+              <div class="field-control">
+                <input type="text" value="Erin × Kendrick (UX/UI Designer)" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Erin reaching out to Kendrick</span> <span class="pending-badge">Team home TBD</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-slate">Key Partner Stakeholders <span class="meta">From PBD + internal kickoff prep</span></div>
+        <div class="block-body">
+          <table class="stakeholder-table">
+            <tr><td>Julie C.</td><td>Assistant Director for Program Development at EEV. Day-to-day administrative contact for the Design and Delivery team. Articulate, open, wants CPE to feel like co-creators with iDesign. Primary partner contact and GDM's touch point across the project.</td></tr>
+            <tr><td>Liliya S.</td><td>Julie's supervisor. D&amp;D will not be in direct contact with her.</td></tr>
+            <tr><td>Alex G.</td><td>Faculty SME for the Nonprofit Management Certificate. UT Austin faculty (McCombs School of Business) and executive director of a national nonprofit. Has outlined the course and drafted content and video scripts. Attended the July 20 kickoff. Out of the country July 29 to August 11. Studio filming scheduled August 20-21.</td></tr>
+            <tr><td>Dana W.</td><td>Associate Vice Provost and Executive Director at Extended Education Ventures. Video journalism background followed by 30 years in continuing professional education and extended learning. Leading the video vision for the documentary segments. Attended the July 20 kickoff.</td></tr>
+            <tr><td>EEV Marketing team (contact TBD)</td><td>Brand authority for CPE. Julie confirmed CPE works with the EEV marketing team on brand direction. Contact introduction pending via Julie.</td></tr>
+            <tr><td>UMAC (University Marketing and Communications)</td><td>UT Austin institution-wide brand authority. Provides UT-wide brand guidelines that CPE follows.</td></tr>
+            <tr><td>Extended Education Ventures (EEV)</td><td>Umbrella unit above CPE. Oversees budget considerations and houses the marketing team CPE works with.</td></tr>
+            <tr><td>Courtney (surname TBC) · ELT Lead</td><td>Educational Learning Technology lead on the iDesign side. Posted by Erin in the admin channel on July 21, 2026. Key coordination point for Canvas mobile app testing given mobile-friendly design is a first-class constraint.</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-blue">Recommendation &amp; Package <span class="meta">Tick allocation resolved · 5.75 hr constraint flagged</span></div>
+        <div class="block-body">
+          <div style="background: #E0F2E8; border-left: 4px solid #4A8C4A; padding: 12px 14px; border-radius: 4px; font-size: 12.5px; line-height: 1.55; color: #1F4D34; margin-bottom: 14px;"><strong>Tick allocation resolved via admin channel response.</strong> Creative's hours split across two buckets: (1) a Video Services Tick bucket for the video support assets, which Bradley will set up once GDM provides hour estimates (Intro, Outro, Lower 3rds, Full Screen Frame, Left Content Right Video Frame, Right Content Left Video Frame + admin); (2) UT Austin :: WS1 :: Workstream 1 Course Dev :: SOW 2026-1 :: Studio, with 5.75 hours allotted for the course graphics work.</div>
+          <div style="background: #FDE8CC; border-left: 4px solid #BA7517; padding: 12px 14px; border-radius: 4px; font-size: 12.5px; line-height: 1.55; color: #7A4000; margin-bottom: 14px;"><strong>YELLOW FLAG · 5.75 hrs for course graphics is tight.</strong> Canvas template plus course-specific graphics for one course inside 5.75 hours is a tight envelope. GDM to flag for discussion in the admin channel so the team can align on scope expectations before design work starts. Nothing about the video support asset work is affected by this flag.</div>
+
+          <div class="reco-section-title">Confirmed Creative deliverables (from July 20 kickoff)</div>
+          <div style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 14px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 12.5px;">
+              <thead>
+                <tr>
+                  <th style="text-align: left; background: var(--bg-soft); color: var(--ink); font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 10px; border-bottom: 2px solid var(--blue);">Phase</th>
+                  <th style="text-align: left; background: var(--bg-soft); color: var(--ink); font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 10px; border-bottom: 2px solid var(--blue);">Deliverables</th>
+                  <th style="text-align: right; background: var(--bg-soft); color: var(--ink); font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 10px; border-bottom: 2px solid var(--blue);">Target</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top;"><strong>Phase 1 · Video Support</strong></td>
+                  <td style="padding: 10px; border-bottom: 1px solid var(--border); font-size: 12px; line-height: 1.55;">Intro · Outro · Lower 3rds · Full Screen Frame · Left Content Right Video Frame · Right Content Left Video Frame. Used by Video Services to edit incoming footage after this date.</td>
+                  <td style="padding: 10px; border-bottom: 1px solid var(--border); text-align: right; font-family: 'Courier New', monospace; vertical-align: top; font-weight: 700;">8/20/26</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top;"><strong>Phase 2 · Canvas + Course Graphics</strong></td>
+                  <td style="padding: 10px; border-bottom: 1px solid var(--border); font-size: 12px; line-height: 1.55;">Canvas template plus course-specific graphics for one course (Nonprofit Cert). Delivered ahead of GDM's maternity leave.</td>
+                  <td style="padding: 10px; border-bottom: 1px solid var(--border); text-align: right; font-family: 'Courier New', monospace; vertical-align: top; font-weight: 700;">Before mat leave</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="reco-section-title">Scope shape (Phase 1)</div>
+          <p style="font-size: 12.5px; color: var(--text-body); line-height: 1.55; margin-bottom: 12px;"><strong>Phase 1 total: $109,000.</strong> Two workstreams that are intertwined but scoped separately.</p>
+
+          <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 14px;">
+            <thead>
+              <tr>
+                <th style="text-align: left; background: var(--bg-soft); color: var(--ink); font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 10px; border-bottom: 2px solid var(--blue);">Workstream</th>
+                <th style="text-align: right; background: var(--bg-soft); color: var(--ink); font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 10px; border-bottom: 2px solid var(--blue);">Value</th>
+                <th style="text-align: left; background: var(--bg-soft); color: var(--ink); font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 10px; border-bottom: 2px solid var(--blue);">Scope shape</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top;"><strong>WS1: Nonprofit Cert</strong></td>
+                <td style="padding: 10px; border-bottom: 1px solid var(--border); text-align: right; font-family: 'Courier New', monospace; vertical-align: top;">$59K</td>
+                <td style="padding: 10px; border-bottom: 1px solid var(--border); font-size: 12px; line-height: 1.5;">$17K course design + $42K video (8 Tier 1 + 8 Tier 3 + 8 branching interactives). 48 instructional hours across 8 modules. 8 multi-page interactives. Accessibility audit. Canvas build. LXD and faculty consultation.</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px; border-bottom: 1px solid var(--border); vertical-align: top;"><strong>WS2: Innovation Fund Playbook</strong></td>
+                <td style="padding: 10px; border-bottom: 1px solid var(--border); text-align: right; font-family: 'Courier New', monospace; vertical-align: top;">$50K</td>
+                <td style="padding: 10px; border-bottom: 1px solid var(--border); font-size: 12px; line-height: 1.5;">Discovery with CPE leadership. Two to three standard course templates (self-paced, hybrid, specialty). Reusable documentary-quality video production standard. Standard timelines, staffing plans, budget framework. Intake and scoping process for new courses.</td>
+              </tr>
+              <tr style="background: var(--bg-soft);">
+                <td style="padding: 10px; font-weight: 900; color: var(--ink);">Phase 1 total</td>
+                <td style="padding: 10px; text-align: right; font-family: 'Courier New', monospace; font-weight: 900; color: var(--ink);">$109K</td>
+                <td style="padding: 10px; font-size: 12px; font-style: italic; color: var(--text-muted);">Workstreams intertwined. Team considering unified schedule.</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="background: #FDE8CC; border-left: 4px solid #BA7517; padding: 12px 14px; border-radius: 4px; font-size: 12.5px; line-height: 1.55; color: #7A4000; margin-bottom: 12px;"><strong>Structural note.</strong> No dedicated Program Planning exists on this engagement. Kickoff &amp; Discovery for both workstreams (starting week of July 20) is treated as Creative's PP-equivalent phase, and normal PP work happens here.</div>
+
+          <div class="reco-section-title">Next steps in order</div>
+          <ol style="font-size: 12.5px; color: var(--text-body); padding-left: 22px; line-height: 1.55; margin: 0 0 12px;">
+            <li style="margin-bottom: 8px;"><strong>Send Bradley hour estimates for the six video support assets + admin.</strong> Once GDM sends estimates, Bradley sets up the Video Services Tick bucket for this work.</li>
+            <li style="margin-bottom: 8px;"><strong>Flag 5.75 hrs in WS1 Course Dev Studio for discussion.</strong> Tight envelope for Canvas template plus course-specific graphics for one course. Align on scope expectations with the team before design work starts.</li>
+            <li style="margin-bottom: 8px;"><strong>Await Julie's response to July 22 brand-authority follow-up.</strong> Julie already sent the CPE style guide and UMAC guidelines link; the follow-up asks about precedence, direction, asset source, and approver.</li>
+            <li style="margin-bottom: 8px;"><strong>Plan Phase 1: video support assets by 8/20.</strong> Structural work can start once Tick is confirmed; brand direction from the EEV marketing team informs the final treatments. Coordinate with Bradley on how his team will consume the assets.</li>
+            <li style="margin-bottom: 8px;"><strong>Plan Phase 2: Canvas template + one-course graphics.</strong> After 8/20, before GDM's maternity leave.</li>
+            <li style="margin-bottom: 8px;"><strong>Engage ELT early on mobile-friendly design collaboration.</strong> Mobile testing in Canvas app is a real touchpoint.</li>
+            <li style="margin-bottom: 8px;"><strong>Confirm GDM × Gauri Creative split.</strong></li>
+            <li style="margin-bottom: 8px;"><strong>Investigate UT McCombs prior work.</strong> Determine what exists in usable form and whether any of it applies to CPE.</li>
+            <li style="margin-bottom: 0;"><strong>Maternity leave handoff planning.</strong> Both phases need to land before GDM leaves; plan what's delegable and to whom.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-navy">Follow-up questions <span class="meta">For Julie · brand authority clarification</span></div>
+        <div class="block-body">
+          <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 12px; font-style: italic;">GDM drafted a follow-up email to Julie on July 22 asking these four brand-authority questions, previewed to the admin channel for team input before sending. Julie sent the CPE style guide and the UMAC UT Austin brand guidelines link ahead of the July 20 kickoff and confirmed CPE works with the EEV marketing team; these questions clarify how the three brand layers interact operationally.</p>
+          <ol style="font-size: 12.5px; color: var(--text-body); padding-left: 22px; line-height: 1.55; margin: 0 0 12px;">
+            <li style="margin-bottom: 8px;"><strong>When there's overlap or difference between the CPE style guide and the broader UT Austin guidelines from UMAC, which takes precedence for this project?</strong></li>
+            <li style="margin-bottom: 8px;"><strong>Who's the right person to provide Creative direction and make brand decisions along the way?</strong> Julie, someone at the EEV marketing team, or someone at UMAC?</li>
+            <li style="margin-bottom: 8px;"><strong>When we need assets that aren't in the guides (logos, photography, illustration), who's the best contact to request them from?</strong></li>
+            <li style="margin-bottom: 0;"><strong>Who should approve Creative's work as it moves forward?</strong></li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-slate">Follow-up questions <span class="meta">For long-term kickoff / follow-up with Julie</span></div>
+        <div class="block-body">
+          <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 12px; font-style: italic;">Broader-scope questions for the second/long-term kickoff conversation with Julie once immediate August filming logistics are handled.</p>
+          <ol style="font-size: 12.5px; color: var(--text-body); padding-left: 22px; line-height: 1.55; margin: 0;">
+            <li style="margin-bottom: 8px;"><strong>Is the Nonprofit Certificate the aesthetic template for CPE's future courses,</strong> or a one-off with its own look?</li>
+            <li style="margin-bottom: 8px;"><strong>Beyond templates and process, what's inside the Course Template Playbook?</strong> Is Creative building a visual system CPE will reuse: colors, typography, layouts, interactive patterns?</li>
+            <li style="margin-bottom: 0;"><strong>Any visual expectations for the Canvas course shell</strong> for the Nonprofit Cert: banners, module intros, section graphics, layout patterns?</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-slate">Design Decisions Log</div>
+        <div class="block-body">
+
+          <div class="decision">
+            <div class="title">Video creative support assets due 8/20 · six deliverables</div>
+            <div class="rationale">Video Services needs Creative's support assets ready by 8/20 to edit incoming footage after that date. Six deliverables: Intro, Outro, Lower 3rds, Full Screen Frame, Left Content Right Video Frame, Right Content Left Video Frame. Brand direction from the EEV marketing team will inform the final treatments; structural work can start once the Tick allocation is confirmed.</div>
+            <div class="meta">Locked at July 20 kickoff · Phase 1</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Canvas template + course-specific graphics for one course · before GDM's maternity leave</div>
+            <div class="rationale">Canvas template plus course-specific graphics for one course (Nonprofit Cert). Target: sometime after 8/20 but before GDM's maternity leave. This is the smaller of Creative's two phases and depends on brand direction landing.</div>
+            <div class="meta">Locked at July 20 kickoff · Phase 2</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Mobile-friendly design is a first-class constraint</div>
+            <div class="rationale">Working learners consume CPE content on the go. Dana specifically reinforced this in the July 20 kickoff, referencing that many CPE learners consume content on mobile devices with limited bandwidth. Mobile-friendly design is not an afterthought. Testing in the Canvas mobile app becomes a real ELT collaboration point. Every visual decision on the course template and course graphics should be evaluated against mobile.</div>
+            <div class="meta">Locked at July 20 kickoff</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Iterative first-module approach for the Nonprofit Cert</div>
+            <div class="rationale">Dana proposed getting one full module produced end-to-end as a pilot, so the team can review it together and calibrate visual, editing, and graphic decisions before applying learnings to the remaining seven modules. Alex is open to any middle-of-the-course module being selected (not the first, which he thinks may be too simple). Filming for the pilot module targets August 20-21.</div>
+            <div class="meta">Locked at July 20 kickoff</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Brand authority layers: CPE style guide + UMAC + EEV marketing team</div>
+            <div class="rationale">Julie sent the CPE style guide and a link to UMAC's UT Austin brand guidelines, and confirmed that CPE works with the EEV marketing team on brand direction. Three layers in play: (1) UT Austin institution-wide brand from UMAC; (2) EEV marketing team as CPE's operational brand support; (3) CPE style guide for course-level design. Precedence rules, direction contact, asset source, and approval authority are the subject of GDM's July 22 follow-up email to Julie.</div>
+            <div class="meta">Julie's email ahead of July 20 kickoff</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Design Plus available as a Canvas customization tool</div>
+            <div class="rationale">Dana confirmed CPE has access to Design Plus in Canvas, which expands what the team can do inside Canvas beyond native tools. Relevant for Phase 2's Canvas template and course-specific graphics work.</div>
+            <div class="meta">Confirmed at July 20 kickoff</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Innovation Fund courses (Workstream 2 downstream) target 2027</div>
+            <div class="rationale">Julie confirmed at the kickoff that the five approved Innovation Fund courses will target 2027 launches, not 2026. Timelines for those courses inform the Playbook framework Creative is helping shape as part of Workstream 2, but they do not create near-term Creative production work on this engagement.</div>
+            <div class="meta">Confirmed at July 20 kickoff</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Creative Tick allocation resolved: two-bucket split</div>
+            <div class="rationale">Response came back through the admin channel. Video creative support assets bill to a Video Services Tick bucket that Bradley sets up once GDM provides hour estimates (Intro, Outro, Lower 3rds, Full Screen Frame, Left Content Right Video Frame, Right Content Left Video Frame + admin). Course graphics work (Canvas template + course-specific graphics for the Nonprofit Cert) bills to UT Austin :: WS1 :: Workstream 1 Course Dev :: SOW 2026-1 :: Studio, with 5.75 hours allotted. 5.75 hrs is tight for that scope and is flagged for discussion.</div>
+            <div class="meta">Resolved via admin channel · pending GDM's estimates for Video Services bucket</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div>
+
+      <div class="block">
+        <div class="block-header block-h-blue">Phase Status · Workstream 1 <span class="meta">Nonprofit Certificate</span></div>
+        <div class="block-body">
+          <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 14px;">Timeline from PBD. Studio filming August 20-21 is a hard date. Course production complete Oct 31 is internal deadline to protect the January launch.</p>
+
+          <div class="cycle-row">
+            <div class="cycle-dot active"></div>
+            <div class="cycle-label">Kickoff &amp; Discovery (functional PP)</div>
+            <div class="cycle-status" style="color: var(--blue);">Active · Week of July 20</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Design &amp; Build (Phase 1)</div>
+            <div class="cycle-status">Late July to mid Aug</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Design &amp; Build (Phase 2) &amp; Filming</div>
+            <div class="cycle-status">Mid Aug to early Oct</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Course Production Complete</div>
+            <div class="cycle-status">By Oct 31 · internal deadline</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Video Finalization</div>
+            <div class="cycle-status">Nov to Dec</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Launch</div>
+            <div class="cycle-status">Jan 18, 2027</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-blue">Phase Status · Workstream 2 <span class="meta">Innovation Fund Playbook</span></div>
+        <div class="block-body">
+          <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 14px;">Discovery, templates, and framework work. Runs parallel to WS1 and informs it.</p>
+
+          <div class="cycle-row">
+            <div class="cycle-dot active"></div>
+            <div class="cycle-label">Kickoff &amp; Discovery (functional PP)</div>
+            <div class="cycle-status" style="color: var(--blue);">Active · Week of July 20</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Template Development</div>
+            <div class="cycle-status">Aug to Oct</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Discovery Complete</div>
+            <div class="cycle-status">By Oct 31</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Playbook Finalization</div>
+            <div class="cycle-status">Nov to mid Dec</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Deliverables Due</div>
+            <div class="cycle-status">Mid Dec 2026</div>
+          </div>
+
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+            <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 4px;">Currently</div>
+            <div style="font-size: 13px; color: var(--ink); font-weight: 700;">Kickoff &amp; Discovery active on both workstreams. Creative Tick allocation resolved with a two-bucket split; 5.75 hrs in WS1 Course Dev is a YELLOW FLAG for discussion. GDM to send Bradley hour estimates for the six video support assets + admin. Brand direction partially landed; precedence, direction contact, asset source, and approver pending Julie's response to GDM's July 22 follow-up.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header" style="background: var(--blue); color: #fff;">Coordination points <span class="meta" style="opacity: 0.85;">Creative × Video × ID</span></div>
+        <div class="block-body">
+          <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 12px; font-style: italic;">Not owned by GDM to drive. Just tracked here so Creative is aware of collaboration touchpoints as scoping progresses.</p>
+          <div class="blocker-item">
+            <div class="bi-title" style="color: var(--blue);"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Coordination</span> Bradley owns video scope</div>
+            <div class="bi-body">All video scope, filming, video interactives, and branching scenarios belong to Bradley and Video Services. Creative and Video Services will need to collaborate on brand, on-screen visual treatments, and any shared assets.</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title" style="color: var(--blue);"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Coordination</span> Erin × Kendrick lead coded HTML interactives</div>
+            <div class="bi-body">Team is steering CPE away from Storyline (license cost, Windows-only). Working plan mixes video interactives (Bradley) with coded in-page HTML interactives. Erin is reaching out to Kendrick (UX/UI Designer) to lead the coded work. GDM provides Creative direction if asked, but does not own or lead.</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title" style="color: var(--blue);"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Coordination</span> Reusable interactives feed the WS2 Playbook</div>
+            <div class="bi-body">Explicit bridge made at internal kickoff prep: if coded interactives on WS1 are designed to be reusable, they can become part of the Course Template Playbook (WS2 deliverable). GDM involved insofar as the Playbook's visual system may touch this.</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title" style="color: var(--blue);"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Coordination</span> GDM × Bradley meeting with EEV marketing team</div>
+            <div class="bi-body">Once Julie introduces GDM to the right EEV marketing contact, GDM and Bradley meet with them jointly to lock brand direction. Brand-authority clarifying questions live in the Follow-up Questions block.</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title" style="color: var(--blue);"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Coordination</span> ELT × Creative for mobile testing · Courtney is ELT Lead</div>
+            <div class="bi-body">Mobile-friendly design is a first-class constraint for CPE learners. ELT collaboration on testing the Canvas mobile app becomes a real touchpoint on this project. Courtney is the ELT Lead (posted by Erin in the admin channel on July 21). Loop Courtney in early rather than surprising ELT at delivery.</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title" style="color: var(--blue);"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Coordination</span> GDM × Gauri Creative team split</div>
+            <div class="bi-body">Two upcoming phases and a maternity leave handoff coming. Internal split TBD on the Creative side.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-navy">Recent Activity</div>
+        <div class="block-body" style="padding-top: 4px; padding-bottom: 6px;">
+          <div class="activity-item">
+            <div class="activity-date">Currently</div>
+            <div class="activity-text">Kickoff complete. Two Creative deliverables shaping up (video support assets by 8/20, Canvas template + one-course graphics before maternity leave). Creative Tick allocation resolved via admin channel: video work bills to a Video Services bucket Bradley sets up once GDM provides hour estimates; course graphics work bills to 5.75 hrs in UT Austin :: WS1 :: Workstream 1 Course Dev :: SOW 2026-1 :: Studio. 5.75 hrs is a YELLOW FLAG for discussion. Julie's response to GDM's brand-authority follow-up still pending. Courtney confirmed as ELT Lead. GDM × Gauri split still open.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 22, 2026 · Tick allocation resolved via admin channel</div>
+            <div class="activity-text">Response came back on the Tick question. Creative's hours split across two buckets: (1) a Video Services Tick bucket for the six video support assets plus admin (Intro, Outro, Lower 3rds, Full Screen Frame, Left Content Right Video Frame, Right Content Left Video Frame), which Bradley sets up once GDM provides hour estimates; (2) 5.75 hours in UT Austin :: WS1 :: Workstream 1 Course Dev :: SOW 2026-1 :: Studio for the course graphics work. 5.75 hrs is tight for a Canvas template plus course-specific graphics; GDM to flag for team discussion. Response to GDM's brand-authority follow-up email to Julie is still pending.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 22, 2026 · Follow-up drafted + admin channel post</div>
+            <div class="activity-text">GDM drafted a follow-up email to Julie with four brand-authority clarifying questions (precedence between CPE style guide and UMAC, direction/decision contact, asset source contact, approval authority). Previewed the questions in the admin channel first for team input before sending. Plan: send email to Julie the next morning if no team responses require changes.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 20, 2026 · Partner kickoff</div>
+            <div class="activity-text">Kickoff meeting with UT Austin CPE completed. Attendees included Alex G. (faculty SME, dropped off partway through for another commitment) and Dana W. (Associate VP + Executive Director at EEV, leading video vision). Two Creative deliverables surfaced: (1) video creative support assets due 8/20 for Video Services to edit incoming footage (Intro, Outro, Lower 3rds, Full Screen Frame, Left Content Right Video Frame, Right Content Left Video Frame); (2) Canvas template plus course-specific graphics for one course, delivered before GDM's maternity leave. Iterative first-module approach locked: get one full module produced end-to-end as a pilot, then apply learnings to the remaining seven. Filming for the pilot module targets August 20-21 in EEV's studio. Mobile-friendly design reinforced by Dana directly (many CPE learners consume content on mobile devices with limited bandwidth). Design Plus confirmed as an available Canvas customization tool. Innovation Fund courses (Workstream 2 downstream) target 2027 launches. Weekly touch-base cadence and Google Workspace + Slack for collaboration proposed.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 20, 2026 · morning</div>
+            <div class="activity-text">Julie responded to GDM's introduction email ahead of the kickoff. Sent the CPE style guide (attachment) and a link to UMAC's UT Austin brand guidelines. Confirmed that CPE works with the marketing team at Extended Education Ventures (EEV).</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 17, 2026 · evening</div>
+            <div class="activity-text">Briana emailed the CPE partner introduction to Julie. GDM responded flagging that a brand-authority contact intro is a top priority for hitting the ground running, and offered to discuss further at Monday's kickoff. (Framing at the time referred to a "CPE marketing" contact; Julie later confirmed CPE works with the EEV marketing team, so that framing was corrected on July 20.)</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 17, 2026</div>
+            <div class="activity-text">Internal kickoff prep meeting held (GDM unable to attend). Attendees: Briana, Pam, Bradley, Erin, Krista. Key notes: Creative Tick allocation not visible in Tick setup (Chris to investigate); team steering CPE away from Storyline in favor of a mix of video interactives + coded HTML interactives; Kendrick candidate for coded interactive work; Bradley owns single video Tick bucket (~262 hrs); two-part kickoff planned (short-term for Aug filming logistics, long-term for planning); Chandra joining as new PM.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 14, 2026</div>
+            <div class="activity-text">Project Briefing Document received from Partner Success Lead (Briana Johnson).</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">Earlier</div>
+            <div class="activity-text">Sales conversations with Whitney Kilgore established relationship-driven trust. Face-to-face on-campus visits during the sales cycle were well received. Julie described wanting to feel like "co-creators" with iDesign.</div>
+          </div>
+          <div class="integration-note">Activity log will populate from Asana activity feed and PageProof events once project environment is stood up and integrations are built.</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="links-band">
+    <div class="links-label">Links</div>
+    <div class="links-grid">
+      <div class="link-card pending">
+        <div class="link-name">Asana</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Tick</div>
+        <div class="link-sub">Creative allocation TBD</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Canvas</div>
+        <div class="link-sub">Access pending Julie</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">PageProof</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Drive</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Slack</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <strong>The Creative Companion</strong> &nbsp;·&nbsp; UT Austin Project Page &nbsp;·&nbsp; iDesign Creative &nbsp;·&nbsp; Real data only · Blockers surfaced
+</footer>
+
+<script>
+  const STATE_KEY = 'ut-austin-north-star-v1';
+  const textarea = document.getElementById('north-star');
+  const status = document.getElementById('save-status');
+
+  try {
+    const saved = localStorage.getItem(STATE_KEY);
+    if (saved !== null) textarea.value = saved;
+  } catch(e) {}
+
+  textarea.addEventListener('input', () => {
+    try { localStorage.setItem(STATE_KEY, textarea.value); } catch(e) {}
+    status.classList.add('saved');
+    status.textContent = 'North Star saved ✓';
+    clearTimeout(window._saveT);
+    window._saveT = setTimeout(() => {
+      status.classList.remove('saved');
+      status.textContent = 'North Star autosaves locally';
+    }, 1400);
+  });
+</script>
+
+<script src="../assets/companion.js?v=5"></script>
+</body>
+</html>

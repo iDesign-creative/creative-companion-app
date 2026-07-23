@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EMU · Studio | Creative Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/companion.css?v=5" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: 'Lato', system-ui, sans-serif; color: var(--text-body); background: var(--bg-soft); margin: 0; line-height: 1.55; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3, h4 { color: var(--ink); font-weight: 900; line-height: 1.2; margin: 0; }
+  p { margin: 0 0 0.85em; }
+  :root {
+    --navy: #002E40;
+    --ink: #E9F3F7;
+    --sub: #B3D9E7;
+    --blue: #33C9FF;
+    --cyan: #5CD4FF;
+    --lime: #33C9FF;
+    --slate: #5C7E90;
+    --field: #00293A;
+    --bg-card: #002E40;
+    --bg-soft: #00202D;
+    --bg-soft-2: #123E4E;
+    --border: #20505F;
+    --text-body: #E9F3F7;
+    --text-muted: #8FA8B4;
+    --shadow-sm: 0 1px 3px rgba(0,10,18,0.30);
+    --shadow-md: 0 2px 14px rgba(0,10,18,0.40);
+    --shadow-lg: 0 4px 24px rgba(0,10,18,0.50);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  /* Top nav */
+  .topnav { background: var(--navy); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,46,64,0.20); }
+  .topnav-inner { max-width: 1240px; margin: 0 auto; padding: 12px 28px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand-mark { width: 28px; height: 28px; background: var(--lime); color: var(--ink); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; }
+  .brand-wordmark { color: #fff; font-size: 15px; font-weight: 900; }
+  .brand-wordmark .accent { color: var(--lime); }
+  .back-link { margin-left: 16px; color: #B0CCD7; font-size: 11px; text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; padding-left: 16px; border-left: 1px solid rgba(255,255,255,0.15); }
+  .back-link:hover { color: var(--lime); text-decoration: none; }
+  .save-state { margin-left: auto; font-size: 10.5px; color: #B0CCD7; text-transform: uppercase; letter-spacing: 1px; }
+  .save-state.saved { color: var(--lime); }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 28px 80px; }
+
+  /* Partner header */
+  .partner-header { background: linear-gradient(135deg, #002E40 0%, #0E5E80 100%); color: #fff; padding: 32px 36px; margin: 28px 0 0; border-radius: 12px 12px 0 0; position: relative; overflow: hidden; }
+  .partner-header::after { content: ''; position: absolute; top: -40%; right: -10%; width: 360px; height: 360px; background: radial-gradient(circle, rgba(51,201,255,0.14) 0%, transparent 70%); pointer-events: none; }
+  .ph-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2.2px; color: var(--lime); margin-bottom: 8px; }
+  .ph-name-row { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; flex-wrap: wrap; }
+  .ph-name { font-size: 32px; font-weight: 900; color: #fff; line-height: 1; }
+  .ph-status-pill { background: #FDE8CC; color: #7A4000; padding: 6px 12px; border-radius: 14px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; }
+  .ph-meta { font-size: 13px; color: #CCE5EF; margin-top: 6px; }
+
+  /* Blocker banner. The important addition */
+  .blocker-banner { background: linear-gradient(135deg, #8C2222 0%, #6B1818 100%); color: #fff; padding: 22px 30px; margin-bottom: 22px; border-radius: 0 0 12px 12px; }
+  .blocker-banner-label { font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #FDE8CC; margin-bottom: 6px; }
+  .blocker-banner-title { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 10px; line-height: 1.2; }
+  .blocker-banner-list { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px; }
+  .blocker-banner-item { background: rgba(0,0,0,0.20); padding: 12px 14px; border-radius: 6px; border-left: 3px solid #FDE8CC; }
+  .blocker-banner-item .bb-num { font-size: 10px; color: #FDE8CC; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; margin-bottom: 4px; }
+  .blocker-banner-item .bb-title { font-size: 13px; color: #fff; font-weight: 900; margin-bottom: 4px; line-height: 1.3; }
+  .blocker-banner-item .bb-detail { font-size: 11.5px; color: #FDE8CC; line-height: 1.45; }
+
+  /* North Star */
+  .north-star-card { background: var(--bg-card); border: 1px solid var(--border); border-left: 5px solid var(--lime); border-radius: 8px; padding: 20px 24px; margin-bottom: 22px; }
+  .ns-label-row { display: flex; align-items: center; margin-bottom: 8px; gap: 10px; }
+  .ns-label { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 2px; }
+  .ns-editable-tag { font-size: 9px; font-weight: 700; color: #2A6B40; background: #E0F2E8; text-transform: uppercase; letter-spacing: 1.4px; padding: 2px 8px; border-radius: 10px; }
+  .ns-help { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; font-style: italic; }
+  .ns-input { width: 100%; min-height: 130px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 13.5px; line-height: 1.65; color: var(--text-body); resize: vertical; background: var(--bg-soft); }
+  .ns-input:focus { outline: none; border-color: var(--blue); background: var(--field); box-shadow: 0 0 0 3px rgba(1,127,174,0.10); }
+
+  /* Quick Facts */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .stat-card.highlight { background: var(--lime); border-color: #4DA5C6; }
+  .stat-card.warn { background: var(--warn-bg); border: 1px solid #E8B8B8; }
+  .stat-card.warn .stat-label { color: var(--warn); }
+  .stat-card.warn .stat-value { color: var(--warn); }
+  .stat-card.flag { background: #FDE8CC; border: 1px solid #E8C89A; }
+  .stat-card.flag .stat-label { color: #7A4000; }
+  .stat-card.flag .stat-value { color: #7A4000; }
+  .stat-card.highlight .stat-label, .stat-card.highlight .stat-value { color: var(--ink); }
+  .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 6px; display: block; }
+  .stat-value { font-size: 22px; font-weight: 900; color: var(--ink); line-height: 1; }
+  .stat-value.small { font-size: 15px; line-height: 1.2; }
+  .stat-sub { font-size: 11px; color: var(--text-muted); font-weight: 700; margin-top: 4px; }
+
+  /* Main grid */
+  .main-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; margin-bottom: 22px; }
+  .block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+  .block-header { padding: 11px 18px; color: #fff; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.4px; display: flex; align-items: center; gap: 10px; }
+  .block-header .meta { margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.8px; opacity: 0.85; }
+  .block-body { padding: 16px 18px; }
+  .block-h-navy { background: var(--navy); color: var(--lime); }
+  .block-h-blue { background: var(--blue); color: #00202D; }
+  .block-h-slate { background: #123E4E; color: #E9F3F7; }
+  .block-h-red { background: #7D570A; color: #FFF7E8; }
+
+  /* Form fields */
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .field { display: grid; grid-template-columns: 160px 1fr; gap: 12px; align-items: start; }
+  .field-label { font-size: 12px; color: var(--text-muted); padding-top: 7px; font-weight: 700; }
+  .field-control { display: flex; flex-direction: column; gap: 4px; }
+
+  input[type="text"], input[type="date"], input[type="number"], select, textarea {
+    font-family: inherit; font-size: 13px; color: var(--text-body); background: var(--field);
+    border: 1px solid var(--border); border-radius: 5px; padding: 7px 10px; width: 100%;
+  }
+  input::placeholder, textarea::placeholder { color: #98AAB3; font-style: italic; }
+  input[type="date"] { max-width: 200px; }
+  input[type="number"] { max-width: 140px; }
+
+  .field.locked input[readonly], .field.locked textarea[readonly] {
+    background: var(--bg-locked); color: var(--ink); border-color: var(--border-locked); cursor: default; font-weight: 700;
+  }
+  .field.locked input[readonly]:focus, .field.locked textarea[readonly]:focus { outline: none; box-shadow: none; }
+  .field.locked .select-locked {
+    background: var(--bg-locked); color: var(--ink); border: 1px solid var(--border-locked);
+    border-radius: 5px; padding: 7px 28px 7px 10px; font-size: 13px; font-weight: 700; max-width: 240px; position: relative;
+  }
+  .field.pending input, .field.pending textarea {
+    background: var(--bg-card); border-color: var(--border); border-style: dashed; color: var(--text-muted);
+  }
+  .field.pending input:focus, .field.pending textarea:focus { outline: none; }
+  .field.blocker input[readonly], .field.blocker textarea[readonly] {
+    background: var(--warn-bg); color: var(--warn); border: 1px solid #E8B8B8; cursor: default; font-weight: 700;
+  }
+
+  /* Radio pills */
+  .radio-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .radio-pill { position: relative; display: inline-flex; align-items: center; }
+  .radio-pill input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .radio-pill label { display: inline-block; padding: 5px 12px; border: 1px solid var(--border); border-radius: 18px; background: var(--field); cursor: pointer; font-size: 12px; font-weight: 700; color: var(--text-muted); }
+  .field.locked .radio-pill input[type="radio"]:disabled + label { background: var(--bg-locked); color: var(--text-muted); border-color: var(--border-locked); cursor: default; opacity: 1; }
+  .field.locked .radio-pill input[type="radio"]:disabled:checked + label { background: var(--navy); color: var(--lime); border-color: var(--ink); cursor: default; opacity: 1; }
+
+  /* Source pills */
+  .field-source { display: flex; align-items: center; gap: 6px; margin-top: 2px; flex-wrap: wrap; }
+  .source-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 9.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+  .source-pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .source-pill.locked .dot { background: var(--slate); }
+  .source-pill.pending .dot { background: #BA7517; }
+  .source-pill.blocker .dot { background: var(--warn); }
+  .pending-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: #FDE8CC; color: #7A4000; text-transform: uppercase; letter-spacing: 0.6px; }
+  .blocker-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: var(--warn-bg); color: var(--warn); text-transform: uppercase; letter-spacing: 0.6px; }
+
+  .pill { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 9.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; }
+  .pill-warn { background: var(--warn-bg); color: var(--warn); }
+  .pill-info { background: #DDE7F2; color: #1E3A5C; }
+  .pill-lime { background: var(--lime); color: var(--ink); }
+  .pill-amber { background: #FDE8CC; color: #7A4000; }
+
+  /* Recommendation block */
+  .reco-blocked { padding: 22px; text-align: center; background: var(--warn-bg); border: 1px dashed #E8B8B8; border-radius: 6px; }
+  .reco-blocked h4 { color: var(--warn); font-size: 15px; margin-bottom: 8px; }
+  .reco-blocked p { color: var(--warn); font-size: 12.5px; line-height: 1.55; margin: 0; }
+  .reco-section-title { font-size: 11px; font-weight: 900; color: var(--blue); text-transform: uppercase; letter-spacing: 1.6px; margin: 18px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .reco-section-title:first-child { margin-top: 0; }
+
+  /* Decisions (empty state + entry styling matched to activity items) */
+  .empty-state { padding: 22px 16px; text-align: center; color: var(--text-muted); font-style: italic; font-size: 12.5px; line-height: 1.5; }
+  .decision { display: flex; flex-direction: column; padding: 11px 0; border-bottom: 1px solid var(--border); }
+  .decision:last-of-type { border-bottom: none; }
+  .decision .meta { order: 1; font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 4px; }
+  .decision .title { order: 2; font-size: 13px; font-weight: 900; color: var(--ink); margin-bottom: 4px; line-height: 1.35; }
+  .decision .rationale { order: 3; font-size: 12.5px; color: var(--text-body); line-height: 1.5; }
+
+  /* Cycle tracker */
+  .cycle-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+  .cycle-row:last-child { border-bottom: none; }
+  .cycle-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .cycle-dot.done { background: var(--lime); }
+  .cycle-dot.active { background: var(--blue); box-shadow: 0 0 0 4px rgba(1,127,174,0.2); }
+  .cycle-dot.pending { background: var(--bg-soft-2); border: 1px solid #C5D5DC; }
+  .cycle-dot.next { background: #FDE8CC; border: 1px solid #E8C89A; }
+  .cycle-label { flex: 1; color: var(--text-body); font-weight: 700; }
+  .cycle-status { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+
+  /* Blockers detailed */
+  .blocker-item { padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+  .blocker-item:last-child { border-bottom: none; }
+  .blocker-item .bi-title { color: var(--warn); font-weight: 900; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .blocker-item .bi-body { color: var(--text-body); line-height: 1.5; margin-bottom: 4px; }
+  .blocker-item .bi-owner { font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+
+  /* Activity */
+  .activity-item { padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-date { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 3px; }
+  .activity-text { font-size: 12.5px; color: var(--text-body); line-height: 1.45; }
+  .integration-note { font-size: 10.5px; color: var(--text-muted); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--bg-soft-2); font-style: italic; }
+
+  /* Stakeholder table */
+  .stakeholder-table { width: 100%; font-size: 12.5px; border-collapse: collapse; }
+  .stakeholder-table td { padding: 6px 0; vertical-align: top; }
+  .stakeholder-table td:first-child { color: var(--text-muted); width: 40%; padding-right: 10px; }
+  .stakeholder-table td:last-child { color: var(--text-body); font-weight: 700; }
+  .stakeholder-table tr + tr td { border-top: 1px solid var(--border); }
+
+  /* Links band */
+  .links-band { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px; }
+  .links-label { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 12px; }
+  .links-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .link-card { background: var(--bg-soft); border: 1px solid var(--bg-soft-2); padding: 12px; border-radius: 6px; text-align: center; color: var(--ink); text-decoration: none; }
+  .link-card.pending { opacity: 0.5; cursor: default; }
+  .link-name { font-size: 12px; font-weight: 900; margin-bottom: 3px; }
+  .link-sub { font-size: 10px; color: var(--text-muted); }
+
+  .footer { background: var(--navy); color: #B0CCD7; text-align: center; padding: 18px; font-size: 11px; letter-spacing: 0.5px; }
+  .footer strong { color: var(--lime); }
+
+  @media (max-width: 980px) {
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .main-grid { grid-template-columns: 1fr; }
+    .links-grid { grid-template-columns: repeat(3, 1fr); }
+    .blocker-banner-list { grid-template-columns: 1fr; }
+    .ph-name { font-size: 24px; }
+    .partner-header { padding: 22px; }
+    .field { grid-template-columns: 1fr; gap: 4px; }
+    .field-label { padding-top: 0; }
+  }
+
+  /* ===== Dark Studio restyle ===== */
+  .studio-logo{height:22px;width:auto;display:block}
+  body{background:var(--bg-soft);color:var(--text-body)}
+  h1,h2,h3,h4{color:var(--ink)}
+  a{color:var(--blue)}
+  .topnav,.masthead,header.site{background:linear-gradient(135deg,#00263A,#013A52);border-bottom:1px solid var(--border)}
+  .card,.block,.panel{background:linear-gradient(90deg,rgba(1,80,110,.95) 0%,rgba(0,51,70,.95) 100%);border:1px solid #4DA5C6;border-radius:0 16px 0 16px}
+  input,select,textarea{background:var(--field);color:var(--text-body);border-color:var(--border)}
+  .tag-lime{color:#002E40}
+  /* contrast fix — navy ink on cerulean/lime/cyan fills (Studio rule) */
+  .tag-blue,.tag-cyan,.tag-lime,.pill-lime,.sc-icon-2,.sc-icon-3,.phase-num,.faq-tier-num,.nav-tab.active{color:#00202D !important}
+  /* lime-fill contrast (per-page variants) */
+  .ph-status-pill,.stat-card.highlight,.stat-card.highlight .stat-label,.stat-card.highlight .stat-value,.pill-lime,.brand-mark{color:#00202D !important}
+  .ns-editable-tag{color:#00202D !important;background:#D6F4FF !important}
+  /* family match: soft cerulean-20 fills, no bright lime */
+  .tag-lime,.ph-status-pill,.stat-card.highlight,.pill-lime,.faq-tier-num,.pill-applied{background:#D6F4FF !important;color:#00202D !important;border-color:#8FD8F2 !important}
+  .stat-card.highlight .stat-label,.stat-card.highlight .stat-value{color:#00202D !important}
+</style>
+</head>
+<body data-cc-partner="EMU" data-cc-root="../">
+
+<nav class="topnav" aria-label="Top navigation">
+  <div class="topnav-inner">
+    <a href="../index.html" class="brand">
+      <img class="studio-logo" src="../Studio-logo-white.svg" alt="iDesign Studio">
+      <span class="brand-wordmark">Creative Companion</span>
+    </a>
+    <a href="../index.html" class="back-link">&larr; Back to Companion</a>
+    <span class="save-state" id="save-status">North Star autosaves locally</span>
+  </div>
+</nav>
+
+<div class="container">
+
+  <header class="partner-header">
+    <div class="ph-eyebrow">Living Project Page</div>
+    <div class="ph-name-row">
+      <span class="ph-name">EMU</span>
+      <span class="ph-status-pill">Program Planning Phase 1 · Week 1 of 4 · Info Gathering active</span>
+    </div>
+    <div class="ph-meta">Eastern Mennonite University · 4 courses · New partner · Budget confirmed (49 dedicated + ~10 shared) · EMU branding decided · Aric B. outreach and Moodle research still open</div>
+  </header>
+
+  <div class="blocker-banner" style="background: linear-gradient(135deg, #002E40 0%, #017FAE 100%);">
+    <div class="blocker-banner-label" style="color: #33C9FF;">Budget confirmed · EMU branding decided · 2 active items</div>
+    <div class="blocker-banner-title">49 dedicated Tick hours confirmed (25 PP + 24 D&amp;D). Plus ~10 hrs of a 60-hr shared interactives bucket. EMU branding decided.</div>
+    <div style="font-size: 12.5px; color: #CCE5EF; line-height: 1.55;">Budget confirmed. Targets with 5% margin dispersed across PP and D&amp;D per canon: Program Planning 24 hrs (10 admin locked + ~14 design after margin), Design &amp; Delivery 22.5 hrs (4 per-course admin at 1 × 4 + ~18.5 design after margin). Total dedicated available: ~46.5 hrs. Interactives sits separately: ~10 hrs of a 60-hr shared bucket with ID and ELT, covering both admin and design/deliverable work. Total project available: ~56.5 hrs. Per-course D&amp;D design capacity: ~4.625 hrs/course. Brand direction decided in the 7/22 Integrated Services Leads meeting: EMU branding (not CJP), with Sarah as source of authority. Two active items keeping Program Planning moving.</div>
+    <div class="blocker-banner-list" style="grid-template-columns: 1fr 1fr;">
+      <div class="blocker-banner-item" style="border-left-color: #33C9FF;">
+        <div class="bb-num" style="color: #33C9FF;">Active item 1 · GDM to send</div>
+        <div class="bb-title">Reach out to Aric B. with Jamie and Sarah CC'd</div>
+        <div class="bb-detail">Instructions from the 7/20 program planning meeting (about the 29-minute mark) were for GDM to reach out to Aric B. directly with Jamie and Sarah CC'd. Outreach was being held until the brand direction question was resolved, which happened at the 7/22 Integrated Services Leads meeting. Now unblocked; GDM to send the outreach next.</div>
+      </div>
+      <div class="blocker-banner-item" style="border-left-color: #33C9FF;">
+        <div class="bb-num" style="color: #33C9FF;">Active item 2</div>
+        <div class="bb-title">Moodle LMS research and access</div>
+        <div class="bb-detail">Moodle is not in the canon. Creative needs Steve G. (Moodle admin) for access and confirmation of what the EMU Moodle instance supports (custom CSS, component analogs, template architecture). Reasonable to tackle in Week 2 or 3 of PP during ELT collaboration.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="north-star-card">
+    <div class="ns-label-row">
+      <span class="ns-label">North Star</span>
+      <span class="ns-editable-tag">Editable · Draft</span>
+    </div>
+    <div class="ns-help">Drafted from the PBD context and the direction adjectives confirmed with GDM: thoughtful, restrained, mission-forward, intentional. Edit to refine. Saves automatically as you type.</div>
+    <textarea class="ns-input" id="north-star">Eastern Mennonite University is a small, mission-driven Mennonite institution rooted in peacebuilding, justice, and transformational leadership. Their students are working professionals in nonprofits, NGOs, and social-change organizations pursuing graduate credit while doing that work in the world. This is EMU's first contracted online project after six years of relationship-building, and everything about this partnership calls for thoughtful, restrained, mission-forward design. Nothing flashy, nothing that overreaches the school's careful residential identity. Across 4 courses in the Certificate in Transformational Leadership, the first proof-of-concept for taking the full Master of Arts in Transformational Leadership online. Giving EMU a certificate beautiful enough to make the internal case, credible enough to recruit against, and quiet enough to feel like their own.</textarea>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card flag">
+      <div class="stat-label">LMS</div>
+      <div class="stat-value small">Moodle</div>
+      <div class="stat-sub">Not in canon · flagged</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Courses in SOW</div>
+      <div class="stat-value">4</div>
+      <div class="stat-sub">Certificate in Transformational Leadership</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Tick hours confirmed</div>
+      <div class="stat-value">49</div>
+      <div class="stat-sub">25 PP + 24 D&amp;D · plus ~10 shared</div>
+    </div>
+    <div class="stat-card highlight">
+      <div class="stat-label">Current phase</div>
+      <div class="stat-value small">PP Phase 1</div>
+      <div class="stat-sub">Week 1 of 4 · Info Gathering</div>
+    </div>
+  </div>
+
+  <div class="block" style="margin-bottom:22px">
+  <div class="block-header block-h-navy">Updates from the Inbox <span class="meta">Applied items appear here</span></div>
+  <div class="block-body" style="padding-top:8px"><div id="cc-partner-feed"></div></div>
+</div>
+<div class="main-grid">
+
+    <div>
+
+      <div class="block">
+        <div class="block-header block-h-navy">Intake</div>
+        <div class="block-body">
+          <div class="form-grid">
+
+            <div class="field locked">
+              <label class="field-label">PBD received</label>
+              <div class="field-control">
+                <input type="date" value="2026-06-30" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From Partner Success (Jessica Smith)</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">SOW signed</label>
+              <div class="field-control">
+                <input type="text" value="Date not confirmed" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Unknown to Creative</span> <span class="pending-badge">Not a blocker</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Project kickoff</label>
+              <div class="field-control">
+                <input type="date" value="2026-07-01" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Scheduled by Creative Director and Partner Success Lead</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Tick hours</label>
+              <div class="field-control">
+                <input type="text" value="25 PP + 24 D&amp;D = 49 dedicated · plus ~10 hrs of a 60-hr shared interactives bucket" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Confirmed July 15, 2026</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Partner status</label>
+              <div class="field-control">
+                <div class="radio-group">
+                  <span class="radio-pill"><input type="radio" name="ps" disabled checked /><label>New partner</label></span>
+                  <span class="radio-pill"><input type="radio" name="ps" disabled /><label>Existing partner</label></span>
+                </div>
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>First contracted project after 6-year relationship-building</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Brand contact</label>
+              <div class="field-control">
+                <input type="text" value="Aric B. · connection pending" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Named at PP kickoff</span> <span class="pending-badge">Follow up early next week if no connection</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Brand direction</label>
+              <div class="field-control">
+                <input type="text" value="EMU brand OR CJP (Center for Justice and Peacemaking) sub-brand · decision pending" readonly />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Jamie, Sarah, and Tynisha to decide</span> <span class="pending-badge">Follow up next week</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Custom CSS access</label>
+              <div class="field-control">
+                <input type="text" placeholder="Unknown for Moodle" />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Depends on Moodle instance</span> <span class="pending-badge">Confirm with Steve G.</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Video Services</label>
+              <div class="field-control">
+                <div class="select-locked">Tier 1 in scope (up to 2 videos per course × 4 courses)</div>
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From sold scope · confirmed by GDM</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Modality</label>
+              <div class="field-control">
+                <input type="text" value="Fully asynchronous online · 7-week courses" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Target launch</label>
+              <div class="field-control">
+                <input type="text" value="Spring 2027" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Partner Success Lead</label>
+              <div class="field-control">
+                <input type="text" value="Jessica Smith" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Design Lead</label>
+              <div class="field-control">
+                <input type="text" value="Christiana Kumalasari" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Sales Lead</label>
+              <div class="field-control">
+                <input type="text" value="Whitney Kilgore" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Partner SME</label>
+              <div class="field-control">
+                <input type="text" placeholder="Not on Creative team yet" />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>Faculty per course</span> <span class="pending-badge">Confirmed at PP</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">LID</label>
+              <div class="field-control">
+                <input type="text" placeholder="Assigned during Program Planning" />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>From Asana project members</span> <span class="pending-badge">Pending integration</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Visual Designer</label>
+              <div class="field-control">
+                <input type="text" placeholder="Assigned during Program Planning" />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>From Asana project members</span> <span class="pending-badge">Pending integration</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">ELT Lead</label>
+              <div class="field-control">
+                <input type="text" value="Courtney" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Confirmed</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-slate">Key Partner Stakeholders <span class="meta">From PBD</span></div>
+        <div class="block-body">
+          <table class="stakeholder-table">
+            <tr><td>Jamie M. · Assistant VP Academic and Program Growth</td><td>Day-to-day operational lead. Primary internal champion.</td></tr>
+            <tr><td>Tynisha W. · Provost</td><td>Super admin. Joint decision-maker with Jamie. Wants visibility.</td></tr>
+            <tr><td>Sarah B. · Dean of Arts, Humanities, Social Sciences</td><td>Owns curricular oversight for the certificate. Protective of content preservation and credit-hour integrity.</td></tr>
+            <tr><td>Gloria R. · Co-Department Chair</td><td>Closest to the day-to-day work. Attends program planning.</td></tr>
+            <tr><td>Steve G. · Associate Director User Services (Moodle Administrator)</td><td>Technical LMS contact. Critical for Blocker 2.</td></tr>
+            <tr><td>Emily N. · Executive Administrative Assistant</td><td>Provides existing course materials for the three existing courses.</td></tr>
+          </table>
+          <div class="integration-note">Faculty per course: Carolyn S. (Organizational Behavior), Jake C. (Moral Agency and Leadership Ethics). Faculty for Conflict Transformation Skills and Transformational Leadership for Social Change: continuing-contract faculty TBD.</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-blue">Recommendation &amp; Package <span class="meta">Budget confirmed · pending research and Moodle access</span></div>
+        <div class="block-body">
+          <p style="font-size: 12.5px; color: var(--text-body); line-height: 1.55; margin: 0 0 14px;">Budget is confirmed. Package options are on hold pending the two active items above and initial research. The math and structure below is the working shape of the project.</p>
+          <p style="font-size: 12.5px; color: var(--text-body); line-height: 1.55; margin: 0 0 14px;">Note: Program Planning includes redesigning EMU's existing LMS template so it is ready for use during Design &amp; Delivery. Creative needs to review the current template before proposing a redesign approach.</p>
+
+          <div style="border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 16px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 12.5px;">
+              <thead>
+                <tr style="background: var(--bg-soft-2); color: var(--ink); font-weight: 900; text-transform: uppercase; font-size: 10.5px; letter-spacing: 1px;">
+                  <th style="padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border);">Bucket</th>
+                  <th style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border);">Admin (locked)</th>
+                  <th style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border);">Design (after margin)</th>
+                  <th style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border);">Target</th>
+                  <th style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border);">Budgeted</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="padding: 10px 12px; border-bottom: 1px solid var(--border);">Program Planning</td>
+                  <td style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border); font-family: 'Courier New', monospace;">10</td>
+                  <td style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border); font-family: 'Courier New', monospace;">~14</td>
+                  <td style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border); color: var(--ink); font-weight: 700; font-family: 'Courier New', monospace;">~24</td>
+                  <td style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border); color: var(--text-muted); font-family: 'Courier New', monospace;">25</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 12px; border-bottom: 1px solid var(--border);">Design &amp; Delivery</td>
+                  <td style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border); font-family: 'Courier New', monospace;">4 (1 × 4)</td>
+                  <td style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border); font-family: 'Courier New', monospace;">~18.5</td>
+                  <td style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border); color: var(--ink); font-weight: 700; font-family: 'Courier New', monospace;">~22.5</td>
+                  <td style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border); color: var(--text-muted); font-family: 'Courier New', monospace;">24</td>
+                </tr>
+                <tr>
+                  <td colspan="5" style="padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--bg-soft); font-size: 11.5px; color: var(--text-muted); font-style: italic;">Dedicated subtotal: ~46.5 hrs target from 49 budgeted (2.45 hrs of 5% margin dispersed by design share)</td>
+                </tr>
+                <tr>
+                  <td style="padding: 10px 12px; border-bottom: 1px solid var(--border);">Interactives (shared bucket)</td>
+                  <td colspan="3" style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border); font-family: 'Courier New', monospace; color: var(--ink); font-weight: 700;">~10 hrs · covers both admin and design/deliverable work</td>
+                  <td style="padding: 10px 12px; text-align: right; border-bottom: 1px solid var(--border); color: var(--text-muted); font-family: 'Courier New', monospace;">~10</td>
+                </tr>
+                <tr style="background: var(--bg-soft);">
+                  <td style="padding: 10px 12px; font-weight: 900; color: var(--ink);">Total project available</td>
+                  <td colspan="3" style="padding: 10px 12px; text-align: right; font-weight: 900; color: var(--ink); font-family: 'Courier New', monospace;">~56.5 hrs</td>
+                  <td style="padding: 10px 12px; text-align: right; font-weight: 900; color: var(--text-muted); font-family: 'Courier New', monospace;">~59</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div style="background: #E8F4E8; border-left: 4px solid #4A8C4A; padding: 12px 14px; border-radius: 4px; margin-bottom: 16px;">
+            <div style="font-size: 10.5px; font-weight: 900; color: #2A6B40; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px;">Hours breakdown with margin baked in</div>
+            <ul style="font-size: 13px; color: #2A6B40; line-height: 1.55; margin: 0 0 8px; padding-left: 20px;">
+              <li style="margin-bottom: 4px;"><strong>Program Planning:</strong> 10 admin (locked by canon) + ~14 design = ~24 hrs</li>
+              <li style="margin-bottom: 4px;"><strong>Design &amp; Delivery:</strong> 4 per-course admin at 1 × 4 (locked by canon) + ~18.5 design = ~22.5 hrs</li>
+              <li style="margin-bottom: 4px;"><strong>Per-course D&amp;D design capacity:</strong> ~4.625 hrs/course (18.5 ÷ 4)</li>
+              <li style="margin-bottom: 0;"><strong>Interactives (shared):</strong> ~10 hrs for interactive support, covering both admin and design/deliverable work (sits separately from PP + D&amp;D margin math)</li>
+            </ul>
+            <div style="font-size: 12.5px; color: #1F4D34; line-height: 1.5; padding-top: 8px; border-top: 1px solid #B9DCC9;">Total project available: ~56.5 hrs. 5% margin (2.45 hrs) dispersed across PP and D&amp;D by their design shares (15/35 and 20/35) per canon. Per-course design capacity is what informs course-specific graphic set decisions during D&amp;D.</div>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <h4 style="font-size: 13px; color: var(--ink); margin-bottom: 8px;">Next steps in order</h4>
+            <ol style="font-size: 12.5px; padding-left: 22px; margin: 0; line-height: 1.6;">
+              <li style="margin-bottom: 6px;">Aric B. connection (or GDM follow-up if no introduction happens early next week). Get access to EMU brand assets or CJP sub-brand assets depending on decision.</li>
+              <li style="margin-bottom: 6px;">Brand direction confirmation (EMU vs CJP) from Jamie, Sarah, and Tynisha. Blocks Brand Foundations work.</li>
+              <li style="margin-bottom: 6px;">Moodle research and Steve G. access. Determine what the EMU Moodle instance supports (custom CSS, component analogs, template architecture). Reasonable to tackle in Week 2 or 3 of PP.</li>
+              <li style="margin-bottom: 6px;">Get access to review EMU's existing LMS template (and possibly a live course or two so Creative can click through the learner experience). GDM to pursue access directly, or via ELT if needed. Reviewing the existing template is necessary to start making decisions about the redesign approach during Program Planning.</li>
+              <li style="margin-bottom: 6px;">Interactive design system scoping with ID and ELT. Decide how Creative's ~10 hrs of the shared bucket produces the most reusable output (design system, brand skill for AI-generated interactives, or both).</li>
+              <li style="margin-bottom: 0;">Package options and hour commitments produced after research and template access, not before.</li>
+            </ol>
+          </div>
+
+          <div style="background: #EEF3F6; border-left: 4px solid var(--slate); padding: 12px 14px; border-radius: 4px;">
+            <div style="font-size: 10.5px; font-weight: 900; color: var(--slate); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px;">Note on Video Services</div>
+            <div style="font-size: 12.5px; color: var(--text-body); line-height: 1.5;">Video Services Tier 1 is in scope (up to 2 videos per course × 4 courses). Video work sits inside the D&amp;D 24-hr bucket for planning until it is scheduled with the Video Services team.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-blue">Interactives · Cross-team scope <span class="meta">Creative estimate: ~10 hrs of 60 shared</span></div>
+        <div class="block-body">
+          <p style="font-size: 12.5px; color: var(--text-body); line-height: 1.55; margin-bottom: 12px;"><strong>60 hours shared</strong> across Instructional Design (content), ELT (coding and building), and Creative for interactives on this project. Majority goes to ID and ELT. GDM estimates Creative will spend about <strong>10 hours</strong> of that bucket. Creative's contribution can focus on establishing the design SYSTEM rather than building individual interactives.</p>
+          <p style="font-size: 12.5px; color: var(--text-body); line-height: 1.55; margin-bottom: 12px;"><strong>Creative's potential contribution within ~10 hours:</strong></p>
+          <ul style="font-size: 12.5px; padding-left: 22px; margin: 0 0 12px; line-height: 1.55;">
+            <li style="margin-bottom: 6px;">Interactive design guide/system that keeps UX design of interactives consistent across all work</li>
+            <li style="margin-bottom: 0;"><strong>Biggest potential win:</strong> a shared interactive brand skill so AI-generated interactives use the same design system automatically. This can be a focus of Program Planning internally.</li>
+          </ul>
+          <div class="integration-note">This is a new deliverable pattern for Creative. Interactive design system is a Generic-style Program Planning output (design once, reused across all interactives). The AI-usable brand skill is a novel Creative product that would scale beyond this project. The ~10 hr estimate carries more variance than the 49 dedicated hours because ID and ELT are drawing from the same bucket; final Creative time may shift depending on how much system-versus-instance work the interactives require.</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-slate">Design Decisions Log</div>
+        <div class="block-body">
+
+          <div class="decision">
+            <div class="title">Creative Tick allotment confirmed: 49 dedicated hours + ~10 shared</div>
+            <div class="rationale">Applying canon-standard admin (10 PP + 4 per-course at 1 × 4) and 5% margin dispersed by design share (15/35 for PP, 20/35 for D&amp;D): PP target 10 + ~14 = ~24 hrs; D&amp;D target 4 + ~18.5 = ~22.5 hrs. Dedicated available: ~46.5 hrs. Interactives sits separately: ~10 hrs of a 60-hr shared bucket with ID and ELT, covering both admin and design/deliverable work. Total project available: ~56.5 hrs. Per-course D&amp;D design capacity: ~4.625 hrs/course.</div>
+            <div class="meta">Confirmed July 15, 2026 · Locked</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Existing EMU template will be redesigned during Program Planning</div>
+            <div class="rationale">EMU has an existing LMS template in use across their Moodle instance. Redesigning that template is a Program Planning outcome so it is ready for use during Design &amp; Delivery. Creative needs to review the existing template (and possibly a live course or two) before making decisions about the redesign approach. Access route to be pursued directly by GDM or through ELT collaboration.</div>
+            <div class="meta">PP Phase 1 · Week 1</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Aric B. named as EMU brand contact</div>
+            <div class="rationale">Named at PP kickoff. Connection still pending. GDM to follow up if not connected by early next week.</div>
+            <div class="meta">PP Kickoff · Week 1</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Brand direction resolved: EMU branding (not CJP sub-brand)</div>
+            <div class="rationale">Decided at the 7/22 Integrated Services Leads meeting. The certificate uses the overarching EMU brand rather than the Center for Justice and Peacemaking (CJP) sub-brand. Sarah is the source of authority on this. Guidance if anyone raises a different opinion: focus the conversation on the interdisciplinary nature of the certificate and the learner benefits of visual consistency across an EMU-branded experience. This locks Brand Foundations work in the EMU direction and unblocks the outreach to Aric B..</div>
+            <div class="meta">Decided July 22, 2026 · Integrated Services Leads meeting</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Aric B. outreach approach: GDM to email directly with Jamie and Sarah CC'd</div>
+            <div class="rationale">Instructions from the 7/20 program planning meeting (around the 29-minute mark) were for GDM to reach out to Aric B. directly and CC Jamie and Sarah on the message. Outreach was held until the EMU vs CJP brand direction was decided (resolved on 7/22). Now unblocked. First ask: EMU brand guidelines and asset access.</div>
+            <div class="meta">Approach set July 20, 2026 · unblocked July 22, 2026</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Moodle research starting point: prior iDesign Moodle projects (from Courtney)</div>
+            <div class="rationale">Courtney shared three Google Drive folders containing prior iDesign Moodle project deliverables as a research starting point. Since Moodle is not in the canon, these are the best reference material Creative has for how iDesign has previously delivered inside Moodle instances. GDM + Gauri to review as part of Moodle research alongside eventual Steve G. access. Links: <a href="https://drive.google.com/drive/folders/1sWMdnfJQdoWywQfdCXQB8P-n1TMK84Q4?usp=drive_link">Folder 1</a>, <a href="https://drive.google.com/drive/folders/1xZMmVXXYFVpxCukb68HkrNh1i1NGB_8F?usp=drive_link">Folder 2</a>, <a href="https://drive.google.com/drive/folders/1qCNfxtNeIKeMmKY5IaCQJU1aETm4nz3C?usp=drive_link">Folder 3</a>.</div>
+            <div class="meta">Shared by Courtney · July 22, 2026</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Interactives scope: 60 hours shared across ID, ELT, Creative</div>
+            <div class="rationale">Jessica Smith confirmed at kickoff. Creative's slice is not building interactives but potentially establishing the design system for them. Includes possibility of an interactive brand skill for AI-generated interactives. Program Planning internal focus.</div>
+            <div class="meta">PP Kickoff · Week 1</div>
+          </div>
+
+          <div class="integration-note">Ongoing context to watch: Sarah B.'s content preservation requirement (no cutting existing course content), 15-to-7 week restructure, and the multi-stage certificate approval gate (final approval Oct 2026) that may affect external branding readiness.</div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div>
+
+      <div class="block">
+        <div class="block-header block-h-blue">Phase Status</div>
+        <div class="block-body">
+          <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 14px;">Program Planning follows the standard 4-week schedule. Design &amp; Delivery structure (single batch of 4 or two batches of 2) will be determined during Program Planning.</p>
+
+          <div class="cycle-row">
+            <div class="cycle-dot active"></div>
+            <div class="cycle-label">Program Planning Phase 1: Info &amp; Setup</div>
+            <div class="cycle-status" style="color: var(--blue);">Active · Week 1 of 4</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Program Planning Phase 2: Iteration</div>
+            <div class="cycle-status">Week 2 of 4</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Program Planning Phase 3: Testing</div>
+            <div class="cycle-status">Week 3 of 4</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Program Planning Phase 4: Publish</div>
+            <div class="cycle-status">Week 4 of 4</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Design &amp; Delivery (Fall 2026)</div>
+            <div class="cycle-status">Aug · Organizational Behavior + Moral Agency</div>
+          </div>
+          <div class="cycle-row">
+            <div class="cycle-dot pending"></div>
+            <div class="cycle-label">Design &amp; Delivery (Spring 2027)</div>
+            <div class="cycle-status">Conflict Transformation + Transformational Leadership</div>
+          </div>
+
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+            <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 4px;">Currently in</div>
+            <div style="font-size: 13px; color: var(--ink); font-weight: 700;">PP Phase 1 · Week 1 of 4. Kickoff completed. Budget confirmed: 49 dedicated + ~10 shared. Targets with 5% margin baked in: PP ~24 hrs, D&amp;D ~22.5 hrs, total ~56.5. Per-course D&amp;D design capacity: ~4.625 hrs/course. Brand direction resolved on 7/22 to EMU (not CJP), with Sarah as source of authority. Aric B. outreach unblocked; GDM to email him directly with Jamie and Sarah CC'd. Moodle research getting a head start via Courtney's shared prior-project examples; Steve G. access still ahead. Interactives scope: Creative's ~10 hr slice can produce a design system + potential AI brand skill.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header" style="background: var(--blue); color: #fff;">Active items <span class="meta" style="opacity: 0.85;">2 active · working within confirmed budget</span></div>
+        <div class="block-body">
+          <div class="blocker-item">
+            <div class="bi-title"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Active · GDM to send</span> Reach out to Aric B. with Jamie and Sarah CC'd</div>
+            <div class="bi-body">Instructions from the 7/20 program planning meeting (around the 29-minute mark) were for GDM to reach out to Aric B. directly with Jamie and Sarah CC'd. Outreach was being held until the EMU vs CJP brand direction was decided. That resolved on 7/22, so the outreach is now unblocked. First ask will be for EMU brand guidelines and asset access.</div>
+            <div class="bi-owner">Owner: GDM · Ready to send</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title"><span class="pill" style="background: #E0EEF7; color: #1E3A5C;">Active</span> Moodle research and Steve G. access</div>
+            <div class="bi-body">Moodle is not in the canon. Creative has no historical experience with it. Needs research plus confirmation with Steve G. on what the EMU Moodle instance supports (custom CSS, component analogs, template architecture). Good starting point: Courtney shared three Google Drive folders with prior Moodle project deliverables from iDesign. See the Design Decisions Log for the links.</div>
+            <div class="bi-owner">Owner: Creative (research) + Steve G. (confirm) · By: PP Phase 2 or 3</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block" style="opacity: 0.65;">
+        <div class="block-header block-h-slate">Resolved</div>
+        <div class="block-body">
+          <div class="blocker-item">
+            <div class="bi-title"><span class="pill" style="background: #E0F2E8; color: #2A6B40;">Resolved</span> Brand direction: EMU (not CJP)</div>
+            <div class="bi-body">Decided at the 7/22 Integrated Services Leads meeting. The certificate uses the overarching EMU brand rather than the Center for Justice and Peacemaking (CJP) sub-brand. Sarah is the source of authority on this. Guidance if anyone raises a different opinion: focus the conversation on the interdisciplinary nature of the certificate and the learner benefits of visual consistency across an EMU-branded experience.</div>
+            <div class="bi-owner">Decided July 22, 2026 · Integrated Services Leads meeting</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title"><span class="pill" style="background: #E0F2E8; color: #2A6B40;">Resolved</span> Creative Tick allotment confirmed</div>
+            <div class="bi-body">49 dedicated hours (25 PP + 24 D&amp;D) plus ~10 hrs of a 60-hr shared interactives bucket. Targets with 5% margin baked in: PP ~24 hrs (10 admin + ~14 design), D&amp;D ~22.5 hrs (4 admin + ~18.5 design). Per-course D&amp;D design capacity: ~4.625 hrs/course. Confirmed July 15, 2026.</div>
+            <div class="bi-owner">Resolved July 15, 2026</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title"><span class="pill" style="background: #E0F2E8; color: #2A6B40;">Resolved</span> Brand contact named (Aric B.)</div>
+            <div class="bi-body">Identified at PP kickoff. Connection tracked as an active item above.</div>
+            <div class="bi-owner">Named at PP Kickoff · Week 1</div>
+          </div>
+          <div class="blocker-item">
+            <div class="bi-title"><span class="pill" style="background: #E0F2E8; color: #2A6B40;">Resolved</span> Interactives scope clarified</div>
+            <div class="bi-body">60 hrs shared across ID, ELT, and Creative. Creative's slice estimated at ~10 hrs. Full picture in the Interactives block.</div>
+            <div class="bi-owner">Confirmed at PP Kickoff · Week 1</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-navy">Recent Activity</div>
+        <div class="block-body" style="padding-top: 4px; padding-bottom: 6px;">
+          <div class="activity-item">
+            <div class="activity-date">Currently</div>
+            <div class="activity-text">PP Phase 1 · Week 1 of 4. Budget confirmed: 49 dedicated hours + ~10 hr Creative estimate of the 60-hr shared interactives bucket. Brand direction resolved on 7/22 to EMU branding (not CJP) with Sarah as source of authority. Aric B. outreach now unblocked; GDM to email him with Jamie and Sarah CC'd. Courtney shared three prior Moodle project Drive folders as research starting points. Two active items: Aric B. outreach and Moodle research with Steve G..</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 22, 2026 · Moodle research starting points shared</div>
+            <div class="activity-text">Courtney shared three Google Drive folders with prior iDesign Moodle project deliverables. Best research reference Creative has since Moodle is not in the canon. GDM + Gauri to review as part of Moodle research. Links captured in the Design Decisions Log.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 22, 2026 · Aric B. outreach unblocked</div>
+            <div class="activity-text">Now that brand direction is resolved to EMU, GDM can act on the 7/20 meeting instructions to reach out to Aric B. directly with Jamie and Sarah CC'd. First ask: EMU brand guidelines and asset access.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 22, 2026 · Brand direction resolved</div>
+            <div class="activity-text">At the 7/22 Integrated Services Leads meeting, the brand direction question was resolved: the certificate uses the overarching EMU brand (not the CJP sub-brand). Sarah is the source of authority on this decision. Guidance for any future counter-opinions: focus on the interdisciplinary nature of the certificate and the learner benefits of visual consistency across an EMU-branded experience. Unblocks Brand Foundations work and clarifies the ask GDM will make once Aric B. connects.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">July 15, 2026</div>
+            <div class="activity-text">Creative Tick allotment confirmed: 25 hrs Program Planning + 24 hrs Design &amp; Delivery = 49 dedicated hours. Plus ~10 hr Creative estimate of a 60-hr shared interactives bucket with ID and ELT. Targets with 5% margin baked in: PP ~24 hrs (10 admin + ~14 design), D&amp;D ~22.5 hrs (4 admin + ~18.5 design). Total available: ~56.5 hrs. Per-course D&amp;D design capacity: ~4.625 hrs/course. SOW signature date remains unknown but is not blocking Creative work.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">PP Kickoff · Week 1 of Program Planning</div>
+            <div class="activity-text">Kickoff meeting completed. Aric B. identified as EMU brand contact. Brand direction to be decided between overarching EMU brand and CJP (Center for Justice and Peacemaking) sub-brand. Interactives scope confirmed at 60 hrs shared, Creative's role potentially the design system for interactive UX consistency plus a shared brand skill for AI-generated interactives.</div>
+          </div>
+          <div class="activity-item">
+            <div class="activity-date">June 30, 2026</div>
+            <div class="activity-text">Project Briefing Document received from Partner Success Lead (Jessica Smith).</div>
+          </div>
+          <div class="integration-note">Activity log will populate from Asana activity feed and PageProof events once project environment is stood up and integrations are built.</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="links-band">
+    <div class="links-label">Links</div>
+    <div class="links-grid">
+      <div class="link-card pending">
+        <div class="link-name">Asana</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Figma PP</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Figma D&amp;D</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">PageProof</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Drive</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+      <div class="link-card pending">
+        <div class="link-name">Slack</div>
+        <div class="link-sub">Awaiting setup</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <strong>The Creative Companion</strong> &nbsp;·&nbsp; EMU Project Page &nbsp;·&nbsp; iDesign Creative &nbsp;·&nbsp; Real data only · Blockers surfaced
+</footer>
+
+<script>
+  const STATE_KEY = 'emu-north-star-v1';
+  const textarea = document.getElementById('north-star');
+  const status = document.getElementById('save-status');
+
+  try {
+    const saved = localStorage.getItem(STATE_KEY);
+    if (saved !== null) textarea.value = saved;
+  } catch(e) {}
+
+  textarea.addEventListener('input', () => {
+    try { localStorage.setItem(STATE_KEY, textarea.value); } catch(e) {}
+    status.classList.add('saved');
+    status.textContent = 'North Star saved ✓';
+    clearTimeout(window._saveT);
+    window._saveT = setTimeout(() => {
+      status.classList.remove('saved');
+      status.textContent = 'North Star autosaves locally';
+    }, 1400);
+  });
+</script>
+
+<script src="../assets/companion.js?v=5"></script>
+</body>
+</html>

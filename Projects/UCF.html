@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="robots" content="noindex, nofollow" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UCF · Studio | Creative Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/companion.css?v=5" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { font-family: 'Lato', system-ui, sans-serif; color: var(--text-body); background: var(--bg-soft); margin: 0; line-height: 1.55; }
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3, h4 { color: var(--ink); font-weight: 900; line-height: 1.2; margin: 0; }
+  p { margin: 0 0 0.85em; }
+  :root {
+    --navy: #002E40;
+    --ink: #E9F3F7;
+    --sub: #B3D9E7;
+    --blue: #33C9FF;
+    --cyan: #5CD4FF;
+    --lime: #33C9FF;
+    --slate: #5C7E90;
+    --field: #00293A;
+    --bg-card: #002E40;
+    --bg-soft: #00202D;
+    --bg-soft-2: #123E4E;
+    --border: #20505F;
+    --text-body: #E9F3F7;
+    --text-muted: #8FA8B4;
+    --shadow-sm: 0 1px 3px rgba(0,10,18,0.30);
+    --shadow-md: 0 2px 14px rgba(0,10,18,0.40);
+    --shadow-lg: 0 4px 24px rgba(0,10,18,0.50);
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  /* ── Top nav ───────────────────────────────────────────── */
+  .topnav { background: var(--navy); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,46,64,0.20); }
+  .topnav-inner { max-width: 1240px; margin: 0 auto; padding: 12px 28px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .brand-mark { width: 28px; height: 28px; background: var(--lime); color: var(--ink); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 14px; }
+  .brand-wordmark { color: #fff; font-size: 15px; font-weight: 900; }
+  .brand-wordmark .accent { color: var(--lime); }
+  .back-link { margin-left: 16px; color: #B0CCD7; font-size: 11px; text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; padding-left: 16px; border-left: 1px solid rgba(255,255,255,0.15); }
+  .back-link:hover { color: var(--lime); text-decoration: none; }
+  .save-state { margin-left: auto; font-size: 10.5px; color: #B0CCD7; text-transform: uppercase; letter-spacing: 1px; }
+  .save-state.saved { color: var(--lime); }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 28px 80px; }
+
+  /* ── Partner header ────────────────────────────────────── */
+  .partner-header { background: linear-gradient(135deg, #002E40 0%, #0E5E80 100%); color: #fff; padding: 32px 36px; margin: 28px 0 22px; border-radius: 12px; position: relative; overflow: hidden; }
+  .partner-header::after { content: ''; position: absolute; top: -40%; right: -10%; width: 360px; height: 360px; background: radial-gradient(circle, rgba(51,201,255,0.14) 0%, transparent 70%); pointer-events: none; }
+  .ph-eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2.2px; color: var(--lime); margin-bottom: 8px; }
+  .ph-name-row { display: flex; align-items: center; gap: 14px; margin-bottom: 8px; flex-wrap: wrap; }
+  .ph-name { font-size: 32px; font-weight: 900; color: #fff; line-height: 1; }
+  .ph-status-pill { background: var(--lime); color: var(--ink); padding: 6px 12px; border-radius: 14px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; }
+  .ph-meta { font-size: 13px; color: #CCE5EF; margin-top: 6px; }
+
+  /* ── North Star (editable) ─────────────────────────────── */
+  .north-star-card { background: var(--bg-card); border: 1px solid var(--border); border-left: 5px solid var(--lime); border-radius: 8px; padding: 20px 24px; margin-bottom: 22px; }
+  .ns-label-row { display: flex; align-items: center; margin-bottom: 8px; gap: 10px; }
+  .ns-label { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 2px; }
+  .ns-editable-tag { font-size: 9px; font-weight: 700; color: #2A6B40; background: #E0F2E8; text-transform: uppercase; letter-spacing: 1.4px; padding: 2px 8px; border-radius: 10px; }
+  .ns-help { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; font-style: italic; }
+  .ns-input { width: 100%; min-height: 110px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; font-size: 13.5px; line-height: 1.65; color: var(--text-body); resize: vertical; background: var(--bg-soft); }
+  .ns-input:focus { outline: none; border-color: var(--blue); background: var(--field); box-shadow: 0 0 0 3px rgba(1,127,174,0.10); }
+
+  /* ── Quick Facts (display) ─────────────────────────────── */
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 22px; }
+  .stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .stat-card.highlight { background: var(--lime); border-color: #4DA5C6; }
+  .stat-card.highlight .stat-label, .stat-card.highlight .stat-value { color: var(--ink); }
+  .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; margin-bottom: 6px; display: block; }
+  .stat-value { font-size: 22px; font-weight: 900; color: var(--ink); line-height: 1; }
+  .stat-sub { font-size: 11px; color: var(--text-muted); font-weight: 700; margin-top: 4px; }
+
+  /* ── Main grid + blocks ────────────────────────────────── */
+  .main-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; margin-bottom: 22px; }
+  .block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 14px; overflow: hidden; }
+  .block-header { padding: 11px 18px; color: #fff; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 1.4px; display: flex; align-items: center; gap: 10px; }
+  .block-header .meta { margin-left: auto; font-size: 10px; font-weight: 700; letter-spacing: 0.8px; opacity: 0.85; }
+  .block-body { padding: 16px 18px; }
+  .block-h-navy { background: var(--navy); color: var(--lime); }
+  .block-h-blue { background: var(--blue); color: #00202D; }
+  .block-h-slate { background: #123E4E; color: #E9F3F7; }
+  .block-h-red { background: #8C2222; }
+
+  /* ── FORM FIELDS ───────────────────────────────────────── */
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .field { display: grid; grid-template-columns: 145px 1fr; gap: 12px; align-items: start; }
+  .field-label { font-size: 12px; color: var(--text-muted); padding-top: 7px; font-weight: 700; }
+  .field-control { display: flex; flex-direction: column; gap: 4px; }
+
+  /* Base input styling */
+  input[type="text"], input[type="date"], input[type="number"], select, textarea {
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text-body);
+    background: var(--field);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 7px 10px;
+    width: 100%;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  }
+  input::placeholder, textarea::placeholder { color: #98AAB3; font-style: italic; }
+  select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%234A6070' d='M6 9L1.5 4.5l1-1L6 7l3.5-3.5 1 1z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; background-size: 11px; padding-right: 28px; cursor: pointer; }
+  input[type="date"] { max-width: 200px; }
+  input[type="number"] { max-width: 140px; }
+  select { max-width: 240px; }
+
+  /* Editable inputs */
+  .field.editable input:not([readonly]):focus,
+  .field.editable select:not([disabled]):focus,
+  .field.editable textarea:not([readonly]):focus {
+    outline: none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(1,127,174,0.10);
+  }
+
+  /* Locked inputs (filled, readonly) */
+  .field.locked input[readonly],
+  .field.locked textarea[readonly] {
+    background: var(--bg-locked);
+    color: var(--ink);
+    border-color: var(--border-locked);
+    cursor: default;
+    font-weight: 700;
+  }
+  .field.locked input[readonly]:focus,
+  .field.locked textarea[readonly]:focus { outline: none; box-shadow: none; }
+  /* Lock affordance for select inputs styled as read-only div */
+  .field.locked .select-locked {
+    background: var(--bg-locked);
+    color: var(--ink);
+    border: 1px solid var(--border-locked);
+    border-radius: 5px;
+    padding: 7px 28px 7px 10px;
+    font-size: 13px;
+    font-weight: 700;
+    max-width: 240px;
+    position: relative;
+  }
+  .field.locked .select-locked::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 11px;
+    height: 11px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 14'%3E%3Cpath fill='%234A6070' d='M9 5h-.5V3.5C8.5 1.6 6.9 0 5 0S1.5 1.6 1.5 3.5V5H1c-.5 0-1 .5-1 1v7c0 .5.5 1 1 1h8c.5 0 1-.5 1-1V6c0-.5-.5-1-1-1zM6.5 5h-3V3.5C3.5 2.7 4.2 2 5 2s1.5.7 1.5 1.5V5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  /* Pending inputs (empty, awaiting integration) */
+  .field.pending input,
+  .field.pending textarea {
+    background: var(--bg-card);
+    border-color: var(--border);
+    border-style: dashed;
+    color: var(--text-muted);
+  }
+  .field.pending input:focus, .field.pending textarea:focus { outline: none; }
+
+  /* Radio group */
+  .radio-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .radio-pill { position: relative; display: inline-flex; align-items: center; }
+  .radio-pill input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .radio-pill label { display: inline-block; padding: 5px 12px; border: 1px solid var(--border); border-radius: 18px; background: var(--field); cursor: pointer; font-size: 12px; font-weight: 700; color: var(--text-muted); transition: all 0.15s; }
+  .radio-pill input[type="radio"]:checked + label { background: var(--navy); color: var(--lime); border-color: var(--ink); }
+  /* Locked radio: show only the selected pill styled */
+  .field.locked .radio-pill input[type="radio"]:disabled + label { background: var(--navy); color: var(--lime); border-color: var(--ink); cursor: default; opacity: 1; }
+  .field.locked .radio-pill input[type="radio"]:disabled:not(:checked) + label { background: var(--bg-locked); color: var(--text-muted); border-color: var(--border-locked); }
+
+  /* Source attribution + status pills */
+  .field-source { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+  .source-pill { display: inline-flex; align-items: center; gap: 4px; font-size: 9.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+  .source-pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .source-pill.locked .dot { background: var(--slate); }
+  .source-pill.pending .dot { background: #BA7517; }
+  .pending-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: #FDE8CC; color: #7A4000; text-transform: uppercase; letter-spacing: 0.6px; }
+  .locked-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 8px; background: var(--bg-locked); color: var(--slate); text-transform: uppercase; letter-spacing: 0.6px; }
+
+  .pill { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 9.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; }
+  .pill-generic { background: #E0F2E8; color: #0D6640; }
+  .pill-templated { background: #DDE7F2; color: #1E3A5C; }
+  .pill-adhoc { background: #FDE8CC; color: #7A4000; }
+  .pill-warn { background: #F8DDDD; color: #8C2222; }
+  .pill-ok { background: #E0F2E8; color: #0D6640; }
+  .pill-lime { background: var(--lime); color: var(--ink); }
+
+  /* ── Recommendation block ──────────────────────────────── */
+  .reco-section-title { font-size: 11px; font-weight: 900; color: var(--blue); text-transform: uppercase; letter-spacing: 1.6px; margin: 18px 0 8px; padding-bottom: 6px; border-bottom: 1px solid var(--border); }
+  .reco-section-title:first-child { margin-top: 0; }
+  .reco-package-name { font-size: 16px; color: var(--ink); font-weight: 900; margin-bottom: 6px; }
+  .reco-rationale { background: var(--bg-soft); border-left: 3px solid var(--lime); padding: 12px 14px; border-radius: 4px; font-size: 13px; line-height: 1.55; margin-bottom: 14px; }
+  .reco-asset-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 12px; }
+  .reco-asset-table th { text-align: left; background: var(--bg-soft); color: var(--ink); font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 10px; border-bottom: 2px solid var(--blue); }
+  .reco-asset-table th:last-child, .reco-asset-table td:last-child { text-align: right; }
+  .reco-asset-table td { padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .reco-asset-table .asset-name { font-weight: 700; color: var(--ink); }
+  .reco-asset-table .asset-note { font-size: 11.5px; color: var(--text-muted); font-weight: 400; margin-top: 2px; }
+  .total-bar { background: var(--navy); color: #fff; padding: 12px 16px; border-radius: 6px; margin: 14px 0; display: flex; align-items: center; gap: 10px; font-size: 13px; flex-wrap: wrap; }
+  .total-bar .label { font-weight: 700; }
+  .total-bar .num { margin-left: 10px; font-size: 18px; font-weight: 900; color: var(--lime); }
+  .total-bar .meta { margin-left: auto; font-size: 10.5px; color: #B0CCD7; }
+  .calculator-note { background: var(--bg-soft); border: 1px dashed var(--bg-soft-2); padding: 10px 12px; border-radius: 4px; font-size: 11.5px; color: var(--text-muted); font-style: italic; margin-bottom: 14px; }
+  .proscons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .pros, .cons { padding: 12px 14px; border-radius: 6px; font-size: 12.5px; line-height: 1.55; }
+  .pros { background: #E0F2E8; border-left: 3px solid #0D6640; color: #1F4D34; }
+  .cons { background: #FDE8CC; border-left: 3px solid #7A4000; color: #4A2E0A; }
+  .pros .title, .cons .title { font-size: 10.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px; }
+  .pros ul, .cons ul { margin: 0; padding-left: 16px; }
+  .pros li, .cons li { margin-bottom: 4px; }
+  .lex-card { background: var(--bg-soft); border: 1px solid var(--bg-soft-2); border-radius: 6px; padding: 14px 16px; margin-bottom: 14px; }
+  .lex-card ul { font-size: 12.5px; line-height: 1.55; margin: 0; padding-left: 18px; }
+  .lex-card li { margin-bottom: 6px; color: var(--text-body); }
+  .lex-card li strong { color: var(--ink); }
+  .flags-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+  .flag-item { padding: 12px 14px; border-radius: 6px; font-size: 12.5px; line-height: 1.5; background: var(--bg-soft); border: 1px solid var(--bg-soft-2); }
+  .flag-item .flag-label { display: block; font-size: 10.5px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 4px; }
+  .alt-list { display: flex; flex-direction: column; gap: 10px; }
+  .alt-row { padding: 12px 14px; background: var(--bg-soft); border: 1px solid var(--border); border-radius: 6px; font-size: 12.5px; }
+  .alt-row .alt-name { color: var(--ink); font-weight: 900; margin-bottom: 4px; }
+  .alt-row .alt-why { color: var(--text-muted); line-height: 1.5; }
+
+  /* ── Hour breakdown ────────────────────────────────────── */
+  .ucf-rates { background: var(--bg-soft); border: 1px solid var(--bg-soft-2); border-radius: 6px; padding: 14px; margin-bottom: 14px; }
+  .ucf-rates h5 { font-size: 11px; color: var(--ink); margin: 0 0 4px; text-transform: uppercase; letter-spacing: 1px; font-weight: 900; }
+  .ucf-rates .help { font-size: 10.5px; color: var(--text-muted); font-style: italic; margin-bottom: 10px; }
+  .ucf-rate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; }
+  .ucf-rate-field { display: grid; grid-template-columns: 1fr 70px; gap: 6px; align-items: center; }
+  .ucf-rate-field label { font-size: 11px; color: var(--text-muted); }
+  .ucf-rate-field input { font-family: inherit; font-size: 12px; padding: 5px 8px; border: 1px solid var(--border); border-radius: 4px; background: var(--field); text-align: right; }
+  .ucf-rate-field input:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 2px rgba(1,127,174,0.10); }
+  .ucf-breakdown { width: 100%; border-collapse: collapse; font-size: 12px; margin: 0 0 14px; }
+  .ucf-breakdown th { text-align: left; background: var(--bg-soft); color: var(--ink); font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.6px; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+  .ucf-breakdown th:last-child { text-align: right; }
+  .ucf-breakdown td { padding: 6px 8px; border-bottom: 1px solid var(--bg-soft-2); }
+  .ucf-breakdown td:last-child { text-align: right; font-family: 'Courier New', monospace; }
+  .ucf-breakdown tr.subtotal td { font-weight: 700; background: var(--bg-soft); }
+  .ucf-breakdown tr.macro td { background: var(--navy); color: var(--lime); font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px; font-size: 10px; }
+  .ucf-breakdown tr.macro td:last-child { text-align: right; }
+  .ucf-scope { background: var(--bg-soft); border: 1px solid var(--bg-soft-2); border-radius: 6px; padding: 12px 14px; margin-top: 10px; }
+  .ucf-scope-meter { background: var(--field); border-radius: 10px; overflow: hidden; height: 14px; border: 1px solid var(--border); margin-bottom: 8px; }
+  .ucf-scope-fill { height: 100%; transition: width 0.2s; }
+  .ucf-scope-fill.ok { background: #0D6640; }
+  .ucf-scope-fill.warn { background: #BA7517; }
+  .ucf-scope-fill.over { background: #8C2222; }
+  .ucf-scope-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+  .ucf-scope-num { font-weight: 900; font-size: 16px; color: var(--ink); }
+  .ucf-scope-num.over { color: #8C2222; }
+  .ucf-scope-detail { color: var(--text-muted); margin-left: auto; }
+
+  /* ── Decisions (display only) ──────────────────────────── */
+  .decision { padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .decision:last-child { border-bottom: none; }
+  .decision .title { color: var(--ink); font-weight: 900; margin-bottom: 4px; }
+  .decision .rationale { color: var(--text-muted); line-height: 1.5; }
+  .decision .meta { font-size: 10px; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+
+  /* ── Cycle tracker ─────────────────────────────────────── */
+  .cycle-row { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+  .cycle-row:last-child { border-bottom: none; }
+  .cycle-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .cycle-dot.done { background: var(--lime); }
+  .cycle-dot.active { background: var(--blue); box-shadow: 0 0 0 4px rgba(1,127,174,0.2); }
+  .cycle-dot.pending { background: var(--bg-soft-2); border: 1px solid #C5D5DC; }
+  .cycle-label { flex: 1; color: var(--text-body); font-weight: 700; }
+  .cycle-status { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
+
+  /* ── Blockers + Activity ───────────────────────────────── */
+  .activity-item { padding: 9px 0; border-bottom: 1px solid var(--border); }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-date { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 3px; }
+  .activity-text { font-size: 12.5px; color: var(--text-body); line-height: 1.45; }
+  .empty-note { color: var(--text-muted); font-size: 12px; font-style: italic; text-align: center; padding: 14px 6px; }
+  .integration-note { font-size: 10.5px; color: var(--text-muted); margin-top: 10px; padding-top: 10px; border-top: 1px dashed var(--bg-soft-2); font-style: italic; }
+
+  /* ── Links band ────────────────────────────────────────── */
+  .links-band { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 18px 22px; }
+  .links-label { font-size: 10px; font-weight: 700; color: var(--blue); text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 12px; }
+  .links-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+  .link-card { background: var(--bg-soft); border: 1px solid var(--bg-soft-2); padding: 12px; border-radius: 6px; text-align: center; color: var(--ink); text-decoration: none; transition: border-color 0.15s, box-shadow 0.15s; }
+  .link-card:hover { border-color: var(--blue); box-shadow: var(--shadow-sm); text-decoration: none; }
+  .link-card.pending { opacity: 0.5; cursor: default; }
+  .link-card.pending:hover { border-color: var(--bg-soft-2); box-shadow: none; }
+  .link-name { font-size: 12px; font-weight: 900; margin-bottom: 3px; }
+  .link-sub { font-size: 10px; color: var(--text-muted); }
+
+  .footer { background: var(--navy); color: #B0CCD7; text-align: center; padding: 18px; font-size: 11px; letter-spacing: 0.5px; }
+  .footer strong { color: var(--lime); }
+
+  @media (max-width: 980px) {
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .main-grid { grid-template-columns: 1fr; }
+    .links-grid { grid-template-columns: repeat(3, 1fr); }
+    .proscons, .flags-row { grid-template-columns: 1fr; }
+    .ph-name { font-size: 24px; }
+    .partner-header { padding: 22px; }
+    .field { grid-template-columns: 1fr; gap: 4px; }
+    .field-label { padding-top: 0; }
+  }
+
+  /* ===== Dark Studio restyle ===== */
+  .studio-logo{height:22px;width:auto;display:block}
+  body{background:var(--bg-soft);color:var(--text-body)}
+  h1,h2,h3,h4{color:var(--ink)}
+  a{color:var(--blue)}
+  .topnav,.masthead,header.site{background:linear-gradient(135deg,#00263A,#013A52);border-bottom:1px solid var(--border)}
+  .card,.block,.panel{background:linear-gradient(90deg,rgba(1,80,110,.95) 0%,rgba(0,51,70,.95) 100%);border:1px solid #4DA5C6;border-radius:0 16px 0 16px}
+  input,select,textarea{background:var(--field);color:var(--text-body);border-color:var(--border)}
+  .tag-lime{color:#002E40}
+  /* contrast fix — navy ink on cerulean/lime/cyan fills (Studio rule) */
+  .tag-blue,.tag-cyan,.tag-lime,.pill-lime,.sc-icon-2,.sc-icon-3,.phase-num,.faq-tier-num,.nav-tab.active{color:#00202D !important}
+  /* lime-fill contrast (per-page variants) */
+  .ph-status-pill,.stat-card.highlight,.stat-card.highlight .stat-label,.stat-card.highlight .stat-value,.pill-lime,.brand-mark{color:#00202D !important}
+  .ns-editable-tag{color:#00202D !important;background:#D6F4FF !important}
+  /* family match: soft cerulean-20 fills, no bright lime */
+  .tag-lime,.ph-status-pill,.stat-card.highlight,.pill-lime,.faq-tier-num,.pill-applied{background:#D6F4FF !important;color:#00202D !important;border-color:#8FD8F2 !important}
+  .stat-card.highlight .stat-label,.stat-card.highlight .stat-value{color:#00202D !important}
+</style>
+</head>
+<body data-cc-partner="UCF" data-cc-root="../">
+
+<nav class="topnav" aria-label="Top navigation">
+  <div class="topnav-inner">
+    <a href="../index.html" class="brand">
+      <img class="studio-logo" src="../Studio-logo-white.svg" alt="iDesign Studio">
+      <span class="brand-wordmark">Creative Companion</span>
+    </a>
+    <a href="../index.html" class="back-link">&larr; Back to Companion</a>
+    <span class="save-state" id="save-status">North Star autosaves locally</span>
+  </div>
+</nav>
+
+<div class="container">
+
+  <header class="partner-header">
+    <div class="ph-eyebrow">Living Project Page</div>
+    <div class="ph-name-row">
+      <span class="ph-name">UCF</span>
+      <span class="ph-status-pill">Design &amp; Delivery · Phase 1 · Cycle 3 of 4</span>
+    </div>
+    <div class="ph-meta">University of Central Florida · 17 courses · New partner · Active</div>
+  </header>
+
+  <div class="north-star-card">
+    <div class="ns-label-row">
+      <span class="ns-label">North Star</span>
+      <span class="ns-editable-tag">Editable</span>
+    </div>
+    <div class="ns-help">A 5-element paragraph: partner vibe + brand importance · student demographic · creative direction adjectives · scale · value proposition. Saves automatically as you type.</div>
+    <textarea class="ns-input" id="north-star" placeholder="Write UCF's North Star here."></textarea>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">LMS</div>
+      <div class="stat-value">Canvas</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Courses in SOW</div>
+      <div class="stat-value">17</div>
+      <div class="stat-sub">~4 per cycle · 4 cycles</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Tick hours allocated</div>
+      <div class="stat-value">80</div>
+      <div class="stat-sub">PP + 17 courses</div>
+    </div>
+    <div class="stat-card highlight">
+      <div class="stat-label">Current phase</div>
+      <div class="stat-value">D&amp;D 1</div>
+      <div class="stat-sub">Cycle 3 of 4</div>
+    </div>
+  </div>
+
+  <div class="block" style="margin-bottom:22px">
+  <div class="block-header block-h-navy">Updates from the Inbox <span class="meta">Applied items appear here</span></div>
+  <div class="block-body" style="padding-top:8px"><div id="cc-partner-feed"></div></div>
+</div>
+<div class="main-grid">
+
+    <div>
+
+      <div class="block">
+        <div class="block-header block-h-navy">Intake</div>
+        <div class="block-body">
+
+          <div class="form-grid">
+
+            <div class="field locked">
+              <label class="field-label">PBD received</label>
+              <div class="field-control">
+                <input type="date" value="2025-12-16" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Admin Slack created</label>
+              <div class="field-control">
+                <input type="date" value="2026-01-29" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From Slack workspace setup</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Project kickoff</label>
+              <div class="field-control">
+                <input type="date" value="2026-02-13" readonly />
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Design Lead's first admin channel message</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Partner status</label>
+              <div class="field-control">
+                <div class="radio-group">
+                  <span class="radio-pill"><input type="radio" name="ps" disabled checked /><label>New partner</label></span>
+                  <span class="radio-pill"><input type="radio" name="ps" disabled /><label>Existing partner</label></span>
+                </div>
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From SOW</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Brand team access</label>
+              <div class="field-control">
+                <div class="radio-group">
+                  <span class="radio-pill"><input type="radio" name="bt" disabled /><label>Granted</label></span>
+                  <span class="radio-pill"><input type="radio" name="bt" disabled checked /><label>Not granted</label></span>
+                </div>
+                <textarea readonly rows="2" style="margin-top: 6px;">UCF did not provide brand team access to Creative for Program Planning.</textarea>
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>Set during Program Planning</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Custom CSS access</label>
+              <div class="field-control">
+                <div class="radio-group">
+                  <span class="radio-pill"><input type="radio" name="css" disabled /><label>Yes (LMS UX Resource in scope)</label></span>
+                  <span class="radio-pill"><input type="radio" name="css" disabled checked /><label>No</label></span>
+                </div>
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From SOW</span></div>
+              </div>
+            </div>
+
+            <div class="field locked">
+              <label class="field-label">Video Services</label>
+              <div class="field-control">
+                <div class="select-locked">None in scope</div>
+                <div class="field-source"><span class="source-pill locked"><span class="dot"></span>From PBD</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Brand contact</label>
+              <div class="field-control">
+                <input type="text" placeholder="Name, role" />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>From project setup</span> <span class="pending-badge">Pending</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Partner SME</label>
+              <div class="field-control">
+                <input type="text" placeholder="Name" />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>From Asana project members</span> <span class="pending-badge">Pending integration</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">LID</label>
+              <div class="field-control">
+                <input type="text" placeholder="Name" />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>From Asana project members</span> <span class="pending-badge">Pending integration</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">Design Lead</label>
+              <div class="field-control">
+                <input type="text" placeholder="Name" />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>From Asana project members</span> <span class="pending-badge">Pending integration</span></div>
+              </div>
+            </div>
+
+            <div class="field pending">
+              <label class="field-label">PM</label>
+              <div class="field-control">
+                <input type="text" placeholder="Name" />
+                <div class="field-source"><span class="source-pill pending"><span class="dot"></span>From Asana project members</span> <span class="pending-badge">Pending integration</span></div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-blue">Recommendation &amp; Package <span class="meta">Engine output · As implemented</span></div>
+        <div class="block-body">
+
+          <div class="reco-section-title">Chosen package</div>
+          <div class="reco-package-name">Custom Canvas configuration</div>
+          <div class="reco-rationale">
+            The recommendation engine produced this configuration as the best fit for UCF's constraints: Canvas LMS, 17 courses across 4 cycles, 80-hour Tick budget (Program Planning + all 17 courses), no custom CSS access, no Video Services in scope, new partner status. The Homepage component was substituted with 3 homepage navigation buttons to fit Canvas setup and budget. Course Card was omitted. LMS UX Resource was excluded because the SOW did not include custom CSS access.
+          </div>
+
+          <div class="reco-section-title">Components included</div>
+          <table class="reco-asset-table">
+            <thead>
+              <tr>
+                <th style="width: 30%;">Asset</th>
+                <th style="width: 14%;">Category</th>
+                <th style="width: 32%;">Hours pattern</th>
+                <th>Qty</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="asset-name">Course Banner</div><div class="asset-note">Course-specific identity per course. Template built in Program Planning, per-course applied during D&amp;D.</div></td>
+                <td><span class="pill pill-templated">Templated</span></td>
+                <td>Template + per-course × 17</td>
+                <td>17</td>
+              </tr>
+              <tr>
+                <td><div class="asset-name">Icon Set</div><div class="asset-note">One designed set used across all 17 courses as-is.</div></td>
+                <td><span class="pill pill-generic">Generic</span></td>
+                <td>One-time creation</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td><div class="asset-name">Section Banner</div><div class="asset-note">Section divider used across all courses.</div></td>
+                <td><span class="pill pill-generic">Generic</span></td>
+                <td>One-time creation</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td><div class="asset-name">Footer</div><div class="asset-note">Course-page footer applied as-is across all courses.</div></td>
+                <td><span class="pill pill-generic">Generic</span></td>
+                <td>One-time creation</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td><div class="asset-name">Line Break</div><div class="asset-note">Visual divider used between content sections.</div></td>
+                <td><span class="pill pill-generic">Generic</span></td>
+                <td>One-time creation</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td><div class="asset-name">Homepage navigation: 3 buttons</div><div class="asset-note">Custom Ad-hoc work. Substitutes the canon's Homepage component.</div></td>
+                <td><span class="pill pill-adhoc">Ad-hoc</span></td>
+                <td>Per-instance × 3</td>
+                <td>3</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="reco-section-title">Hour breakdown and % of scope</div>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">Hours computed from the Creative Calculator's per-component rates against UCF's chosen package (17 courses, 80 Tick hours, new partner, Canvas, no Video Services, no Ad-hoc except 3 custom homepage navigation buttons).</p>
+
+          <table class="ucf-breakdown" id="ucf-breakdown-table"></table>
+
+          <div class="ucf-scope" id="ucf-scope"></div>
+
+          <div class="reco-section-title">Pros and cons of this configuration</div>
+          <div class="proscons">
+            <div class="pros">
+              <div class="title">Pros</div>
+              <ul>
+                <li>Fits the 80-hour Tick budget without compromising essential Canvas elements.</li>
+                <li>No high scope-risk components (no Custom Illustrations, no Infographics).</li>
+                <li>No partner-dependency flags (no Avatar requiring headshot pipeline).</li>
+                <li>3-button homepage navigation is simpler and lower-hours than a full Homepage component.</li>
+                <li>Footer, Line Break, and Section Banner provide structural clarity without per-course customization.</li>
+              </ul>
+            </div>
+            <div class="cons">
+              <div class="title">Cons</div>
+              <ul>
+                <li>No Course Card means Canvas dashboard cards rely on default Canvas behavior.</li>
+                <li>No Module Banners means modules lack additional visual signaling.</li>
+                <li>3 buttons are less rich than a full Canvas Homepage, narrower visual real estate.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="reco-section-title">Learner experience benefits (grounded in research)</div>
+          <div class="lex-card">
+            <ul>
+              <li><strong>Consistency reduces extraneous cognitive load.</strong> Generic components (Footer, Line Break, Section Banner) repeat the same visual cues across all 17 courses. Per Cognitive Load Theory, consistent visual language frees working memory for content learning.</li>
+              <li><strong>Course-specific Course Banner supports Mayer's signaling principle.</strong> Per-course identity helps learners orient themselves to which course they're in across a multi-course program.</li>
+              <li><strong>Homepage navigation buttons cluster related controls.</strong> Per Mayer's spatial contiguity principle, grouping homepage navigation in one visual block reduces wayfinding cost.</li>
+              <li><strong>Visual hierarchy preserved.</strong> Section Banners and Line Breaks support hierarchical reading patterns established by visual hierarchy research.</li>
+            </ul>
+          </div>
+
+          <div class="reco-section-title">Risk and dependency flags</div>
+          <div class="flags-row">
+            <div class="flag-item">
+              <span class="flag-label">Scope-risk flags</span>
+              <span class="pill pill-ok">None</span> &nbsp;No Custom Illustrations or Infographics in scope.
+            </div>
+            <div class="flag-item">
+              <span class="flag-label">Partner-dependency flags</span>
+              <span class="pill pill-ok">None</span> &nbsp;No Avatar requiring headshot pipeline.
+            </div>
+          </div>
+
+          <div class="reco-section-title">Substitution applied</div>
+          <div class="lex-card" style="margin-bottom: 14px;">
+            <div style="font-size: 12.5px; line-height: 1.55;"><strong>Canvas Homepage component → 3 Ad-hoc homepage navigation buttons.</strong> Per the canon's substitution rule, an asset can be swapped for one with similar hour cost to flex the package mix. UCF's case substituted the higher-hour Homepage for lower-hour Ad-hoc buttons to fit the 80-hour budget while meeting design intent.</div>
+          </div>
+
+          <div class="reco-section-title">Alternative engine outputs</div>
+          <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">The engine produced several viable configurations for UCF's inputs. The team selected the chosen package above. These were the runners-up:</p>
+          <div class="alt-list">
+            <div class="alt-row">
+              <div class="alt-name">Maximum coverage configuration (Homepage + Course Banner + Course Card + Icon Set + Line Break + Footer + Module Banners + Avatar)</div>
+              <div class="alt-why">Why not chosen: would have exceeded the 80-hour Tick budget. Homepage and Course Card added Templated work UCF's Canvas setup did not require. Module Banners and Avatar added hours without proportional value.</div>
+            </div>
+            <div class="alt-row">
+              <div class="alt-name">Balanced configuration (Course Banner + Course Card + Icon Set + Line Break + Footer + Module Banners)</div>
+              <div class="alt-why">Why not chosen: Module Banners and Course Card added per-course and per-template hours UCF didn't need. The 3-button homepage navigation served the homepage role at lower cost.</div>
+            </div>
+            <div class="alt-row">
+              <div class="alt-name">Minimal effective configuration (Course Banner + Course Card + Icon Set)</div>
+              <div class="alt-why">Why not chosen: too thin. Missing the structural Generic components (Footer, Line Break, Section Banner) that UCF needed for a complete course experience.</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-slate">Design Decisions Log <span class="meta">Locked</span></div>
+        <div class="block-body">
+
+          <div class="decision">
+            <div class="title">No brand team access from UCF</div>
+            <div class="rationale">UCF did not grant Creative access to a brand team during Program Planning. Brand foundations were developed using available partner branding references rather than direct partner brand authority collaboration. This shaped the package and surfaced a downstream risk that played out later in the project.</div>
+            <div class="meta">Program Planning</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Custom homepage navigation: 3 buttons in place of standard Homepage</div>
+            <div class="rationale">Substituted a 3-button homepage navigation pattern for the canon's standard Canvas Homepage component. Configuration agreed upon during Program Planning to fit UCF's Canvas setup and 80-hour budget.</div>
+            <div class="meta">Program Planning</div>
+          </div>
+
+          <div class="decision">
+            <div class="title">Post-approval banner revision request declined</div>
+            <div class="rationale">After Program Planning closed, a UCF admin requested revisions to the Course Banner. The decision was to move forward with the originally approved banner delivery due to scope. Partner ended up very happy with the banners in the end. This is the canonical post-approval change request pattern (FAQ entry 1) playing out in real life.</div>
+            <div class="meta">Post-Program Planning · Design &amp; Delivery</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div>
+
+      <div class="block">
+        <div class="block-header block-h-blue">Phase Status</div>
+        <div class="block-body">
+          <p style="font-size: 12px; color: var(--text-muted); margin: 0 0 14px;">UCF runs as Program Planning then 4 Design &amp; Delivery cycles, ~4 courses per cycle.</p>
+
+          <div class="cycle-row"><div class="cycle-dot done"></div><div class="cycle-label">Program Planning</div><div class="cycle-status">Complete</div></div>
+          <div class="cycle-row"><div class="cycle-dot done"></div><div class="cycle-label">D&amp;D Cycle 1 (~4 courses)</div><div class="cycle-status">Complete</div></div>
+          <div class="cycle-row"><div class="cycle-dot done"></div><div class="cycle-label">D&amp;D Cycle 2 (~4 courses)</div><div class="cycle-status">Complete</div></div>
+          <div class="cycle-row"><div class="cycle-dot active"></div><div class="cycle-label">D&amp;D Cycle 3 (~4 courses)</div><div class="cycle-status" style="color: var(--blue);">Phase 1 active</div></div>
+          <div class="cycle-row"><div class="cycle-dot pending"></div><div class="cycle-label">D&amp;D Cycle 4 (~5 courses)</div><div class="cycle-status">Pending</div></div>
+
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);">
+            <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; margin-bottom: 4px;">Currently in</div>
+            <div style="font-size: 13px; color: var(--ink); font-weight: 700;">Design &amp; Delivery Phase 1: Info Gathering and Setup for Cycle 3.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-red">Open Blockers <span class="meta">0</span></div>
+        <div class="block-body">
+          <div class="empty-note">No blockers logged.</div>
+          <div class="integration-note">Blockers will populate from Asana tasks tagged "blocker" when integration is built.</div>
+        </div>
+      </div>
+
+      <div class="block">
+        <div class="block-header block-h-navy">Recent Activity</div>
+        <div class="block-body" style="padding-top: 4px; padding-bottom: 6px;">
+          <div class="activity-item"><div class="activity-date">Currently</div><div class="activity-text">D&amp;D Phase 1 in progress for Cycle 3 (~4 courses).</div></div>
+          <div class="activity-item"><div class="activity-date">Earlier in project</div><div class="activity-text">UCF admin requested Course Banner revisions after Program Planning. Declined due to scope. Original banners delivered. Partner ended up very happy with the result.</div></div>
+          <div class="activity-item"><div class="activity-date">February 13, 2026</div><div class="activity-text">Project officially kicked off (Design Lead's first message in admin channel).</div></div>
+          <div class="activity-item"><div class="activity-date">January 29, 2026</div><div class="activity-text">Admin Slack channel created.</div></div>
+          <div class="activity-item"><div class="activity-date">December 16, 2025</div><div class="activity-text">PBD received. Sales-to-project handoff.</div></div>
+          <div class="integration-note">Activity log will populate from Asana activity feed and PageProof events when integrations are built.</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="links-band">
+    <div class="links-label">Links</div>
+    <div class="links-grid">
+      <a class="link-card" href="https://app.asana.com/1/1204155402839421/project/1212766208137733/list/1212796609980770" target="_blank" rel="noopener">
+        <div class="link-name">Asana</div>
+        <div class="link-sub">Tracking</div>
+      </a>
+      <a class="link-card" href="https://www.figma.com/design/aqCRsVUXDiBXDUqVuQFBKp/Program-Planning?m=auto&t=lujamh4X9z9WiEGM-6" target="_blank" rel="noopener">
+        <div class="link-name">Figma PP</div>
+        <div class="link-sub">Program Planning</div>
+      </a>
+      <a class="link-card" href="https://www.figma.com/design/RTODQPfzc2molJ3W1U5Q7s/Design---Delivery?m=auto&t=lujamh4X9z9WiEGM-6" target="_blank" rel="noopener">
+        <div class="link-name">Figma D&amp;D</div>
+        <div class="link-sub">Per-course</div>
+      </a>
+      <div class="link-card pending">
+        <div class="link-name">PageProof</div>
+        <div class="link-sub">URL to be added</div>
+      </div>
+      <a class="link-card" href="https://drive.google.com/drive/folders/1Ews38cRtztGZpW36FhzoKQcCmoQFkEJ8?usp=drive_link" target="_blank" rel="noopener">
+        <div class="link-name">Drive</div>
+        <div class="link-sub">Creative folder</div>
+      </a>
+      <div class="link-card pending">
+        <div class="link-name">Slack</div>
+        <div class="link-sub">#ucf · #ucf-admin</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <strong>The Creative Companion</strong> &nbsp;·&nbsp; UCF Project Page &nbsp;·&nbsp; iDesign Creative &nbsp;·&nbsp; Real data only
+</footer>
+
+<script>
+  const STATE_KEY = 'ucf-north-star-v1';
+  const textarea = document.getElementById('north-star');
+  const status = document.getElementById('save-status');
+
+  try {
+    const saved = localStorage.getItem(STATE_KEY);
+    if (saved !== null) textarea.value = saved;
+  } catch(e) {}
+
+  textarea.addEventListener('input', () => {
+    try { localStorage.setItem(STATE_KEY, textarea.value); } catch(e) {}
+    status.classList.add('saved');
+    status.textContent = 'North Star saved ✓';
+    clearTimeout(window._saveT);
+    window._saveT = setTimeout(() => {
+      status.classList.remove('saved');
+      status.textContent = 'North Star autosaves locally';
+    }, 1400);
+  });
+
+  // ── UCF Hour breakdown + % of scope ─────────────────────
+  // All values from the Creative Calculator (Canvas baseline)
+  const UCF = {
+    courses: 17,
+    allottedHours: 80,
+    isNew: true,
+    videoHours: 0,
+    // Components in UCF's chosen package, with Calculator hours
+    generic: [
+      { name: 'Icon Set (Designed, 12 icons)', creation: 10 },
+      { name: 'Section Banner', creation: 3 },
+      { name: 'Footer', creation: 1.5 },
+      { name: 'Line Break', creation: 2 }
+    ],
+    templated: [
+      { name: 'Course Banner', creation: 3, perCourse: 2 }
+    ],
+    adhoc: [
+      { name: '3 Homepage Navigation Buttons (custom)', perCourse: 0, oneTime: 6, note: 'Custom Ad-hoc work, designed once. Estimated 6 hrs total based on 2 hrs each.' }
+    ],
+    PP_ADMIN: 10,
+    PER_COURSE_ADMIN: 1
+  };
+
+  function ucfFmt(n) { return n === 0 ? '0' : (Math.round(n * 10) / 10).toString(); }
+
+  function ucfRenderBreakdown() {
+    const isNew = UCF.isNew;
+    const ppAdmin = isNew ? UCF.PP_ADMIN : 0;
+    let genericCreation = 0;
+    UCF.generic.forEach(g => { genericCreation += g.creation; });
+    let templateCreation = 0;
+    UCF.templated.forEach(t => { templateCreation += t.creation; });
+    let adhocOneTime = 0;
+    UCF.adhoc.forEach(a => { adhocOneTime += (a.oneTime || 0); });
+    const ppSubtotal = ppAdmin + (isNew ? genericCreation : 0) + (isNew ? templateCreation : 0) + adhocOneTime;
+
+    let templatedPerCourse = 0;
+    UCF.templated.forEach(t => { templatedPerCourse += t.perCourse; });
+    const templatedPerCourseTotal = templatedPerCourse * UCF.courses;
+    const perCourseAdminTotal = UCF.PER_COURSE_ADMIN * UCF.courses;
+    let adhocPerCourse = 0;
+    UCF.adhoc.forEach(a => { adhocPerCourse += (a.perCourse || 0); });
+    const adhocPerCourseTotal = adhocPerCourse * UCF.courses;
+    const ddSubtotal = templatedPerCourseTotal + perCourseAdminTotal + adhocPerCourseTotal;
+
+    const total = ppSubtotal + ddSubtotal + UCF.videoHours;
+    const pct = UCF.allottedHours > 0 ? Math.round((total / UCF.allottedHours) * 1000) / 10 : 0;
+    const remaining = UCF.allottedHours - total;
+    let pctClass = 'ok';
+    if (pct >= 95 && pct <= 100) pctClass = 'warn';
+    else if (pct > 100) pctClass = 'over';
+    const meterWidth = Math.min(100, pct);
+
+    const genericRows = UCF.generic.map(g => `<tr><td>${g.name}</td><td>${ucfFmt(g.creation)}</td></tr>`).join('');
+    const templatedCreationRows = UCF.templated.map(t => `<tr><td>${t.name} (template)</td><td>${ucfFmt(t.creation)}</td></tr>`).join('');
+    const templatedPerCourseRows = UCF.templated.map(t => `<tr><td>${t.name} per-course (${ucfFmt(t.perCourse)} × ${UCF.courses})</td><td>${ucfFmt(t.perCourse * UCF.courses)}</td></tr>`).join('');
+    const adhocOneTimeRows = UCF.adhoc.filter(a => a.oneTime > 0).map(a => `<tr><td>${a.name}</td><td>${ucfFmt(a.oneTime)}</td></tr>`).join('');
+
+    document.getElementById('ucf-breakdown-table').innerHTML = `
+      <thead><tr><th>Line item</th><th>Hours</th></tr></thead>
+      <tbody>
+        <tr class="macro"><td>Program Planning (new partner, full setup)</td><td>${ucfFmt(ppSubtotal)}</td></tr>
+        <tr><td>PP Setup &amp; Admin (one-time)</td><td>${ucfFmt(ppAdmin)}</td></tr>
+        ${genericRows}
+        ${templatedCreationRows}
+        ${adhocOneTimeRows}
+        <tr class="macro"><td>Design &amp; Delivery (per course × ${UCF.courses})</td><td>${ucfFmt(ddSubtotal)}</td></tr>
+        <tr><td>Per-course Setup &amp; Admin (1 × ${UCF.courses})</td><td>${ucfFmt(perCourseAdminTotal)}</td></tr>
+        ${templatedPerCourseRows}
+        <tr class="subtotal"><td>Total package hours</td><td>${ucfFmt(total)}</td></tr>
+      </tbody>`;
+
+    document.getElementById('ucf-scope').innerHTML = `
+      <div class="ucf-scope-meter"><div class="ucf-scope-fill ${pctClass}" style="width: ${meterWidth}%;"></div></div>
+      <div class="ucf-scope-row">
+        <span class="ucf-scope-num ${pct > 100 ? 'over' : ''}">${ucfFmt(pct)}% of scope</span>
+        <span class="ucf-scope-detail">${ucfFmt(total)} of ${UCF.allottedHours} Tick hours ${remaining >= 0 ? `(${ucfFmt(remaining)} remaining)` : `(${ucfFmt(-remaining)} over budget)`}</span>
+      </div>`;
+  }
+
+  ucfRenderBreakdown();
+</script>
+
+<script src="../assets/companion.js?v=5"></script>
+</body>
+</html>

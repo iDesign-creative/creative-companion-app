@@ -189,3 +189,6 @@ html.cc-editing [data-cc-editable] { outline: 2px dashed var(--cc-coral); outlin
 .cc-raw { margin-top: 12px; }
 .cc-raw summary { font-size: 11px; font-weight: 700; color: var(--cc-blue); cursor: pointer; letter-spacing: 0.03em; }
 .cc-raw .cc-update-text { margin-top: 8px; }
+
+/* Workload — overdue reason */
+.cc-wl-reason { font-size: 11px; color: var(--cc-text-muted); margin-top: 5px; line-height: 1.4; max-width: 260px; }

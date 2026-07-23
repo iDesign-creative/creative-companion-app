@@ -56,10 +56,10 @@
     partners: [
       { name: 'Salve Regina', slug: 'Salve', open: 54, split: { 'Unassigned': 51, 'Assigned': 3 }, nextDue: '2026-07-29', overdue: 0 },
       { name: 'Iona',         slug: 'Iona',  open: 9,  split: { 'Unassigned': 9 }, nextDue: null, overdue: 0 },
-      { name: 'Utah',         slug: 'Utah',  open: 7,  split: { 'Requester Review': 5, 'In Progress': 1, 'To-Dos requested': 1 }, nextDue: '2026-07-20', overdue: 2 },
-      { name: 'UA – PTC',     slug: 'UA_PTC', open: 4, split: { 'Creative Review': 3, 'Assigned': 1 }, nextDue: '2026-06-12', overdue: 3 },
+      { name: 'Utah',         slug: 'Utah',  open: 7,  split: { 'Requester Review': 5, 'In Progress': 1, 'To-Dos requested': 1 }, nextDue: '2026-07-20', overdue: 2, waiting: true, overdueReason: 'In partner review (Requester Review) — awaiting partner approval' },
+      { name: 'UA – PTC',     slug: 'UA_PTC', open: 4, split: { 'Creative Review': 3, 'Assigned': 1 }, nextDue: '2026-06-12', overdue: 3, waiting: true, overdueReason: 'In Creative Review — awaiting reviewer sign-off' },
       { name: 'UCF',          slug: 'UCF',   open: 2,  split: { 'Assigned': 2 }, nextDue: '2026-08-12', overdue: 0 },
-      { name: 'Tulane',       slug: 'Tulane', open: 1, split: { 'Requester Review': 1 }, nextDue: '2026-04-27', overdue: 1 }
+      { name: 'Tulane',       slug: 'Tulane', open: 1, split: { 'Requester Review': 1 }, nextDue: '2026-04-27', overdue: 1, waiting: true, overdueReason: 'In partner review — awaiting partner approval' }
     ]
   };
 
@@ -390,7 +390,10 @@
         '<td class="num"><span class="cc-wl-open">' + p.open + '</span></td>' +
         '<td><span class="cc-wl-split">' + split + '</span></td>' +
         '<td>' + overdueLabel(p.nextDue) + '</td>' +
-        '<td class="num">' + (p.overdue > 0 ? '<span class="cc-pill cc-pill-over">' + p.overdue + ' overdue</span>' : '<span class="cc-wl-none">0</span>') + '</td>' +
+        '<td>' + (p.overdue > 0
+          ? '<span class="cc-pill ' + (p.waiting ? 'cc-pill-warn' : 'cc-pill-over') + '">' + p.overdue + (p.waiting ? ' awaiting approval' : ' overdue') + '</span>'
+            + (p.overdueReason ? '<div class="cc-wl-reason">' + (p.waiting ? 'past due · ' : '') + esc(p.overdueReason) + '</div>' : '')
+          : '<span class="cc-wl-none">on track</span>') + '</td>' +
         '<td>' + page + '</td>' +
       '</tr>';
     }).join('');
@@ -401,10 +404,10 @@
         'synced <span class="accent">' + esc(WORKLOAD.syncedAt) + '</span> · ' +
         '<a href="' + WORKLOAD.asanaUrl + '" target="_blank" rel="noopener">open board in Asana →</a></div>' +
       '<table class="cc-wl-table"><thead><tr>' +
-        '<th>Partner</th><th class="num">Open</th><th>Status split</th><th>Next deadline</th><th class="num">Flags</th><th>Living page</th>' +
+        '<th>Partner</th><th class="num">Open</th><th>Status split</th><th>Next deadline</th><th>Overdue &amp; why</th><th>Living page</th>' +
       '</tr></thead><tbody>' + rows + '</tbody></table>' +
-      '<p class="cc-inbox-hint" style="margin-top:14px">Snapshot only — refreshed by re-pulling the board (interim) or a scheduled Cloud Function on GCP. ' +
-      'No Asana token is stored in this file.</p>';
+      '<p class="cc-inbox-hint" style="margin-top:14px"><b style="color:var(--cc-sub,#B3D9E7)">Reading “overdue”:</b> items sitting in a <b>review</b> status are <b>awaiting a sign-off</b> (partner or reviewer) — waiting on them, not stalled on Creative — shown amber. A true red “overdue” means Creative work has slipped. Reasons are derived from each task’s Asana status; the live pull confirms per task.</p>' +
+      '<p class="cc-inbox-hint" style="margin-top:8px">Snapshot only — refreshed by re-pulling the board (interim) or a scheduled Cloud Function on GCP. No Asana token is stored in this file.</p>';
   }
 
   /* =======================================================================

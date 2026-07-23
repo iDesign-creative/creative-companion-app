@@ -18,7 +18,8 @@
      interim. It is NOT real authentication — the passcode lives in client
      code. Real per-person auth is a dev/GCP task. Change here + share the
      passcode out-of-band with the team.                                    */
-  var CC_PASSCODE = 'creative-companion';           // interim shared passcode
+  var CC_PASSCODE = 'creative-companion';           // (legacy team gate — gate removed)
+  var CC_ADMIN_PASSCODE = 'creative-admin';          // unlock editing (admin role). Interim soft lock.
   var CC_AUTH_KEY = 'cc-auth-v1';                    // sessionStorage flag
   var CC_ROLE_KEY = 'cc-role-v1';                    // localStorage: 'admin' | 'member'
   var CC_UPDATES_KEY = 'cc-updates-v1';              // localStorage: paste-inbox items
@@ -72,7 +73,7 @@
 
   function readUpdates() { try { return JSON.parse(localStorage.getItem(CC_UPDATES_KEY) || '[]'); } catch (e) { return []; } }
   function writeUpdates(a) { try { localStorage.setItem(CC_UPDATES_KEY, JSON.stringify(a)); } catch (e) {} }
-  function getRole() { try { return localStorage.getItem(CC_ROLE_KEY) || 'admin'; } catch (e) { return 'admin'; } }
+  function getRole() { try { return localStorage.getItem(CC_ROLE_KEY) || 'member'; } catch (e) { return 'member'; } }
   function setRole(r) { try { localStorage.setItem(CC_ROLE_KEY, r); } catch (e) {} }
   function isEditing() { try { return localStorage.getItem(CC_EDIT_KEY) === 'on'; } catch (e) { return false; } }
 
@@ -149,7 +150,14 @@
     }
     bar.querySelectorAll('#cc-role button').forEach(function (b) {
       b.addEventListener('click', function () {
-        setRole(b.getAttribute('data-role'));
+        var want = b.getAttribute('data-role');
+        // Admin is the lock: unlocking editing requires the admin passcode.
+        if (want === 'admin' && getRole() !== 'admin') {
+          var pw = prompt('Enter the admin passcode to unlock editing:');
+          if (pw === null) return;
+          if (pw !== CC_ADMIN_PASSCODE) { alert('Incorrect passcode — staying in view-only (Member).'); return; }
+        }
+        setRole(want);
         if (getRole() !== 'admin') { try { localStorage.setItem(CC_EDIT_KEY, 'off'); } catch (e) {} }
         paint(); renderInbox(); // re-render inbox actions for role
       });
@@ -159,7 +167,8 @@
       paint();
     });
     bar.querySelector('#cc-signout').addEventListener('click', function () {
-      try { sessionStorage.removeItem(CC_AUTH_KEY); } catch (e) {}
+      // "Sign out" = drop admin, return to view-only (no gate to sign out of anymore)
+      try { setRole('member'); localStorage.setItem(CC_EDIT_KEY, 'off'); sessionStorage.removeItem(CC_AUTH_KEY); } catch (e) {}
       location.reload();
     });
     paint();

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Workspace : Creative Companion</title>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="assets/companion.css?v=5" />
+<link rel="stylesheet" href="assets/companion.css?v=6" />
 <style>
   /* ── Reset + base ──────────────────────────────────────── */
   *, *::before, *::after { box-sizing: border-box; }
@@ -1035,6 +1035,7 @@
     <div class="nav-tabs" role="tablist">
       <button class="nav-tab active" data-section="home" onclick="showSection('home')" role="tab">Home</button>
       <button class="nav-tab" data-section="projects" onclick="showSection('projects')" role="tab">Projects</button>
+      <button class="nav-tab" data-section="scope" onclick="showSection('scope')" role="tab">Scope Check</button>
       <button class="nav-tab" data-section="inbox" onclick="showSection('inbox')" role="tab">Update Inbox</button>
       <button class="nav-tab" data-section="about" onclick="showSection('about')" role="tab">About Creative</button>
       <button class="nav-tab" data-section="resources" onclick="showSection('resources')" role="tab">Resources</button>
@@ -1544,80 +1545,7 @@
   <div class="callout mb-3"><strong>Research grounding.</strong> The engine's pairing logic is informed by Mayer's Cognitive Theory of Multimedia Learning (signaling, spatial contiguity, coherence), Cognitive Load Theory (consistency reduces extraneous load), and visual hierarchy principles. iDesign-specific pairing wisdom from past projects layers on top as the engine learns from outcomes.</div>
 
   <h3 style="margin-top: 24px; margin-bottom: 8px;">Package Explorer</h3>
-  <p class="small">The engine in action. Enter project constraints on the left. Three viable package configurations appear on the right with components, category breakdown, scope-risk flags, and pros and cons. Defaults match a typical Canvas SOW; change any input to see how the engine adjusts.</p>
-
-  <div class="pe-wrap">
-    <div class="pe-form">
-      <h4>Engine inputs</h4>
-
-      <div class="pe-field">
-        <label for="pe-lms">LMS</label>
-        <select id="pe-lms">
-          <option value="Canvas" selected>Canvas</option>
-          <option value="BlackboardUltra">Blackboard Ultra</option>
-          <option value="Brightspace">Brightspace</option>
-        </select>
-      </div>
-
-      <div class="pe-field">
-        <label for="pe-courses">Courses in SOW</label>
-        <input type="number" id="pe-courses" value="17" min="1" max="200" />
-      </div>
-
-      <div class="pe-field">
-        <label for="pe-hours">Tick hours allocated</label>
-        <input type="number" id="pe-hours" value="100" min="10" max="2000" />
-      </div>
-
-      <div class="pe-field">
-        <label>Partner status</label>
-        <div class="pe-radio-row">
-          <input type="radio" name="pe-status" id="pe-status-new" value="new" checked /><label for="pe-status-new">New</label>
-          <input type="radio" name="pe-status" id="pe-status-existing" value="existing" /><label for="pe-status-existing">Existing</label>
-        </div>
-      </div>
-
-      <div class="pe-field">
-        <label>Custom CSS access</label>
-        <div class="pe-radio-row">
-          <input type="radio" name="pe-css" id="pe-css-yes" value="yes" /><label for="pe-css-yes">Yes</label>
-          <input type="radio" name="pe-css" id="pe-css-no" value="no" checked /><label for="pe-css-no">No</label>
-        </div>
-      </div>
-
-      <div class="pe-field">
-        <label for="pe-video">Video Services tier</label>
-        <select id="pe-video">
-          <option value="None" selected>None</option>
-          <option value="Tier1">Tier 1 (4 assets, 20 hrs)</option>
-          <option value="Tier2">Tier 2 (9 assets, 45 hrs)</option>
-          <option value="Tier3">Tier 3 (9 + Custom Illustrations, 45+ hrs)</option>
-        </select>
-      </div>
-
-      <div class="pe-field">
-        <label>AI videos (PBD flag)</label>
-        <div class="pe-radio-row">
-          <input type="radio" name="pe-aivideo" id="pe-aivideo-yes" value="yes" /><label for="pe-aivideo-yes">In scope</label>
-          <input type="radio" name="pe-aivideo" id="pe-aivideo-no" value="no" checked /><label for="pe-aivideo-no">Not in scope</label>
-        </div>
-      </div>
-
-      <div class="pe-comp-selector">
-        <h5>Components in scope</h5>
-        <div class="pe-comp-help">Pick components to include. Hours and % of scope update live. LMS filtering disables components the selected LMS does not support.</div>
-        <div class="pe-comp-actions">
-          <button type="button" id="pe-clear">Clear all</button>
-          <button type="button" id="pe-preset-canvas-full">Canvas full</button>
-          <button type="button" id="pe-preset-essentials">Essentials only</button>
-        </div>
-        <div id="pe-comp-list"></div>
-      </div>
-
-    </div>
-
-    <div class="pe-results" id="pe-results"></div>
-  </div>
+  <p class="small">The interactive calculator now has its own <b>Scope Check</b> tab up top. <a href="#" onclick="showSection('scope');return false;">Open Scope Check &rarr;</a></p>
 
   </div>
 
@@ -2552,6 +2480,91 @@
 <!-- ═══════════════════════════════════════════════════════════
      RESOURCES
      ═══════════════════════════════════════════════════════════ -->
+
+<!-- ═══ SCOPE CHECK ═══ -->
+<section class="section" id="section-scope">
+  <div class="section-header">
+    <div class="eyebrow">Scope Check</div>
+    <h2 class="section-title">Does the package fit the budget?</h2>
+    <p class="section-lede">The Package Explorer in action — enter a project’s constraints and see viable configurations with hour totals and % of scope. Defaults match a typical Canvas SOW.</p>
+  </div>
+  <h3 style="margin-top: 24px; margin-bottom: 8px;">Package Explorer</h3>
+  <p class="small">The engine in action. Enter project constraints on the left. Three viable package configurations appear on the right with components, category breakdown, scope-risk flags, and pros and cons. Defaults match a typical Canvas SOW; change any input to see how the engine adjusts.</p>
+
+  <div class="pe-wrap">
+    <div class="pe-form">
+      <h4>Engine inputs</h4>
+
+      <div class="pe-field">
+        <label for="pe-lms">LMS</label>
+        <select id="pe-lms">
+          <option value="Canvas" selected>Canvas</option>
+          <option value="BlackboardUltra">Blackboard Ultra</option>
+          <option value="Brightspace">Brightspace</option>
+        </select>
+      </div>
+
+      <div class="pe-field">
+        <label for="pe-courses">Courses in SOW</label>
+        <input type="number" id="pe-courses" value="17" min="1" max="200" />
+      </div>
+
+      <div class="pe-field">
+        <label for="pe-hours">Tick hours allocated</label>
+        <input type="number" id="pe-hours" value="100" min="10" max="2000" />
+      </div>
+
+      <div class="pe-field">
+        <label>Partner status</label>
+        <div class="pe-radio-row">
+          <input type="radio" name="pe-status" id="pe-status-new" value="new" checked /><label for="pe-status-new">New</label>
+          <input type="radio" name="pe-status" id="pe-status-existing" value="existing" /><label for="pe-status-existing">Existing</label>
+        </div>
+      </div>
+
+      <div class="pe-field">
+        <label>Custom CSS access</label>
+        <div class="pe-radio-row">
+          <input type="radio" name="pe-css" id="pe-css-yes" value="yes" /><label for="pe-css-yes">Yes</label>
+          <input type="radio" name="pe-css" id="pe-css-no" value="no" checked /><label for="pe-css-no">No</label>
+        </div>
+      </div>
+
+      <div class="pe-field">
+        <label for="pe-video">Video Services tier</label>
+        <select id="pe-video">
+          <option value="None" selected>None</option>
+          <option value="Tier1">Tier 1 (4 assets, 20 hrs)</option>
+          <option value="Tier2">Tier 2 (9 assets, 45 hrs)</option>
+          <option value="Tier3">Tier 3 (9 + Custom Illustrations, 45+ hrs)</option>
+        </select>
+      </div>
+
+      <div class="pe-field">
+        <label>AI videos (PBD flag)</label>
+        <div class="pe-radio-row">
+          <input type="radio" name="pe-aivideo" id="pe-aivideo-yes" value="yes" /><label for="pe-aivideo-yes">In scope</label>
+          <input type="radio" name="pe-aivideo" id="pe-aivideo-no" value="no" checked /><label for="pe-aivideo-no">Not in scope</label>
+        </div>
+      </div>
+
+      <div class="pe-comp-selector">
+        <h5>Components in scope</h5>
+        <div class="pe-comp-help">Pick components to include. Hours and % of scope update live. LMS filtering disables components the selected LMS does not support.</div>
+        <div class="pe-comp-actions">
+          <button type="button" id="pe-clear">Clear all</button>
+          <button type="button" id="pe-preset-canvas-full">Canvas full</button>
+          <button type="button" id="pe-preset-essentials">Essentials only</button>
+        </div>
+        <div id="pe-comp-list"></div>
+      </div>
+
+    </div>
+
+    <div class="pe-results" id="pe-results"></div>
+  </div>
+</section>
+
 <section class="section" id="section-resources">
 
   <div class="section-header">
@@ -2963,7 +2976,7 @@
   renderPackageExplorer();
 </script>
 
-<script src="assets/companion.js?v=5"></script>
+<script src="assets/companion.js?v=6"></script>
 
 </body>
 </html>
